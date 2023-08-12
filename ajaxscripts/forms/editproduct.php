@@ -417,7 +417,6 @@ $resdetails = $getdetails->fetch_assoc();
         $(i)
         .find(".btn-submit")
         .on("click", function() {
-          $(this).parent().siblings("form").valid() && $.notify("Edited..!!", "success");
           var barcode = $("#barcode").val();
           var productname = $("#productname").val();
           var quantitysale = $("#quantitysale").val();
@@ -445,10 +444,10 @@ $resdetails = $getdetails->fetch_assoc();
             error += 'Please enter costprice \n';
             $("#costprice").focus();
           }
-          if (costprice > sellingpricewhole) {
+          /* if (costprice > sellingpricewhole) {
             error += 'Please enter a valid selling price \n';
             $("#sellingpricewhole").focus();
-          }
+          } */
           if (sellingpricewhole == "") {
             error += 'Please enter sellingprice \n';
             $("#sellingpricewhole").focus();
@@ -479,6 +478,7 @@ $resdetails = $getdetails->fetch_assoc();
 
 
           if (error == "") {
+            $(this).parent().siblings("form").valid() && $.notify("Edited..!!", "success");
             $.ajax({
               type: "POST",
               url: "ajaxscripts/queries/edit/product.php",

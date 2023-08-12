@@ -145,6 +145,24 @@ function getCompNameHeader($text)
     }
   </script>
 
+  <style>
+    td:nth-child(2),
+    td:nth-child(3),
+    td:nth-child(4),
+    td:nth-child(5),
+    td:nth-child(6),
+    th:nth-child(2),
+    th:nth-child(3),
+    th:nth-child(4),
+    th:nth-child(5),
+    th:nth-child(6) {
+      text-align: center;
+    }
+
+    .dt-buttons {
+      margin-bottom: 10px;
+    }
+  </style>
 
 </head>
 <!-- END: Head-->

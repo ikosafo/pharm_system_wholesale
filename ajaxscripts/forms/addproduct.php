@@ -424,7 +424,7 @@ $random = rand(1, 10) . date("Y-m-d");
         $(i)
         .find(".btn-submit")
         .on("click", function() {
-          $(this).parent().siblings("form").valid() && $.notify("Submitted..!!", "success");
+
           var barcode = $("#barcode").val();
           var productname = $("#productname").val();
           var quantitysale = $("#quantitysale").val();
@@ -456,10 +456,10 @@ $random = rand(1, 10) . date("Y-m-d");
             error += 'Please enter sellingprice \n';
             $("#sellingpricewhole").focus();
           }
-          if (costprice < sellingpricewhole) {
+          /* if (costprice < sellingpricewhole) {
             error += 'Please enter a valid selling price \n';
             $("#sellingpricewhole").focus();
-          }
+          } */
           if (variation1 == variation2) {
             error += 'Please select different variations \n';
           }
@@ -486,6 +486,7 @@ $random = rand(1, 10) . date("Y-m-d");
 
 
           if (error == "") {
+            $(this).parent().siblings("form").valid() && $.notify("Submitted..!!", "success");
             $.ajax({
               type: "POST",
               url: "ajaxscripts/queries/save/product.php",
