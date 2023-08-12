@@ -21,40 +21,37 @@ $variation2spec = mysqli_real_escape_string($mysqli, $_POST['variation2spec']);
 $variation3 = mysqli_real_escape_string($mysqli, $_POST['variation3']);
 $variation3spec = mysqli_real_escape_string($mysqli, $_POST['variation3spec']);
 $costprice = mysqli_real_escape_string($mysqli, $_POST['costprice']);
-$sellingprice = mysqli_real_escape_string($mysqli, $_POST['sellingprice']);
 $sellingpricewhole = mysqli_real_escape_string($mysqli, $_POST['sellingpricewhole']);
 $theindex = mysqli_real_escape_string($mysqli, $_POST['theindex']);
 
 
+$editstaff = $mysqli->query("UPDATE `products`
+    SET 
+      `barcode` = '$barcode',
+      `productname` = '$productname',
+      `quantitysale` = '$quantitysale',
+      `quantitystock` = '$quantitystock',
+      `stockthreshold` = '$stockthreshold',
+      `sku` = '$sku',
+      `supplier` = '$supplier',
+      `expirydate` = '$expirydate',
+      `isbn` = '$isbn',
+      `category` = '$category',
+      `subcategory` = '$subcategory',
+      `variation1` = '$variation1',
+      `variation1spec` = '$variation1spec',
+      `variation2` = '$variation2',
+      `variation2spec` = '$variation2spec',
+      `variation3` = '$variation3',
+      `variation3spec` = '$variation3spec',
+      `costprice` = '$costprice',
+      `sellingpricewhole` = '$sellingpricewhole'
 
-              $editstaff = $mysqli->query("UPDATE `products`
-              SET 
-                `barcode` = '$barcode',
-                `productname` = '$productname',
-                `quantitysale` = '$quantitysale',
-                `quantitystock` = '$quantitystock',
-                `stockthreshold` = '$stockthreshold',
-                `sku` = '$sku',
-                `supplier` = '$supplier',
-                `expirydate` = '$expirydate',
-                `isbn` = '$isbn',
-                `category` = '$category',
-                `subcategory` = '$subcategory',
-                `variation1` = '$variation1',
-                `variation1spec` = '$variation1spec',
-                `variation2` = '$variation2',
-                `variation2spec` = '$variation2spec',
-                `variation3` = '$variation3',
-                `variation3spec` = '$variation3spec',
-                `costprice` = '$costprice',
-                `sellingprice` = '$sellingprice',
-                `sellingpricewhole` = '$sellingpricewhole'
+    WHERE `prodid` = '$theindex'");
 
-              WHERE `prodid` = '$theindex'");
 
-        
 
-                $mysqli->query("INSERT INTO `logs`
+$mysqli->query("INSERT INTO `logs`
                 (
                 `logdate`,
                 `section`,
@@ -70,9 +67,6 @@ $theindex = mysqli_real_escape_string($mysqli, $_POST['theindex']);
                 '$username',
                 '$mac_address',
                 '$ip_add',
-                'Successful')") or die(mysqli_error($mysqli));                       
-                
-                        echo 1; 
+                'Successful')") or die(mysqli_error($mysqli));
 
-                
-
+echo 1;

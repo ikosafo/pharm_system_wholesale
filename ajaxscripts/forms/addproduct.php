@@ -107,7 +107,7 @@ $random = rand(1, 10) . date("Y-m-d");
             <div class="mb-1 col-md-4">
               <label class="form-label" for="supplier">Supplier</label>
 
-              <input list="suppliers" id="supplier" class="form-control" placeholder="Enter or select a supplier" />
+              <input list="suppliers" id="supplier" name="supplier" class="form-control" placeholder="Enter or select a supplier" />
               <datalist id="suppliers">
                 <?php
                 $getsupplier = $mysqli->query("select * from supplier where status IS NULL");
@@ -443,7 +443,6 @@ $random = rand(1, 10) . date("Y-m-d");
           var variation3 = $("#variation3").val();
           var variation3spec = $("#variation3spec").val();
           var costprice = $("#costprice").val();
-          var sellingprice = $("#sellingprice").val();
           var sellingpricewhole = $("#sellingpricewhole").val();
 
           var random = '<?php echo $random; ?>';
@@ -453,9 +452,13 @@ $random = rand(1, 10) . date("Y-m-d");
             error += 'Please enter costprice \n';
             $("#costprice").focus();
           }
-          if (sellingprice == "") {
+          if (sellingpricewhole == "") {
             error += 'Please enter sellingprice \n';
-            $("#sellingprice").focus();
+            $("#sellingpricewhole").focus();
+          }
+          if (costprice < sellingpricewhole) {
+            error += 'Please enter a valid selling price \n';
+            $("#sellingpricewhole").focus();
           }
           if (variation1 == variation2) {
             error += 'Please select different variations \n';
