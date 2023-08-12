@@ -109,6 +109,12 @@ function getExpiryDate($expirydate)
     if ($expirydate == "0000-00-00") {
         return '';
     } else if ($today > $expirydate) {
+        return '<div class="d-flex flex-column text-center">
+        <span class="badge badge-light-danger fw-bolder mb-25">Expired</span>
+        <span class="font-small-2 text-muted">' . $expirydate . '</span>
+    </div>';
+
+
         return $expirydate . '<br/><span class="badge badge-light-danger me-1">Item has expired</span>';
     } else {
         // Calculating the difference in timestamps
@@ -119,9 +125,15 @@ function getExpiryDate($expirydate)
 
         $timdiff = abs(round($diff / 86400));
         if ($timdiff == '0') {
-            return $expirydate . '<br/><span class="badge badge-light-secondary me-1">Expires today</span>';
+            return '<div class="d-flex flex-column text-center">
+            <span class="badge badge-light-secondary fw-bolder mb-25">Expires today</span>
+            <span class="font-small-2 text-muted">' . $expirydate . '</span>
+        </div>';
         } else if ($timdiff == '1') {
-            return $expirydate . '<br/><span class="badge badge-light-da me-1">' . $timdiff . ' day more' . '</span>';
+            return '<div class="d-flex flex-column text-center">
+            <span class="badge badge-light-danger fw-bolder mb-25">' . $timdiff . ' day more' . '</span>
+            <span class="font-small-2 text-muted">' . $expirydate . '</span>
+        </div>';
         } else {
             if ($timdiff > 30 && $timdiff < 40) {
                 $colorbadge = "badge-light-warning";
@@ -131,7 +143,10 @@ function getExpiryDate($expirydate)
                 $colorbadge = "badge-light-success";
             }
 
-            return $expirydate . '<br/><span class="badge ' . $colorbadge . ' me-1">' . $timdiff . ' days more' . '</span>';
+            return '<div class="d-flex flex-column text-center">
+            <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $timdiff . ' days more' . '</span>
+            <span class="font-small-2 text-muted">' . $expirydate . '</span>
+        </div>';
         }
     }
 }
@@ -538,9 +553,9 @@ function getQuantity($id)
         $colorbadge = "badge-light-success";
     }
 
-    return '<div class="d-flex flex-column">
-                <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $quantitysale . ' for sale</span>
-                <span class="font-small-2 text-muted">' . $quantitystock . ' in stock</span>
+    return '<div class="d-flex flex-column text-center">
+                <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $quantitysale . ' in stock</span>
+                <span class="font-small-2 text-muted">' . $quantitystock . ' in warehouse</span>
              </div>';
     /* return 'For sale: <span class="badge ' . $colorbadge . ' me-1">' . $quantitysale . '</span> <br/>
      <small>In Stock:  <span class="badge badge-light-secondary me-1">' . $quantitystock . '</span></small>'; */

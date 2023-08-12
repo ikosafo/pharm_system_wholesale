@@ -93,8 +93,8 @@ $random = rand(1, 10) . date("Y-m-d");
           </div>
           <div class="row">
             <div class="mb-1 col-md-4">
-              <label class="form-label" for="quantitystock">Quantity (In Stock)</label>
-              <input type="text" id="quantitystock" name="quantitystock" class="form-control" onkeypress="return isNumber(event)" placeholder="Quantity (In Stock)" />
+              <label class="form-label" for="quantitystock">Quantity (In Warehouse)</label>
+              <input type="text" id="quantitystock" name="quantitystock" class="form-control" onkeypress="return isNumber(event)" placeholder="Quantity (In Warehouse)" />
             </div>
             <div class="mb-1 col-md-4">
               <label class="form-label" for="stockthreshold">Low stock threshold</label>

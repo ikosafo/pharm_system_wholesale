@@ -1,6 +1,6 @@
 <?php
-include ('../../config.php');
-include ('../../functions.php');
+include('../../config.php');
+include('../../functions.php');
 $theid = $_POST['id_index'];
 $getdetails = $mysqli->query("select * from products where prodid = '$theid'");
 $resdetails = $getdetails->fetch_assoc();
@@ -8,11 +8,11 @@ $resdetails = $getdetails->fetch_assoc();
 ?>
 
 <div class="card">
-        <div class="card-body">
-          
-          <h4 class="fw-bolder border-bottom pb-50 mb-1">View Details</h4>
-            <div class="row">
-              <div class="col-md-4">
+    <div class="card-body">
+
+        <h4 class="fw-bolder border-bottom pb-50 mb-1">View Details</h4>
+        <div class="row">
+            <div class="col-md-4">
                 <div class="info-container">
                     <ul class="list-unstyled">
                         <li class="mb-75">
@@ -20,11 +20,11 @@ $resdetails = $getdetails->fetch_assoc();
                             <span><?php echo $resdetails['productname']; ?></span>
                         </li>
                         <li class="mb-75">
-                            <span class="fw-bolder me-25">Quantity (For Sale):</span>
+                            <span class="fw-bolder me-25">Quantity (For Stock):</span>
                             <span><?php echo $resdetails['quantitysale']; ?></span>
                         </li>
                         <li class="mb-75">
-                            <span class="fw-bolder me-25">Quantity (In Stock):</span>
+                            <span class="fw-bolder me-25">Quantity (In Warehouse):</span>
                             <span><?php echo $resdetails['quantitystock']; ?></span>
                         </li>
                         <li class="mb-75">
@@ -49,8 +49,8 @@ $resdetails = $getdetails->fetch_assoc();
                         </li>
                     </ul>
                 </div>
-              </div>
-              <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
                 <div class="info-container">
                     <ul class="list-unstyled">
                         <li class="mb-75">
@@ -87,40 +87,37 @@ $resdetails = $getdetails->fetch_assoc();
                         </li>
                     </ul>
                 </div>
-              </div>
-              <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
                 <div class="info-container">
                     <ul class="list-unstyled">
                         <li class="mb-75">
                             <span class="fw-bolder me-25">Cost Price:</span>
                             <span><?php echo $resdetails['costprice']; ?></span>
                         </li>
-                        <li class="mb-75">
-                            <span class="fw-bolder me-25">Selling Price:</span>
-                            <span><?php echo $resdetails['sellingprice']; ?></span>
-                        </li>
+
                         <li class="mb-75">
                             <span class="fw-bolder me-25">Selling Price (Wholesale):</span>
                             <span><?php echo $resdetails['sellingpricewhole']; ?></span>
                         </li>
                     </ul>
                 </div>
-              </div>
-             
-             
             </div>
-            <div class="row">
-		        <div class="col-sm-12 offset-sm-12">
-                    <button type="button" id="backtoproducts" class="btn btn-outline-primary waves-effect">Back to products</button>
-                </div>
-			</div>
-          
+
+
         </div>
-      </div>
+        <div class="row">
+            <div class="col-sm-12 offset-sm-12">
+                <button type="button" id="backtoproducts" class="btn btn-outline-primary waves-effect">Back to products</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
 <script>
- $("#backtoproducts").click(function(){
-        window.location.href="/viewproducts";
+    $("#backtoproducts").click(function() {
+        window.location.href = "/viewproducts";
     });
 </script>

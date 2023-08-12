@@ -1,3 +1,22 @@
+<style>
+    td:nth-child(2),
+    td:nth-child(3),
+    td:nth-child(4),
+    td:nth-child(5),
+    td:nth-child(6),
+    th:nth-child(2),
+    th:nth-child(3),
+    th:nth-child(4),
+    th:nth-child(5),
+    th:nth-child(6) {
+        text-align: center;
+    }
+
+    .dt-buttons {
+        margin-bottom: 10px;
+    }
+</style>
+
 <section id="datatable">
 
     <form class="faq-search-input mb-1">
@@ -12,19 +31,18 @@
         </div>
     </form>
 
-
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <table class="table mt-2 table-sm" id="table-data">
+                <table class="table mt-2 table-md" id="table-data">
                     <thead>
                         <tr>
-                            <th width="30%">Product Name</th>
-                            <th width="10%">Quantity</th>
-                            <th>Expiry Date</th>
-                            <th>Selling Price</th>
-                            <th>Variation</th>
-                            <th>Action</th>
+                            <th width="25%">Product Name</th>
+                            <th width="15%">Quantity</th>
+                            <th width="15%">Expiry Date</th>
+                            <th width="15%">Selling Price</th>
+                            <th width="10%">Variation</th>
+                            <th width="20%">Action</th>
                         </tr>
                     </thead>
                 </table>
