@@ -1,0 +1,398 @@
+<?php
+include ('../../config.php');
+include ('../../functions.php');
+$getnewsaleid = date('Ymdhis').rand(1,20);
+
+$newsaleid = $_POST['newsaleid'];
+$gettemp = $mysqli->query("select * from tempsales where genid = '$newsaleid'");
+
+if (mysqli_num_rows($gettemp) == "0") {
+  echo "";
+}
+else { ?>
+
+
+<div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Expiry Date</th>
+              <th>Selling Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($restemp = $gettemp->fetch_assoc()) { ?>
+              <tr>
+              <td>
+                <?php
+                $prodid = $restemp['prodid'];
+                echo getProductName($prodid); ?>
+              </td>
+              <td>
+                <div class="form-group input-group input-group-lg ui-badge cart-item-count">
+                  <input id="product<?php echo $restemp['tsid'];?>" type="text"
+                  i_index="<?php echo $restemp['tsid']; ?>"
+                  value="<?php echo $quantity =  $restemp['quantity']; ?>" name="quantity" 
+                  class="form-control input-lg updatequantity" autocomplete="off"/>
+                </div>
+              </td>
+              <td>
+                  <?php
+                  $getdate = $mysqli->query("select * from products where prodid = '$prodid'");
+                  $resdate = $getdate->fetch_assoc();
+                  $expirydate = $resdate['expirydate'];
+                  echo getExpiryDate($expirydate); ?>
+              </td>
+              <td>
+                <?php echo "GHC ".$restemp['price'] ?>
+              </td>
+              <td>
+                <div class="text-center">
+                    <a class="deletetempsales" title="Delete" i_index="<?php echo $restemp['tsid']; ?>">
+                        <span class="icon-wrapper cursor-pointer"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                            class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </span>
+                    </a>
+                 </div>
+              </td>
+            </tr>
+              <?php }
+                ?>
+           <tr>
+             <td colspan="3"></td><td><b>TOTAL</b></td><td>
+               <?php
+               //get the total
+               $getsum = $mysqli->query("select sum(price) as totprice from tempsales where genid = '$newsaleid'");
+               $ressum = $getsum->fetch_assoc();
+               $totalprice = $ressum['totprice'];
+               $format = number_format($totalprice,2);
+               echo "<b>GHC ".$format.'</b>';
+               ?>
+             </td>
+           </tr>
+           
+          </tbody>
+        </table>
+      </div>
+
+           
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                  <div class="mb-1 mt-5 row">
+                    <div class="col-sm-3">
+                        <label class="col-form-label" for="barcode">Amount Paid</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" onkeypress="return isNumberKey(event)" id="amountpaid" class="form-control" autocomplete="off" 
+                            placeholder="Enter amount paid" />
+                 </div>
+            </div>
+            <div class="mb-1 row">
+                <div class="col-sm-3">
+                    <label class="col-form-label" for="change">Change</label>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" readonly id="change" class="form-control" autocomplete="off" 
+                        placeholder="Change" />
+                </div>
+            </div>
+            <div class="mb-1 row">
+                <div class="col-sm-3">
+                    <label class="col-form-label" for="customer">Customer</label>
+                </div>
+                <div class="col-sm-9">
+                  <select id="customer" class="form-select">
+                  <option></option>
+                  <?php
+                  $getcustomer = $mysqli->query("select * from customer where status IS NULL");
+                  while ($rescustomer = $getcustomer->fetch_assoc()) { ?>
+                      <option value="<?php echo $rescustomer['cusid'] ?>"><?php echo $rescustomer['fullname'] ?></option>
+                  <?php }
+                  ?>
+                </select>
+                </div>
+            </div>
+            <div class="mb-1 row">
+                <div class="col-sm-3">
+                    <label class="col-form-label" for="paymentmethod">Payment Method</label>
+                </div>
+                <div class="col-sm-9">
+                  <select id="paymentmethod" class="form-select">
+                    <option value='Cash'>Cash</option>
+                    <option value='Card'>Card</option>
+                    <option value='Mobile Money'>Mobile Money</option>
+                    <option value='other'>Other</option>
+                  </select>
+                </div>
+            </div>
+           
+            <div class="row mt-1">
+                <div class="col-sm-3"></div>
+		            <div class="col-sm-9">
+                    <button type="button" id="paybtn" class="btn btn-block btn-primary">Pay</button>
+                </div>
+		    	  </div>
+         </div>
+      </div>
+
+  <div id="printhere"></div>
+<?php }
+?>
+
+
+
+  <script>
+
+      $("#customer").select2({
+        placeholder:"Select Customer",
+        allowClear:true
+      });
+
+      $("#paymentmethod").select2({
+        placeholder:"Select Payment Method",
+        allowClear:true
+      });
+
+      $('#amountpaid').keyup(function () {
+        var amountpaid =  $('#amountpaid').val();
+        var totalprice =  '<?php echo $totalprice; ?>';
+        var change = amountpaid - totalprice;
+          $('#change').val(change);
+      });
+
+      $("input[name='quantity']").TouchSpin({
+          max:100,
+          min:1,
+          step:1
+      });
+
+      $("#paybtn").click(function() {
+        var amountpaid =  $('#amountpaid').val();
+        var totalprice =  '<?php echo $totalprice; ?>';
+        var change = $('#change').val();
+        var customer = $('#customer').val();
+        var paymentmethod = $('#paymentmethod').val();
+        
+        var error = '';
+
+        if (amountpaid == "") {
+          error += 'Enter amount paid \n';
+          $("#amountpaid").focus();
+        }  
+
+        if (change < 0) {
+          error += 'Amount paid is insufficient \n';
+          $("#amountpaid").focus();
+        }
+
+        if (error == "") {
+            $.ajax({
+                type: "POST",
+                url: "ajaxscripts/queries/save/sales.php",
+                beforeSend: function () {
+                        $.blockUI({ message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>' });
+                },
+                data: {
+                    amountpaid: amountpaid,
+                    totalprice: totalprice,
+                    change:change,
+                    newsaleid:'<?php echo $newsaleid; ?>',
+                    customer:customer,
+                    paymentmethod:paymentmethod
+                },
+                success: function (text) {
+
+                      $.ajax({
+                                type: "POST",
+                                url: "ajaxscripts/queries/save/printsales.php",
+                                beforeSend: function () {
+                                        $.blockUI({ message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>' });
+                                },
+                                data: {
+                                    amountpaid: amountpaid,
+                                    totalprice: totalprice,
+                                    change:change,
+                                    newsaleid:'<?php echo $newsaleid; ?>',
+                                    customer:customer,
+                                    paymentmethod:paymentmethod
+                                },
+                                success: function (text) {
+                                    //alert(text);
+                                    //window.open('/printsale?newsaleid=<?php echo lock($newsaleid); ?>', '_blank');
+                                    $('#printhere').html(text);
+                                    
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    alert(xhr.status + " " + thrownError);
+                                },
+                                complete: function () {
+                                    $.unblockUI();
+                                },
+                          });
+                    //alert(text);
+                    //window.open('/printsale?newsaleid=<?php echo lock($newsaleid); ?>', '_blank');
+                    //printContent('printthis');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + " " + thrownError);
+                },
+                complete: function () {
+                    $.unblockUI();
+                },
+            });
+        }
+        else {
+            $("#error_loc").notify(error);
+        }
+        return false;
+
+      });
+      
+     
+      $("input[name='quantity']").on("touchspin.on.startspin", function () {
+        var id_index = $(this).attr('i_index');
+        var quantity = $("#product"+id_index).val();
+        //alert(quantity);
+        var newsaleid = '<?php echo $newsaleid; ?>';
+
+        $.ajax({
+                type: "POST",
+                url: "ajaxscripts/queries/edit/tempsalesquantity.php",
+                data: {
+                    id_index: id_index,
+                    quantity: quantity,
+                    newsaleid: newsaleid
+                },
+                dataType: "html",
+                success:function(text) {
+                  //alert(text);
+                  $.ajax({
+                        type: "POST",
+                        url: "ajaxscripts/tables/tempsales.php",
+                        data: {
+                            newsaleid:'<?php echo $newsaleid; ?>'
+                        },
+                        beforeSend: function () {
+                            $.blockUI({ message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>' });
+                        },
+                        success: function (text) {
+                            $('#pagetable_div').html(text);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status + " " + thrownError);
+                        },
+                        complete: function () {
+                            $.unblockUI();
+                     },
+
+                  }); 
+                },
+                complete: function () {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + " " + thrownError);
+                }
+            });
+      });
+          
+      $(document).on('keyup','.updatequantity',function() {
+        var id_index = $(this).attr('i_index');
+        var quantity = $("#product"+id_index).val();
+        //alert(quantity);
+        var newsaleid = '<?php echo $newsaleid; ?>';
+
+             $.ajax({
+                type: "POST",
+                url: "ajaxscripts/queries/edit/tempsalesquantity.php",
+                data: {
+                    id_index: id_index,
+                    quantity: quantity,
+                    newsaleid: newsaleid
+                },
+                dataType: "html",
+                success:function(text) {
+                  //alert(text);
+                  $.ajax({
+                        type: "POST",
+                        url: "ajaxscripts/tables/tempsales.php",
+                        data: {
+                            newsaleid:'<?php echo $newsaleid; ?>'
+                        },
+                        beforeSend: function () {
+                            $.blockUI({ message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>' });
+                        },
+                        success: function (text) {
+                            $('#pagetable_div').html(text);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status + " " + thrownError);
+                        },
+                        complete: function () {
+                            $.unblockUI();
+                     },
+                  }); 
+                },
+                complete: function () {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + " " + thrownError);
+                }
+            });
+        
+      });
+
+      
+    //Delete sales after icon click
+    $(document).off('click', '.deletetempsales').on('click', '.deletetempsales', function () {
+        var theindex = $(this).attr('i_index');
+        
+        $.ajax({
+              type: "POST",
+              url: "ajaxscripts/queries/delete/tempsales.php",
+              data: {
+                  i_index: theindex
+              },
+              dataType: "html",
+              success: function (text) {
+                  $.ajax({
+                     type: "POST",
+                      url: "ajaxscripts/tables/tempsales.php",
+                      data: {
+                            newsaleid:'<?php echo $newsaleid; ?>'
+                        },
+                      beforeSend: function () {
+                          $.blockUI({ message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>' });
+                      },
+                      success: function (text) {
+                          $('#pagetable_div').html(text);
+                      },
+                      error: function (xhr, ajaxOptions, thrownError) {
+                          alert(xhr.status + " " + thrownError);
+                      },
+                      complete: function () {
+                          $.unblockUI();
+                      },
+
+                  });
+              },
+              complete: function () {
+              },
+              error: function (xhr, ajaxOptions, thrownError) {
+                  alert(xhr.status + " " + thrownError);
+              }
+          });
+
+    });
+
+
+      </script>
+
+
