@@ -7,7 +7,7 @@ $newsaleid = $_POST['newsaleid'];
 $getdetails = $mysqli->query("select * from products where barcode = '$barcode'");
 $resdetails = $getdetails->fetch_assoc();
 $productid = $resdetails['prodid'];
-$sellingprice = $resdetails['sellingprice'];
+$sellingprice = $resdetails['sellingpricewhole'];
 
  //Check whether barcode exists
 if (mysqli_num_rows($getdetails) == '1') {
@@ -41,9 +41,3 @@ if (mysqli_num_rows($getdetails) == '1') {
 
 
 }
-
-
-
-
-
-?>

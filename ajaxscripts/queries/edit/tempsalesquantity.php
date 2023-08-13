@@ -1,5 +1,5 @@
-<?php 
-include ('../../../config.php');
+<?php
+include('../../../config.php');
 
 $id_index = $_POST['id_index'];
 $quantity = $_POST['quantity'];
@@ -11,7 +11,7 @@ $prodid = $resproduct['prodid'];
 
 $getprice = $mysqli->query("select * from products where prodid = '$prodid'");
 $resprice = $getprice->fetch_assoc();
-$price = $resprice['sellingprice'];
+$price = $resprice['sellingpricewhole'];
 
 $newprice = $quantity * $price;
 
@@ -20,4 +20,4 @@ $updatequantity = $mysqli->query("update tempsales
                                     price = '$newprice'
                                     where (genid = '$newsaleid' and tsid = '$id_index')");
 
-                                    echo 1;
+echo 1;

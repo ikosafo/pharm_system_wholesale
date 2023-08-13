@@ -6,7 +6,7 @@ $newsaleid = $_POST['newsaleid'];
 
 $getdetails = $mysqli->query("select * from products where prodid = '$productid'");
 $resdetails = $getdetails->fetch_assoc();
-$sellingprice = $resdetails['sellingprice'];
+$sellingprice = $resdetails['sellingpricewhole'];
 $barcode = $resdetails['barcode'];
 
 
@@ -35,7 +35,3 @@ $chktemp = $mysqli->query("select * from `tempsales` where prodid = '$productid'
 else {
     echo 2;
 }
-
-
-
-?>

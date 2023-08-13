@@ -572,8 +572,10 @@ function getQuantityNewArrival($id)
     $quantitysale = $resname['quantitysale'];
     $quantitystock = $resname['quantitystock'];
 
-    return 'For sale: <span class="badge badge-light-primary me-1">' . $quantitysale . '</span> <br/>
-     <small>In Stock:  <span class="badge badge-light-secondary me-1">' . $quantitystock . '</span></small>';
+    return '<div class="d-flex flex-column text-center">
+                <span class="badge badge-light-primary fw-bolder mb-25">' . $quantitysale . ' in stock</span>
+                <span class="font-small-2 text-muted">' . $quantitystock . ' in warehouse</span>
+             </div>';
 }
 
 
