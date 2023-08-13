@@ -414,7 +414,21 @@ function getSales($id)
         </div>';
 }
 
+function getTempSales($prodid)
+{
+    /*  return '<button class="btn btn-label-primary getexception_btn"
+    i_index=' . $prodid . '>
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" 
+        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" 
+        class="css-i6dzq1"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>'; */
 
+    return '<button class="btn btn-primary btn-sm btn-icon gettempsales" style="padding:0.4rem" i_index=' . $prodid . '>
+                <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" 
+                stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" 
+                class="css-i6dzq1"><polyline points="9 18 15 12 9 6"></polyline></svg>
+     </button>';
+}
 
 
 //Get Product Details
