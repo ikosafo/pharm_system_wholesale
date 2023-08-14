@@ -25,8 +25,8 @@ $sellingpricewhole = mysqli_real_escape_string($mysqli, $_POST['sellingpricewhol
 
 
 //Check whether a staff already exists
-if ($barcode != "") {
-    $check = $mysqli->query("select * from products where barcode = '$barcode'");
+if ($barcode != "" || $productname != "") {
+    $check = $mysqli->query("select * from products where (barcode = '$barcode' OR productname = '$productname')");
     $getexist = mysqli_num_rows($check);
 
     if ($getexist == "0") {

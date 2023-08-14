@@ -40,7 +40,13 @@ include('functions.php');
             <div class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">23</h2>
+                  <h2 class="fw-bolder mb-0">
+                    <?php
+                    // Get total sales in a day
+                    $getthreshold = $mysqli->query("select * from products where  stockthreshold > quantitysale");
+                    echo mysqli_num_rows($getthreshold);
+                    ?>
+                  </h2>
                   <p class="card-text">Below Threshold</p>
                 </div>
                 <div class="avatar bg-light-warning p-50 m-0">
@@ -55,7 +61,12 @@ include('functions.php');
             <div class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">4</h2>
+                  <h2 class="fw-bolder mb-0"> <?php
+                                              // Get total sales in a day
+                                              $getcount = $mysqli->query("select * from staff where status IS NULL");
+                                              echo mysqli_num_rows($getcount);
+                                              ?>
+                  </h2>
                   <p class="card-text">Account Holders</p>
                 </div>
                 <div class="avatar bg-light-success p-50 m-0">
@@ -70,7 +81,11 @@ include('functions.php');
             <div class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">136</h2>
+                  <h2 class="fw-bolder mb-0"><?php
+                                              // Get total sales in a day
+                                              $getcount = $mysqli->query("select * from products where status IS NULL");
+                                              echo mysqli_num_rows($getcount);
+                                              ?></h2>
                   <p class="card-text">Total Products</p>
                 </div>
                 <div class="avatar bg-light-warning p-50 m-0">
@@ -91,19 +106,33 @@ include('functions.php');
                 <div class="d-flex justify-content-between align-items-center mb-1">
                   <div class="d-flex flex-row">
                     <div class="user-info">
-                      <h5 class="mb-0">Mittie Evans</h5>
+                      <h5 class="mb-0">
+                        <?php
+                        //get full name
+                        $getfullname = $mysqli->query("select * from staff where username = '$username'");
+                        $resfullname = $getfullname->fetch_assoc();
+                        echo $fullname = $resfullname['fullname'];
+
+                        if ($fullname == "") {
+                          echo $username;
+                        }
+
+                        ?>
+                      </h5>
                       <small class="text-muted"><?php
                                                 //Get last updated time
-                                                $gettime = $mysqli->query("select * from logs where (section = 'Product' 
-                        OR section = 'Sale') ORDER BY logid DESC LIMIT 1");
+                                                $gettime = $mysqli->query("select * from logs where section = 'Login'ORDER BY logid DESC LIMIT 1");
                                                 $restime = $gettime->fetch_assoc();
-                                                echo "Updated " . time_elapsed_string($restime['logdate']);
+                                                echo "Logged in " . time_elapsed_string($restime['logdate']);
                                                 ?>
-
-                        Logged 12m ago</small>
+                      </small>
                     </div>
                   </div>
-                  <span class="badge rounded-pill badge-light-primary">User Type</span>
+                  <span class="badge rounded-pill badge-light-primary"><?php if ($fullname == "") {
+                                                                          echo "Admin";
+                                                                        } else {
+                                                                          echo "Staff";
+                                                                        } ?></span>
                 </div>
 
                 <div class="apply-job-package bg-light-primary rounded">
@@ -111,7 +140,7 @@ include('functions.php');
                   <div id="runningTime" style="margin:0 auto"></div>
                 </div>
                 <div class="d-grid">
-                  <button type="button" class="btn btn-success waves-effect waves-float waves-light mb-1">
+                  <button type="button" id="todaysales" class="btn btn-success waves-effect waves-float waves-light mb-1">
                     View today's sales
                   </button>
                   <button type="button" class="btn btn-danger waves-effect waves-float waves-light mb-1">
@@ -139,7 +168,7 @@ include('functions.php');
                     <?php
                     //Get highest transactions
                     $gettransactions = $mysqli->query("SELECT * FROM sales s JOIN tempsales t ON s.`newsaleid` = t.`genid` WHERE 
-                      SUBSTRING(s.`datetime`,1,10) = curdate() ORDER BY t.`price` DESC, s.`totalprice` DESC LIMIT 5");
+                      SUBSTRING(s.`datetime`,1,10) = curdate() ORDER BY t.`price` DESC, s.`totalprice` DESC LIMIT 4");
                     while ($restransactions = $gettransactions->fetch_assoc()) { ?>
 
                       <div class="transaction-item">

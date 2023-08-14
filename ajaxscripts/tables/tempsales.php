@@ -203,7 +203,7 @@ if (mysqli_num_rows($gettemp) == "0") {
 
           if (text[0] == 2) {
             $.notify('There is an item with less quantities in stock', 'error', 'top center');
-          } else if (text == '14') {
+          } else if (text[0] == '1') {
             // Create a form dynamically
             var form = $('<form action="ajaxscripts/queries/print/sales.php" method="POST"></form>');
             form.append('<input type="hidden" name="amountpaid" value="' + amountpaid + '">');
