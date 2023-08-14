@@ -24,8 +24,8 @@ $product_search = $_POST['product_search'];
         font-size: 9.5px !important;
     }
 
-    th,
-    td {
+    .prodsalestable th,
+    .prodsalestable td {
         font-size: 10px !important;
     }
 
@@ -40,7 +40,7 @@ $product_search = $_POST['product_search'];
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <table class="table mt-2 table-sm" id="table-data">
+                <table class="table mt-2 table-sm prodsalestable" id="table-data">
                     <thead>
                         <tr>
                             <th width="25%">Product</th>

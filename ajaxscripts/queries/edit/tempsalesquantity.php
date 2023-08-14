@@ -12,12 +12,17 @@ $prodid = $resproduct['prodid'];
 $getprice = $mysqli->query("select * from products where prodid = '$prodid'");
 $resprice = $getprice->fetch_assoc();
 $price = $resprice['sellingpricewhole'];
+$quantitydb = $resprice['quantitysale'];
 
 $newprice = $quantity * $price;
 
-$updatequantity = $mysqli->query("update tempsales 
+if ($quantity > $quantitydb) {
+    echo 2;
+} else {
+    $updatequantity = $mysqli->query("update tempsales 
                                     set quantity = '$quantity',
                                     price = '$newprice'
                                     where (genid = '$newsaleid' and tsid = '$id_index')");
 
-echo 1;
+    echo 1;
+}

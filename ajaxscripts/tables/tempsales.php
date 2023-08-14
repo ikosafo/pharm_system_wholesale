@@ -10,9 +10,13 @@ if (mysqli_num_rows($gettemp) == "0") {
   echo "";
 } else { ?>
 
-
+  <style>
+    .tempsales_table td {
+      font-size: 14px;
+    }
+  </style>
   <div class="table-responsive">
-    <table class="table table-sm">
+    <table class="table table-sm tempsales_table">
       <thead>
         <tr>
           <th>Product Name</th>
@@ -96,16 +100,6 @@ if (mysqli_num_rows($gettemp) == "0") {
           <label class="col-form-label" for="customer">Customer</label>
         </div>
         <div class="col-sm-9">
-          <!-- <select id="customer" class="form-select">
-            <option></option>
-            <?php
-            $getcustomer = $mysqli->query("select * from customer where status IS NULL");
-            while ($rescustomer = $getcustomer->fetch_assoc()) { ?>
-              <option value="<?php echo $rescustomer['cusid'] ?>"><?php echo $rescustomer['fullname'] ?></option>
-            <?php }
-            ?>
-          </select> -->
-
           <input list="customershop" id="customer" name="customer" class="form-control" placeholder="Enter name of shop" />
           <datalist id="customershop">
             <?php
@@ -134,24 +128,17 @@ if (mysqli_num_rows($gettemp) == "0") {
       <div class="row mt-1">
         <div class="col-sm-3"></div>
         <div class="col-sm-9">
-          <button type="button" id="paybtn" class="btn btn-block btn-primary">Pay</button>
+          <button type="button" id="paybtn" class="btn btn-block btn-block btn-primary">Pay and print receipt</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="printhere"></div>
 <?php }
 ?>
 
 
-
 <script>
-  /*  $("#customer").select2({
-    placeholder: "Select Customer",
-    allowClear: true
-  }); */
-
   $("#paymentmethod").select2({
     placeholder: "Select Payment Method",
     allowClear: true
@@ -183,7 +170,10 @@ if (mysqli_num_rows($gettemp) == "0") {
       error += 'Enter amount paid \n';
       $("#amountpaid").focus();
     }
-
+    if (customer == "") {
+      error += 'Enter enter shop name \n';
+      $("#customer").focus();
+    }
     if (change < 0) {
       error += 'Amount paid is insufficient \n';
       $("#amountpaid").focus();
@@ -207,39 +197,27 @@ if (mysqli_num_rows($gettemp) == "0") {
           paymentmethod: paymentmethod
         },
         success: function(text) {
-
-          $.ajax({
-            type: "POST",
-            url: "ajaxscripts/queries/save/printsales.php",
-            beforeSend: function() {
-              $.blockUI({
-                message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>'
-              });
-            },
-            data: {
-              amountpaid: amountpaid,
-              totalprice: totalprice,
-              change: change,
-              newsaleid: '<?php echo $newsaleid; ?>',
-              customer: customer,
-              paymentmethod: paymentmethod
-            },
-            success: function(text) {
-              //alert(text);
-              //window.open('/printsale?newsaleid=<?php echo lock($newsaleid); ?>', '_blank');
-              $('#printhere').html(text);
-
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-              alert(xhr.status + " " + thrownError);
-            },
-            complete: function() {
-              $.unblockUI();
-            },
-          });
+          // Reload the current page
+          //location.reload();
           //alert(text);
-          //window.open('/printsale?newsaleid=<?php echo lock($newsaleid); ?>', '_blank');
-          //printContent('printthis');
+
+          if (text[0] == 2) {
+            $.notify('There is an item with less quantities in stock', 'error', 'top center');
+          } else if (text == '14') {
+            // Create a form dynamically
+            var form = $('<form action="ajaxscripts/queries/print/sales.php" method="POST"></form>');
+            form.append('<input type="hidden" name="amountpaid" value="' + amountpaid + '">');
+            form.append('<input type="hidden" name="totalprice" value="' + totalprice + '">');
+            form.append('<input type="hidden" name="change" value="' + change + '">');
+            form.append('<input type="hidden" name="newsaleid" value="' + '<?php echo $newsaleid; ?>' + '">');
+            form.append('<input type="hidden" name="customer" value="' + customer + '">');
+            form.append('<input type="hidden" name="paymentmethod" value="' + paymentmethod + '">');
+
+            // Append the form to the body and submit it
+            $('body').append(form);
+            form.submit();
+          }
+
         },
         error: function(xhr, ajaxOptions, thrownError) {
           alert(xhr.status + " " + thrownError);
@@ -248,6 +226,7 @@ if (mysqli_num_rows($gettemp) == "0") {
           $.unblockUI();
         },
       });
+
     } else {
       $("#error_loc").notify(error);
     }
@@ -273,28 +252,33 @@ if (mysqli_num_rows($gettemp) == "0") {
       dataType: "html",
       success: function(text) {
         //alert(text);
-        $.ajax({
-          type: "POST",
-          url: "ajaxscripts/tables/tempsales.php",
-          data: {
-            newsaleid: '<?php echo $newsaleid; ?>'
-          },
-          beforeSend: function() {
-            $.blockUI({
-              message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>'
-            });
-          },
-          success: function(text) {
-            $('#pagetable_div').html(text);
-          },
-          error: function(xhr, ajaxOptions, thrownError) {
-            alert(xhr.status + " " + thrownError);
-          },
-          complete: function() {
-            $.unblockUI();
-          },
+        if (text == 2) {
+          $.notify('Quantity is more than in stock', 'error', 'top');
+        } else {
+          $.ajax({
+            type: "POST",
+            url: "ajaxscripts/tables/tempsales.php",
+            data: {
+              newsaleid: '<?php echo $newsaleid; ?>'
+            },
+            beforeSend: function() {
+              $.blockUI({
+                message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>'
+              });
+            },
+            success: function(text) {
+              $('#pagetable_div').html(text);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+              alert(xhr.status + " " + thrownError);
+            },
+            complete: function() {
+              $.unblockUI();
+            },
 
-        });
+          });
+        }
+
       },
       complete: function() {},
       error: function(xhr, ajaxOptions, thrownError) {

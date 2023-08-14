@@ -25,7 +25,6 @@ while ($resquantity = $getquantity->fetch_assoc()) {
     } else {
         $updatequantity = $mysqli->query("update products set quantitysale = '$newquantity' 
         where prodid = '$prodid'");
-
         echo 1;
     }
 }

@@ -36,7 +36,6 @@ if (!isset($_SESSION['username'])) {
 }
 
 
-
 //set timeout period in seconds
 $inactive = 3600; //after 3600 seconds the user gets logged out
 //check to see if $_SESSION['timeout'] is set
