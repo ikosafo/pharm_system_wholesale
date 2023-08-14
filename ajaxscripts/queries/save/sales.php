@@ -22,28 +22,25 @@ while ($resquantity = $getquantity->fetch_assoc()) {
 
     if ($newquantity < 0) {
         echo 2;
-    }
-    else {
+    } else {
         $updatequantity = $mysqli->query("update products set quantitysale = '$newquantity' 
         where prodid = '$prodid'");
-          
-            echo 1; 
-    }
 
+        echo 1;
+    }
 }
 
 $checkforsaleid = $mysqli->query("select * from `sales` where newsaleid = '$newsaleid'");
 if (mysqli_num_rows($checkforsaleid) == "1") {
- echo 5;
-}
-else {
+    echo 5;
+} else {
 
     $saveconfig = $mysqli->query("INSERT INTO `sales`
     (`amountpaid`,
     `totalprice`,
     `change`,
     `newsaleid`,
-    `customerid`,
+    `customer`,
     `paymentmethod`,
     `username`,
     `datetime`)
@@ -57,7 +54,7 @@ else {
     '$username',
     '$datetime')");
 
-$mysqli->query("INSERT INTO `logs`
+    $mysqli->query("INSERT INTO `logs`
         (
         `logdate`,
         `section`,
@@ -73,11 +70,6 @@ $mysqli->query("INSERT INTO `logs`
         '$username',
         '$mac_address',
         '$ip_add',
-        'Successful')") or die(mysqli_error($mysqli)); 
-        echo 4;
-
+        'Successful')") or die(mysqli_error($mysqli));
+    echo 4;
 }
-
-                                     
-        
-

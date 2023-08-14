@@ -20,73 +20,12 @@ $newsaleid = $_POST['newsaleid'];
         </form>
 
         <div id="product_table"></div>
-
-        <!--  <div class="mb-1">
-            <div class="form-group" id="gender">
-                <div>
-                    <input type="radio" id="nobarcode" name="barcodechk" value="No barcodeexists" class="custom-control-input" checked>
-                    <label class="custom-control-label" for="nobarcode">Product Name</label>
-
-                    <input type="radio" id="barcodeexist" name="barcodechk" value="Barcodeexists" class="custom-control-input" style="margin-left:10px;margin-top:10px">
-                    <label class="custom-control-label" for="barcodeexist">Barcode</label>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- <div class="mb-1 row" id="barcodediv" style="display:none">
-            <div class="col-sm-3">
-                <label class="col-form-label" for="barcode">Barcode</label>
-            </div>
-            <div class="col-sm-9">
-                <input type="text" id="barcode" class="form-control" autocomplete="off" placeholder="Enter barcode" />
-            </div>
-        </div> -->
-
-        <!-- <div class="mb-1 row" id="productdiv">
-            <div class="col-sm-3">
-                <label class="col-form-label" for="products">Product</label>
-            </div>
-            <div class="col-sm-9">
-                <select class="form-select" id="products">
-                    <option></option>
-                    <?php
-                    $getproduct = $mysqli->query("select * from products where status IS NULL");
-                    while ($resproduct = $getproduct->fetch_assoc()) { ?>
-                        <option value="<?php echo $resproduct['prodid'] ?>"><?php echo $resproduct['productname'] ?></option>
-                    <?php }
-                    ?>
-                </select>
-            </div>
-        </div> -->
     </div>
 </div>
 
 
 <script>
     $("#product").focus();
-
-    /*  $("input[name=barcodechk]").change(function() {
-        var barcodechk = $('input[name=barcodechk]:checked').val();
-        if (barcodechk == "Barcodeexists") {
-            $("#barcodediv").show();
-            $("#productdiv").hide();
-            $("#barcode").focus();
-        } else {
-            $("#barcodediv").hide();
-            $("#productdiv").show();
-        }
-    });
-
-    $("#products").select2({
-        placeholder: "Select product",
-        allowClear: true
-    });
- */
-
-
-
-
-
 
     //setup before functions
     var typingTimer; //timer identifier
@@ -135,7 +74,74 @@ $newsaleid = $_POST['newsaleid'];
     }
 
 
+    //Temp sales search
+    $(document).on('click', '.gettempsales', function() {
+        var id_index = $(this).attr('i_index');
+        //alert(id_index);
+        $.ajax({
+            type: "POST",
+            url: "ajaxscripts/queries/search/productsale.php",
+            data: {
+                productid: id_index,
+                newsaleid: '<?php echo $newsaleid; ?>'
+            },
+            dataType: "html",
+            success: function(text) {
+                if (text == 2) {
+                    $("#error_loc").notify("Item already exists", "error");
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "ajaxscripts/forms/addsale.php",
+                        data: {
+                            newsaleid: '<?php echo $newsaleid; ?>'
+                        },
+                        beforeSend: function() {
+                            $.blockUI({
+                                message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>'
+                            });
+                        },
+                        success: function(text) {
+                            $('#pageform_div').html(text);
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status + " " + thrownError);
+                        },
+                        complete: function() {
+                            $.unblockUI();
+                        },
+                    });
 
+                    $.ajax({
+                        type: "POST",
+                        url: "ajaxscripts/tables/tempsales.php",
+                        data: {
+                            newsaleid: '<?php echo $newsaleid; ?>'
+                        },
+                        beforeSend: function() {
+                            $.blockUI({
+                                message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>'
+                            });
+                        },
+                        success: function(text) {
+                            $('#pagetable_div').html(text);
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status + " " + thrownError);
+                        },
+                        complete: function() {
+                            $.unblockUI();
+                        },
+
+                    });
+                }
+            },
+            complete: function() {},
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + " " + thrownError);
+            }
+        });
+    });
 
 
 
