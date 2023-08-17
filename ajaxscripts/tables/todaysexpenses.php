@@ -19,12 +19,10 @@
                 <table class="table mt-2" id="table-data">
                     <thead>
                         <tr>
-                            <th>Log Date</th>
-                            <th>Section</th>
-                            <th>Activity</th>
-                            <th>Status</th>
-                            <th>Mac Address</th>
-                            <th>IP Address</th>
+                            <th>Amount</th>
+                            <th>Payment Mode</th>
+                            <th>Receipient</th>
+                            <th>Reason</th>
                         </tr>
                     </thead>
                 </table>
@@ -53,25 +51,19 @@
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-            url: "ajaxscripts/tables/pagination/userlogs.php", // json datasource
+            url: "ajaxscripts/tables/pagination/todaysexpenses.php", // json datasource
         },
         'columns': [{
-                data: 'logdate'
+                data: 'amount'
             },
             {
-                data: 'section'
+                data: 'paymentmode'
             },
             {
-                data: 'activity'
+                data: 'receipient'
             },
             {
-                data: 'status'
-            },
-            {
-                data: 'macaddress'
-            },
-            {
-                data: 'ipaddress'
+                data: 'reason'
             }
         ]
     });

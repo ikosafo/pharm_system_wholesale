@@ -140,15 +140,16 @@ include('functions.php');
                   <div id="runningTime" style="margin:0 auto"></div>
                 </div>
                 <div class="d-grid">
-                  <button type="button" id="todaysales" class="btn btn-success waves-effect waves-float waves-light mb-1">
+
+                  <a href="todaysales" class="btn btn-success mb-1 waves-effect waves-float waves-light">
                     View today's sales
-                  </button>
-                  <button type="button" class="btn btn-danger waves-effect waves-float waves-light mb-1">
+                  </a>
+                  <a href="todaysexpenses" class="btn btn-danger mb-1 waves-effect waves-float waves-light">
                     View today's expenses
-                  </button>
-                  <button type="button" class="btn btn-primary waves-effect waves-float waves-light">
+                  </a>
+                  <a href="userlogs" class="btn btn-primary waves-effect waves-float waves-light">
                     View logs
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
