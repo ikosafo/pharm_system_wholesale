@@ -140,7 +140,6 @@ include('functions.php');
                   <div id="runningTime" style="margin:0 auto"></div>
                 </div>
                 <div class="d-grid">
-
                   <a href="todaysales" class="btn btn-success mb-1 waves-effect waves-float waves-light">
                     View today's sales
                   </a>
