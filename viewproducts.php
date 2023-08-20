@@ -1,6 +1,5 @@
 <?php include('includes/header.php') ?>
 
-
 <!-- BEGIN: Content-->
 
 <div class="app-content content ">
@@ -21,22 +20,16 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
             <!-- Basic Horizontal form layout section end -->
-
-
-
         </div>
     </div>
 </div>
 
 <!-- END: Content-->
 
-
 <?php include('includes/footer.php') ?>
-
 
 <script>
     //Load product table
@@ -58,7 +51,6 @@
         },
 
     });
-
 
 
     //View product details after icon click
@@ -85,11 +77,8 @@
             complete: function() {
                 $.unblockUI();
             },
-
         });
-
     });
-
 
 
     //Edit product after icon click
@@ -120,7 +109,6 @@
         });
 
     });
-
 
 
     //Delete product after icon click

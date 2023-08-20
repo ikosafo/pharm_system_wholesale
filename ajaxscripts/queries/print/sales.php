@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script>
     window.print();
 
-    // Store the current URL before printing
+    /* // Store the current URL before printing
     var originalUrl = window.location.href;
 
     // Add event listener for before printing
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Redirect if the URL is still the same (print dialog was cancelled)
             window.location.href = "/addsale";
         }
-    }, 500); // Adjust the timeout duration as needed
+    }, 500); // Adjust the timeout duration as needed */
 </script>
 
 

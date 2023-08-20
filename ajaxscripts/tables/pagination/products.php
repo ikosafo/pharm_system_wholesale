@@ -43,6 +43,7 @@ $data = array();
 
 while ($row = mysqli_fetch_assoc($empRecords)) {
    $data[] = array(
+      "saletype" => $row['salestatus'],
       "product" => getProdName($row['prodid']),
       "quantity" => getQuantity($row['prodid']),
       "expirydate" => getExpiryDate($row['expirydate']),

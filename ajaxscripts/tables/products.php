@@ -18,12 +18,13 @@
                 <table class="table mt-2 table-md" id="table-data">
                     <thead>
                         <tr>
+                            <th width="10%">Sale Type</th>
                             <th width="25%">Product Name</th>
                             <th width="15%">Quantity</th>
                             <th width="15%">Expiry Date</th>
-                            <th width="15%">Selling Price</th>
+                            <th width="10%">Selling Price</th>
                             <th width="10%">Variation</th>
-                            <th width="20%">Action</th>
+                            <th width="15%">Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -55,6 +56,9 @@
             url: "ajaxscripts/tables/pagination/products.php", // json datasource
         },
         'columns': [{
+                data: 'saletype'
+            },
+            {
                 data: 'product'
             },
             {

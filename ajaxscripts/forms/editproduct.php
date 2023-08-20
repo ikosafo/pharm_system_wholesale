@@ -57,6 +57,22 @@ $resdetails = $getdetails->fetch_assoc();
         <form>
           <div class="row">
             <div class="mb-1 col-md-4">
+              <label class="form-label">Product Sale Type</label> <br />
+              <div>
+                <span>
+                  <input class="form-check-input" type="radio" name="saletype" id="wholesale" value="wholesale" <?php if (@$resdetails['salestatus'] == "wholesale") echo "checked" ?>>
+                  <label class="form-check-label" for="wholesale">Wholesale</label>
+                </span>
+                <span style="margin-left: 20px;">
+                  <input class="form-check-input ml-4" type="radio" name="saletype" id="retail" value="retail" <?php if (@$resdetails['salestatus'] == "retail") echo "checked" ?>>
+                  <label class="form-check-label" for="retail">Retail</label>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-1 col-md-4">
               <label class="form-label" for="barcode">Barcode</label>
               <input type="text" id="barcode" name="barcode" class="form-control" placeholder="Barcode" autocomplete="off" value="<?php echo $resdetails['barcode']; ?>" />
             </div>
@@ -436,6 +452,7 @@ $resdetails = $getdetails->fetch_assoc();
           var variation3spec = $("#variation3spec").val();
           var costprice = $("#costprice").val();
           var sellingpricewhole = $("#sellingpricewhole").val();
+          var saletype = $('input[name=saletype]:checked').val();
           var theindex = '<?php echo $theid ?>';
 
           //alert(supplier);
@@ -507,7 +524,8 @@ $resdetails = $getdetails->fetch_assoc();
                 variation3spec: variation3spec,
                 costprice: costprice,
                 sellingpricewhole: sellingpricewhole,
-                theindex: theindex
+                theindex: theindex,
+                saletype: saletype
               },
               success: function(text) {
                 //alert(text);

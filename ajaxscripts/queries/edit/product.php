@@ -23,50 +23,51 @@ $variation3spec = mysqli_real_escape_string($mysqli, $_POST['variation3spec']);
 $costprice = mysqli_real_escape_string($mysqli, $_POST['costprice']);
 $sellingpricewhole = mysqli_real_escape_string($mysqli, $_POST['sellingpricewhole']);
 $theindex = mysqli_real_escape_string($mysqli, $_POST['theindex']);
+$saletype = mysqli_real_escape_string($mysqli, $_POST['saletype']);
 
 
 $editstaff = $mysqli->query("UPDATE `products`
-    SET 
-      `barcode` = '$barcode',
-      `productname` = '$productname',
-      `quantitysale` = '$quantitysale',
-      `quantitystock` = '$quantitystock',
-      `stockthreshold` = '$stockthreshold',
-      `sku` = '$sku',
-      `supplier` = '$supplier',
-      `expirydate` = '$expirydate',
-      `isbn` = '$isbn',
-      `category` = '$category',
-      `subcategory` = '$subcategory',
-      `variation1` = '$variation1',
-      `variation1spec` = '$variation1spec',
-      `variation2` = '$variation2',
-      `variation2spec` = '$variation2spec',
-      `variation3` = '$variation3',
-      `variation3spec` = '$variation3spec',
-      `costprice` = '$costprice',
-      `sellingpricewhole` = '$sellingpricewhole'
+  SET 
+    `barcode` = '$barcode',
+    `productname` = '$productname',
+    `quantitysale` = '$quantitysale',
+    `quantitystock` = '$quantitystock',
+    `stockthreshold` = '$stockthreshold',
+    `sku` = '$sku',
+    `supplier` = '$supplier',
+    `expirydate` = '$expirydate',
+    `isbn` = '$isbn',
+    `category` = '$category',
+    `subcategory` = '$subcategory',
+    `variation1` = '$variation1',
+    `variation1spec` = '$variation1spec',
+    `variation2` = '$variation2',
+    `variation2spec` = '$variation2spec',
+    `variation3` = '$variation3',
+    `variation3spec` = '$variation3spec',
+    `costprice` = '$costprice',
+    `sellingpricewhole` = '$sellingpricewhole'
 
-    WHERE `prodid` = '$theindex'");
+  WHERE `prodid` = '$theindex'");
 
 
 
 $mysqli->query("INSERT INTO `logs`
-                (
-                `logdate`,
-                `section`,
-                `message`,
-                `user`,
-                `macaddress`,
-                `ipaddress`,
-                `action`)
-                VALUES (
-                '$datetime',
-                'Product',
-                'Update Product details by $username successfully',
-                '$username',
-                '$mac_address',
-                '$ip_add',
-                'Successful')") or die(mysqli_error($mysqli));
+              (
+              `logdate`,
+              `section`,
+              `message`,
+              `user`,
+              `macaddress`,
+              `ipaddress`,
+              `action`)
+              VALUES (
+              '$datetime',
+              'Product',
+              'Update Product details by $username successfully',
+              '$username',
+              '$mac_address',
+              '$ip_add',
+              'Successful')") or die(mysqli_error($mysqli));
 
 echo 1;

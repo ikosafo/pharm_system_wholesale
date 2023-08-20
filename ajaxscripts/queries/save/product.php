@@ -22,11 +22,12 @@ $variation3 = mysqli_real_escape_string($mysqli, $_POST['variation3']);
 $variation3spec = mysqli_real_escape_string($mysqli, $_POST['variation3spec']);
 $costprice = mysqli_real_escape_string($mysqli, $_POST['costprice']);
 $sellingpricewhole = mysqli_real_escape_string($mysqli, $_POST['sellingpricewhole']);
+$saletype = mysqli_real_escape_string($mysqli, $_POST['saletype']);
 
 
-//Check whether a staff already exists
+//Check whether a product already exists
 if ($barcode != "" || $productname != "") {
-    $check = $mysqli->query("select * from products where (barcode = '$barcode' OR productname = '$productname')");
+    $check = $mysqli->query("select * from products where (barcode = '$barcode' OR productname = '$productname') AND salestatus = '$saletype'");
     $getexist = mysqli_num_rows($check);
 
     if ($getexist == "0") {
@@ -52,7 +53,9 @@ if ($barcode != "" || $productname != "") {
         `costprice`,
         `sellingpricewhole`,
         `username`,
-        `datetime`)
+        `datetime`,
+        `salestatus`
+        )
         VALUES 
             (
             '$barcode',
@@ -75,7 +78,9 @@ if ($barcode != "" || $productname != "") {
             '$costprice',
             '$sellingpricewhole',
             '$username',
-            '$datetime')");
+            '$datetime',
+            '$saletype'
+            )");
 
         $mysqli->query("INSERT INTO `logs`
         (
@@ -109,7 +114,7 @@ if ($barcode != "" || $productname != "") {
                             VALUES (
                             '$datetime',
                             'Product',
-                            'Add Product error (Barcode already exists)',
+                            'Add Product error (Barcode or product already exists)',
                             '$username',
                             '$mac_address',
                             '$ip_add',
@@ -140,7 +145,9 @@ if ($barcode != "" || $productname != "") {
     `costprice`,
     `sellingpricewhole`,
     `username`,
-    `datetime`)
+    `datetime`,
+    `salestatus`
+    )
     VALUES 
         (
         '$barcode',
@@ -163,7 +170,9 @@ if ($barcode != "" || $productname != "") {
         '$costprice',
         '$sellingpricewhole',
         '$username',
-        '$datetime')");
+        '$datetime',
+        '$saletype'
+        )");
 
     $mysqli->query("INSERT INTO `logs`
     (

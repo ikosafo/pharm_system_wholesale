@@ -77,6 +77,23 @@ $random = rand(1, 10) . date("Y-m-d");
           <small class="text-muted">Enter Your Product Details</small>
         </div>
         <form autocomplete="off">
+
+          <div class="row">
+            <div class="mb-1 col-md-4">
+              <label class="form-label">Product Sale Type</label> <br />
+              <div>
+                <span>
+                  <input class="form-check-input" type="radio" name="saletype" id="wholesale" value="wholesale" checked>
+                  <label class="form-check-label" for="wholesale">Wholesale</label>
+                </span>
+                <span style="margin-left: 20px;">
+                  <input class="form-check-input ml-4" type="radio" name="saletype" id="retail" value="retail">
+                  <label class="form-check-label" for="retail">Retail</label>
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="mb-1 col-md-4">
               <label class="form-label" for="barcode">Barcode</label>
@@ -253,7 +270,7 @@ $random = rand(1, 10) . date("Y-m-d");
               <input type="text" id="sellingprice" onkeypress="return isNumberKey(event)" name="sellingprice" class="form-control" placeholder="Selling Price" />
             </div> -->
             <div class="mb-1 col-md-4">
-              <label class="form-label" for="sellingpricewhole">Selling Price (Wholesale)</label>
+              <label class="form-label" for="sellingpricewhole">Selling Price </label>
               <input type="text" id="sellingpricewhole" onkeypress="return isNumberKey(event)" name="sellingpricewhole" class="form-control" placeholder="Selling Price (Wholesale)" />
             </div>
 
@@ -444,7 +461,7 @@ $random = rand(1, 10) . date("Y-m-d");
           var variation3spec = $("#variation3spec").val();
           var costprice = $("#costprice").val();
           var sellingpricewhole = $("#sellingpricewhole").val();
-
+          var saletype = $('input[name=saletype]:checked').val();
           var random = '<?php echo $random; ?>';
 
           var error = '';
@@ -515,7 +532,8 @@ $random = rand(1, 10) . date("Y-m-d");
                 variation3spec: variation3spec,
                 costprice: costprice,
                 /*  sellingprice: sellingprice, */
-                sellingpricewhole: sellingpricewhole
+                sellingpricewhole: sellingpricewhole,
+                saletype: saletype
               },
               success: function(text) {
                 //alert(text);
