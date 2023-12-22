@@ -14,7 +14,7 @@
                 $getproduct = $mysqli->query("select * from products where status IS NULL");
                 while ($resproduct = $getproduct->fetch_assoc()) { ?>
                     <option value="<?php echo $resproduct['prodid'] ?>">
-                        <?php echo $resproduct['productname']; ?></option>
+                        <?php echo $resproduct['productname'] . ' - ' . $resproduct['salestatus']; ?></option>
                 <?php } ?>
             </select>
         </div>

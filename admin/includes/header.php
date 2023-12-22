@@ -1,4 +1,7 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 /* db connection */
 include('config.php');
 
@@ -7,13 +10,14 @@ $username = $_SESSION['username'];
 $getmainuser = $mysqli->query("select * from system_config where username = '$username'");
 if (mysqli_num_rows($getmainuser) == '1') {
   $perm = '1';
+  $user_id = '';
 } else {
+  $getuserid = $mysqli->query("select * from staff where username = '$username'");
+  $resuserid = $getuserid->fetch_assoc();
+  $user_id = $resuserid['stid'];
   $perm = '2';
 }
 
-$getuserid = $mysqli->query("select * from staff where username = '$username'");
-$resuserid = $getuserid->fetch_assoc();
-$user_id = $resuserid['stid'];
 
 if (!isset($_SESSION['username'])) {
   header("location:login");
@@ -301,6 +305,10 @@ function getCompNameHeader($text)
                 <li class="<?php echo ($_SERVER['PHP_SELF'] == "/viewproducts.php" ? "active" : ""); ?>">
                   <a class="d-flex align-items-center" href="viewproducts"><i data-feather="circle"></i>
                     <span class="menu-item text-truncate">View Products</span></a>
+                </li>
+                <li class="<?php echo ($_SERVER['PHP_SELF'] == "/pricelists.php" ? "active" : ""); ?>">
+                  <a class="d-flex align-items-center" href="pricelists"><i data-feather="circle"></i>
+                    <span class="menu-item text-truncate">Price Lists</span></a>
                 </li>
                 <li class="<?php echo ($_SERVER['PHP_SELF'] == "/searchproducts.php" ? "active" : ""); ?>">
                   <a class="d-flex align-items-center" href="searchproducts"><i data-feather="circle"></i>

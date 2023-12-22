@@ -538,13 +538,19 @@ function getProdName($id)
     $getname = $mysqli->query("select * from products where prodid = '$id'");
     $resname = $getname->fetch_assoc();
     $productname = $resname['productname'];
+    $salestatus = $resname['salestatus'];
     $category = getcategoryname($resname['category']);
     $subcategory = subcategoryName($resname['subcategory']);
 
     return '<div>
+        <div class="fw-bolder">' . $productname . '</div>
+        <div class="font-small-2 text-muted">' . $salestatus . '</div>
+    </div>';
+
+    /* return '<div>
                 <div class="fw-bolder">' . $productname . '</div>
                 <div class="font-small-2 text-muted">' . $category . ' - ' . $subcategory . '</div>
-            </div>';
+            </div>'; */
 
     //return $productname.'<br/> <small>'.$category.' -  '.$subcategory.'</small>';
 }

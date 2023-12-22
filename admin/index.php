@@ -108,13 +108,14 @@ include('functions.php');
                     <div class="user-info">
                       <h5 class="mb-0">
                         <?php
-                        //get full name
-                        $getfullname = $mysqli->query("select * from staff where username = '$username'");
-                        $resfullname = $getfullname->fetch_assoc();
-                        echo $fullname = $resfullname['fullname'];
 
-                        if ($fullname == "") {
-                          echo $username;
+                        if ($perm == '1') {
+                          echo $fullname =  "Admin";
+                        } else {
+                          //get full name
+                          $getfullname = $mysqli->query("select * from staff where username = '$username'");
+                          $resfullname = $getfullname->fetch_assoc();
+                          echo $fullname = $resfullname['fullname'];
                         }
 
                         ?>
@@ -128,7 +129,7 @@ include('functions.php');
                       </small>
                     </div>
                   </div>
-                  <span class="badge rounded-pill badge-light-primary"><?php if ($fullname == "") {
+                  <span class="badge rounded-pill badge-light-primary"><?php if ($fullname == "Admin") {
                                                                           echo "Admin";
                                                                         } else {
                                                                           echo "Staff";
