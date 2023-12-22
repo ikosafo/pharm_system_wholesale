@@ -205,7 +205,7 @@
                                     <button class="searchbtn"><i class="ri-search-line"></i></button>
                                 </div>
                                 <div class="option-item">
-                                    <a href="appointment.html" class="btn style1">Call Now</a>
+                                    <a href="#" class="btn style1">Call Now</a>
                                 </div>
                             </div>
 

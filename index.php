@@ -14,8 +14,8 @@
                             <p>Delivering excellence in pharmaceuticals, medical supplies, and wellness essentials.
                                 Experience a comprehensive range designed for your well-being.</p>
                             <div class="hero-btn">
-                                <a href="about.html" class="btn style1">Explore Products</a>
-                                <a href="service-one.html" class="btn style3">Our Services</a>
+                                <a href="#" class="btn style1">Explore Products</a>
+                                <a href="#" class="btn style3">Our Services</a>
                             </div>
                         </div>
                     </div>
@@ -55,8 +55,8 @@
                             <p>Discover a suite of cutting-edge medications, top-tier medical supplies,
                                 and personalized services. Your health, our priority.</p>
                             <div class="hero-btn">
-                                <a href="about.html" class="btn style1">Learn More</a>
-                                <a href="service-one.html" class="btn style3">Our Services</a>
+                                <a href="#" class="btn style1">Learn More</a>
+                                <a href="#" class="btn style3">Our Services</a>
                             </div>
                         </div>
                     </div>
