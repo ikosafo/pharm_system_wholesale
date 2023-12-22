@@ -48,7 +48,7 @@ $data = array();
 
 while ($row = mysqli_fetch_assoc($empRecords)) {
     $data[] = array(
-        /* "product" => getProdName($row['prodid']) . '<small>(' . $row['salestatus'] . ')</small>', */
+        "product" => getProdName($row['prodid']),
         "quantity" => getQuantity($row['prodid']),
         "expirydate" => getExpiryDate($row['expirydate']),
         "sellingprice" => $row['sellingprice'],

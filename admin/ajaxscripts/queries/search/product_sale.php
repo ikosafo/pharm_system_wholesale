@@ -43,7 +43,7 @@ $product_search = $_POST['product_search'];
                 <table class="table mt-2 table-sm prodsalestable" id="table-data">
                     <thead>
                         <tr>
-                            <!--  <th width="25%">Product</th> -->
+                            <th width="25%">Product</th>
                             <th width="15%">Qty</th>
                             <th width="15%">Expiry Date</th>
                             <th width="15%">Selling Price</th>
