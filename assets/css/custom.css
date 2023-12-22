@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700;800&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.logo-light,
+.logo-dark {
+    max-width: 250px;
+}
+
+.hero-content h1 {
+    font-size: 35px !important;
+}
+
+@media (max-width:500px) {
+    .hero-slider-one {
+        margin-top: -20px !important;
+    }
+}
+
+@media (min-width:901px) {
+    .hero-slide-item .container {
+        margin-top: -30px !important
+    }
+}
+
+.about-promo-video {
+    background-image: url(../img/custom/ph3.jpg);
+    height: 150px;
+    border-radius: 10px;
+}
+
+/* .hero-slide-item {
+    margin-top: -100px !important
+} */

@@ -1,230 +1,509 @@
-<?php include('includes/header.php');
-include('functions.php');
-?>
+<?php include('./includes/header.php'); ?>
 
 
-<!-- BEGIN: Content-->
-<div class="app-content content ">
-  <div class="content-overlay"></div>
-  <div class="header-navbar-shadow"></div>
-  <div class="content-wrapper container-xxl p-0">
-    <div class="content-header row">
-    </div>
-    <div class="content-body"><!-- Dashboard Ecommerce Starts -->
-      <section id="dashboard-ecommerce">
-
-        <div class="row">
-          <div class="col-lg-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <h2 class="fw-bolder mb-0">
-                    <?php
-                    // Get total sales in a day
-                    $gettodaysale = $mysqli->query("select sum(totalprice) as tot from sales where SUBSTRING(datetime,1,10) = CURDATE()");
-                    $ressale = $gettodaysale->fetch_assoc();
-                    echo number_format($ressale['tot'], 2);
-                    ?>
-                  </h2>
-                  <p class="card-text">Sales for Today</p>
-                </div>
-                <div class="avatar bg-light-primary p-50 m-0">
-                  <div class="avatar-content">
-                    <i data-feather="dollar-sign" style="width: 22px;height:22px"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <h2 class="fw-bolder mb-0">
-                    <?php
-                    // Get total sales in a day
-                    $getthreshold = $mysqli->query("select * from products where  stockthreshold > quantitysale");
-                    echo mysqli_num_rows($getthreshold);
-                    ?>
-                  </h2>
-                  <p class="card-text">Below Threshold</p>
-                </div>
-                <div class="avatar bg-light-warning p-50 m-0">
-                  <div class="avatar-content">
-                    <i data-feather="alert-triangle" style="width: 22px;height:22px"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <h2 class="fw-bolder mb-0"> <?php
-                                              // Get total sales in a day
-                                              $getcount = $mysqli->query("select * from staff where status IS NULL");
-                                              echo mysqli_num_rows($getcount);
-                                              ?>
-                  </h2>
-                  <p class="card-text">Account Holders</p>
-                </div>
-                <div class="avatar bg-light-success p-50 m-0">
-                  <div class="avatar-content">
-                    <i data-feather="users" style="width: 22px;height:22px"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <h2 class="fw-bolder mb-0"><?php
-                                              // Get total sales in a day
-                                              $getcount = $mysqli->query("select * from products where status IS NULL");
-                                              echo mysqli_num_rows($getcount);
-                                              ?></h2>
-                  <p class="card-text">Total Products</p>
-                </div>
-                <div class="avatar bg-light-warning p-50 m-0">
-                  <div class="avatar-content">
-                    <i data-feather="shopping-bag" style="width: 22px;height:22px"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row match-height">
-
-          <div class="col-lg-4 col-md-6 col-12">
-            <div class="card card-apply-job">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                  <div class="d-flex flex-row">
-                    <div class="user-info">
-                      <h5 class="mb-0">
-                        <?php
-                        //get full name
-                        $getfullname = $mysqli->query("select * from staff where username = '$username'");
-                        $resfullname = $getfullname->fetch_assoc();
-                        echo $fullname = $resfullname['fullname'];
-
-                        if ($fullname == "") {
-                          echo $username;
-                        }
-
-                        ?>
-                      </h5>
-                      <small class="text-muted"><?php
-                                                //Get last updated time
-                                                $gettime = $mysqli->query("select * from logs where section = 'Login'ORDER BY logid DESC LIMIT 1");
-                                                $restime = $gettime->fetch_assoc();
-                                                echo "Logged in " . time_elapsed_string($restime['logdate']);
-                                                ?>
-                      </small>
-                    </div>
-                  </div>
-                  <span class="badge rounded-pill badge-light-primary"><?php if ($fullname == "") {
-                                                                          echo "Admin";
-                                                                        } else {
-                                                                          echo "Staff";
-                                                                        } ?></span>
-                </div>
-
-                <div class="apply-job-package bg-light-primary rounded">
-                  <i data-feather="calendar" style="width: 22px;height:22px"></i>
-                  <div id="runningTime" style="margin:0 auto"></div>
-                </div>
-                <div class="d-grid">
-                  <a href="todaysales" class="btn btn-success mb-1 waves-effect waves-float waves-light">
-                    View today's sales
-                  </a>
-                  <a href="todaysexpenses" class="btn btn-danger mb-1 waves-effect waves-float waves-light">
-                    View today's expenses
-                  </a>
-                  <a href="userlogs" class="btn btn-primary waves-effect waves-float waves-light">
-                    View logs
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-8 col-12">
-            <div class="row match-height">
-
-              <!-- Transaction Card -->
-              <div class="col-lg-12 col-md-6 col-12">
-                <div class="card card-transaction">
-                  <div class="card-header">
-                    <h4 class="card-title">Highest Transactions for Today</h4>
-                  </div>
-                  <div class="card-body">
-
-                    <?php
-                    //Get highest transactions
-                    $gettransactions = $mysqli->query("SELECT * FROM sales s JOIN tempsales t ON s.`newsaleid` = t.`genid` WHERE 
-                      SUBSTRING(s.`datetime`,1,10) = curdate() ORDER BY t.`price` DESC, s.`totalprice` DESC LIMIT 4");
-                    while ($restransactions = $gettransactions->fetch_assoc()) { ?>
-
-                      <div class="transaction-item">
-                        <div class="d-flex">
-                          <div class="transaction-percentage">
-                            <h6 class="transaction-title"><?php echo getProductName($restransactions['prodid']); ?></h6>
-                            <small>Quantity: <?php echo $restransactions['quantity']; ?></small>
-                          </div>
+<!-- Hero Section Start -->
+<section class="hero-wrap style1">
+    <div class="hero-slider-one owl-carousel">
+        <div class="hero-slide-item">
+            <div class="container">
+                <div class="row align-items-center gx-5">
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="hero-content">
+                            <span>Empowering Health, Enriching Lives</span>
+                            <h1>Your Trusted Partner in Quality Healthcare Solutions</h1>
+                            <p>Delivering excellence in pharmaceuticals, medical supplies, and wellness essentials.
+                                Experience a comprehensive range designed for your well-being.</p>
+                            <div class="hero-btn">
+                                <a href="about.html" class="btn style1">Explore Products</a>
+                                <a href="service-one.html" class="btn style3">Our Services</a>
+                            </div>
                         </div>
-                        <div class="fw-bolder text-success"><?php echo $restransactions['price']; ?></div>
-                      </div>
-
-                    <?php }
-                    ?>
-
-
-                  </div>
+                    </div>
+                    <div class="col-xl-7 col-lg-6">
+                        <div class="hero-img-wrap">
+                            <img class="hero-img" src="assets/img/custom/ph3.jpg" alt="Image">
+                            <img src="assets/img/hero/hero-shape-1.png" alt="Image" class="hero-shape-one moveHorizontal">
+                            <img src="assets/img/hero/hero-shape-2.png" alt="Image" class="hero-shape-two rotate">
+                            <div class="row promo-box-wrap">
+                                <div class="col-xl-5 col-lg-7 col-md-5">
+                                    <div class="promo-box">
+                                        <span><i class="flaticon-support"></i></span>
+                                        <h4>24/7 Support</h4>
+                                        <p>Round-the-clock assistance, ensuring your peace of mind, anytime, anywhere.</p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 col-lg-7 col-md-5">
+                                    <div class="promo-box">
+                                        <span><i class="flaticon-user"></i></span>
+                                        <h4>Pharmacist Assistance</h4>
+                                        <p>Providing expert guidance and support for your health needs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <!--/ Transaction Card -->
-
             </div>
-          </div>
-
+        </div>
+        <div class="hero-slide-item">
+            <div class="container">
+                <div class="row align-items-center gx-5">
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="hero-content">
+                            <span>Innovative Care, Exceptional Service</span>
+                            <h1>Elevating Healthcare Through Commitment and Expertise</h1>
+                            <p>Discover a suite of cutting-edge medications, top-tier medical supplies,
+                                and personalized services. Your health, our priority.</p>
+                            <div class="hero-btn">
+                                <a href="about.html" class="btn style1">Learn More</a>
+                                <a href="service-one.html" class="btn style3">Our Services</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-lg-6">
+                        <div class="hero-img-wrap">
+                            <img class="hero-img" src="assets/img/custom/ph2.jpg" alt="Image">
+                            <img src="assets/img/hero/hero-shape-1.png" alt="Image" class="hero-shape-one moveHorizontal">
+                            <img src="assets/img/hero/hero-shape-2.png" alt="Image" class="hero-shape-two rotate">
+                            <div class="row promo-box-wrap">
+                                <div class="col-xl-5 col-lg-7 col-md-5">
+                                    <div class="promo-box">
+                                        <span><i class="flaticon-support"></i></span>
+                                        <h4>24/7 Support</h4>
+                                        <p>Round-the-clock assistance, ensuring your peace of mind, anytime, anywhere.</p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 col-lg-7 col-md-5">
+                                    <div class="promo-box">
+                                        <span><i class="flaticon-user"></i></span>
+                                        <h4>Pharmacist Assistance</h4>
+                                        <p>Providing expert guidance and support for your health needs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-
-
-      </section>
-      <!-- Dashboard Ecommerce ends -->
-
     </div>
-  </div>
+</section>
+<!-- Hero Section End -->
+
+<!-- Counter Section Start -->
+<div class="counter-wrap pt-100 pb-75  bg-blue">
+    <div class="container">
+        <div class="counter-card-wrap style1 pb-75" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">
+            <div class="counter-card style1">
+                <span class="counter-icon">
+                    <i class="flaticon-blood-test"></i>
+                </span>
+                <div class="counter-text">
+                    <h2 class="counter-num">
+                        <span class="odometer" data-count="5000"></span>
+                        <span class="target">+</span>
+                    </h2>
+                    <p>Products Range</p>
+                </div>
+            </div>
+            <div class="counter-card style1">
+                <span class="counter-icon">
+                    <i class="flaticon-user-2"></i>
+                </span>
+                <div class="counter-text">
+                    <h2 class="counter-num">
+                        <span class="odometer" data-count="99"></span>
+                        <span class="target">%</span>
+                    </h2>
+                    <p>Customers Satisfied</p>
+                </div>
+            </div>
+            <div class="counter-card style1">
+                <span class="counter-icon">
+                    <i class="flaticon-admision-form"></i>
+                </span>
+                <div class="counter-text">
+                    <h2 class="counter-num">
+                        <span class="odometer" data-count="700,000"></span>
+                        <span class="target">+</span>
+                    </h2>
+                    <p>Orders Processed</p>
+                </div>
+            </div>
+            <div class="counter-card style1">
+                <span class="counter-icon">
+                    <i class="flaticon-nurse"></i>
+                </span>
+                <div class="counter-text">
+                    <h2 class="counter-num">
+                        <span class="odometer" data-count="10"></span>
+                        <span class="target">+</span>
+                    </h2>
+                    <p>Pharmaceutical Experts</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- END: Content-->
+<div class="promo-wrap style1">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-6 col-md-6" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">
+                <div class="promo-card">
+                    <div class="promo-icon">
+                        <i class="flaticon-pills"></i>
+                    </div>
+                    <div class="promo-info">
+                        <h3>Bulk Purchasing and Discounts</h3>
+                        <p>Streamline your supply chain by ordering pharmaceuticals in large quantities,
+                            ensuring consistent stock availability for your business needs.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="300">
+                <div class="promo-card">
+                    <div class="promo-icon">
+                        <i class="flaticon-badge"></i>
+                    </div>
+                    <div class="promo-info">
+                        <h3>Distribution Partnerships</h3>
+                        <p>Collaborate with us for seamless distribution partnerships,
+                            leveraging our network to reach diverse markets and customers effectively.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="400">
+                <div class="promo-card">
+                    <div class="promo-icon">
+                        <i class="flaticon-clipboard"></i>
+                    </div>
+                    <div class="promo-info">
+                        <h3>Timely Order Fulfillment</h3>
+                        <p>Benefit from efficient order processing and fulfillment,
+                            ensuring prompt and reliable delivery of your orders for an exceptional experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-10">
+            <p class="mb-0">Explore our extensive range of medical supplies <a href="#" class="link style1">Discover More</a></p>
+        </div>
+    </div>
+</div>
+<!-- Counter Section End -->
+
+<!-- About Section Start -->
+<section class="about-wrap style1 ptb-100">
+    <div class="container">
+        <div class="row gx-5 align-items-center">
+            <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1200" data-aos-delay="200">
+                <div class="about-img-wrap">
+                    <img src="assets/img/custom/ph1.jpg" alt="Image" class="about-img-one">
+                    <img src="assets/img/custom/ph2.jpg" alt="Image" class="about-img-two">
+                    <div class="about-doctor-box" style="z-index: 99999;">
+                        <div class="doctor-info">
+                            <h5>Get in Touch</h5>
+                            <span>Connect for solutions</span>
+                        </div>
+                        <button type="button" class="btn style1" style="margin-left: 20px;">Contact Us</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+                <div class="about-content">
+                    <div class="content-title style1">
+                        <h3>About <?php $companyname = getCompanyName();
+                                    echo str_replace('Gods', 'God\'s', $companyname); ?></h3>
+                        <p>We pride ourselves on being a leading provider of pharmaceutical solutions for
+                            wholesale distribution. With a steadfast commitment to quality, reliability, and
+                            client satisfaction, we have emerged as a trusted partner in the healthcare industry.</p>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <h5>What Sets Us Apart</h5>
+                            <p>At the core of our ethos lies a relentless pursuit of excellence.
+                                Here's what distinguishes us:</p>
+                            <ul class="content-feature-list list-style">
+                                <li><i class="ri-checkbox-circle-line"></i>Comprehensive Inventory
+                                </li>
+                                <li><i class="ri-checkbox-circle-line"></i>Reliability & Efficiency
+                                </li>
+                                <li><i class="ri-checkbox-circle-line"></i>Quality Assurance
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="about-promo-video bg-f">
+                                <a class="play-now" data-fancybox="" href="https://www.youtube.com/">
+                                    <i class="ri-play-fill"></i>
+                                    <span class="ripple"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Section End -->
 
 
-<?php include('includes/footer.php') ?>
+<!-- Testimonial Section Start -->
+<section class="testimonial-wrap style1 ptb-100 bg-athens">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-7 col-md-8">
+                <div class="section-title style2 mb-40">
+                    <span>Testimonials</span>
+                    <h2>Our top-notch service is your ultimate reason for choosing us </h2>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-slider-one owl-carousel">
+            <div class="testimonial-card style3" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">
+                <p class="client-quote">Fast, reliable, and top-quality service! <?php echo getCompanyName(); ?> has
+                    been instrumental in keeping our clinic well-stocked. Their swift deliveries and
+                    extensive inventory make them our go-to partner.</p>
+                <div class="client-info-area">
+                    <div class="client-info-wrap">
+                        <div class="client-info">
+                            <h3>Sarah Johnson</h3>
+                            <span>HealthPro Solutions</span>
+                        </div>
+                    </div>
+                    <div class="quote-icon">
+                        <i class="flaticon-quote-2"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card style3" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="300">
+                <p class="client-quote">Impressive reliability! <?php echo getCompanyName(); ?> ensures our
+                    orders are processed accurately and delivered promptly. Their commitment to quality sets
+                    them apart in the industry.</p>
+                <div class="client-info-area">
+                    <div class="client-info-wrap">
+                        <div class="client-info">
+                            <h3>Dr. Alex Boateng</h3>
+                            <span>CarePlus Medical Center</span>
+                        </div>
+                    </div>
+                    <div class="quote-icon">
+                        <i class="flaticon-quote-2"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card style3" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="400">
+                <p class="client-quote">Professional excellence! <?php echo getCompanyName(); ?> has been
+                    a crucial asset in our operations. Their efficiency and expertise make them a
+                    standout partner in the healthcare sector.</p>
+                <div class="client-info-area">
+                    <div class="client-info-wrap">
+                        <div class="client-info">
+                            <h3>Emily Ansah</h3>
+                            <span>MedServe Health Group</span>
+                        </div>
+                    </div>
+                    <div class="quote-icon">
+                        <i class="flaticon-quote-2"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card style3" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="500">
+                <p class="client-quote">They have been an integral part of our success.
+                    Their dedication to accuracy and speed in order processing ensures our shelves are always stocked.
+                    Their professionalism make them a trusted partner.</p>
+                <div class="client-info-area">
+                    <div class="client-info-wrap">
+                        <div class="client-info">
+                            <h3>Mark Appiah</h3>
+                            <span>Enterpreneur</span>
+                        </div>
+                    </div>
+                    <div class="quote-icon">
+                        <i class="flaticon-quote-2"></i>
+                    </div>
+                </div>
+            </div>
 
-<script>
-  $("#viewlogs").click(function() {
-    window.location.href = "/userlogs";
-  });
-</script>
+        </div>
+        <div class="cta-wrap pt-100">
+            <div class="row gx-5 align-items-center">
+                <div class="col-xl-8 col-lg-7">
+                    <div class="cta-content">
+                        <div class="cta-logo">
+                            <img src="assets/img/cta-icon.png" alt="Image">
+                        </div>
+                        <div class="content-title">
+                            <h2>Contact Us Without Reservation</h2>
+                            <p>Should you require assistance or wish to explore opportunities,
+                                do not hesitate to contact us.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="cta-btn">
+                        <a href="#" class="btn style2">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Testimonial Section End -->
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    setInterval(runningTime, 1000);
-  });
 
-  function runningTime() {
-    $.ajax({
-      url: 'indextimeScript.php',
-      success: function(data) {
-        $('#runningTime').html(data);
-      },
-    });
-  }
-</script>
+<!-- Footer Section Start -->
+<footer class="footer-wrap">
+    <div class="container">
+        <div class="row pt-100 pb-75">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="footer-widget">
+                    <a href="/" class="footer-logo" style="width:80%; 
+                    background-color:#fff;border-radius:5px">
+                        <img src="assets/img/custom/logo.png" alt="Image">
+                    </a>
+                    <p class="comp-desc">
+                        Your premier destination for top-quality pharmaceutical distribution.
+                        Trust us to be your reliable healthcare partner,
+                        providing tailored solutions for your needs
+                    </p>
+                    <ul class="social-profile style1 list-style">
+                        <li>
+                            <a href="https://whatsapp.com/">
+                                <i class="ri-whatsapp-fill"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://facebook.com/">
+                                <i class="ri-facebook-fill"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/">
+                                <i class="ri-twitter-fill"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://linkedin.com/">
+                                <i class="ri-linkedin-fill"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://instagram.com/">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                <div class="footer-widget">
+                    <h3 class="footer-widget-title">Company</h3>
+                    <ul class="footer-menu list-style">
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                Our Services
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                Our Team
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                Contact Us
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                <div class="footer-widget">
+                    <h3 class="footer-widget-title">Quick Links</h3>
+                    <ul class="footer-menu list-style">
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                Careers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                FAQs
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                News &amp; Articles
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ri-arrow-right-s-line"></i>
+                                Terms of Service
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://admin.godswisdompharmacy.com">
+                                <i class="ri-arrow-right-s-line"></i>
+                                Admin
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="footer-widget">
+                    <h3 class="footer-widget-title">Contact Info</h3>
+                    <ul class="contact-info list-style">
+                        <li>
+                            <i class="flaticon-map"></i>
+                            <h6>Location</h6>
+                            <p><?php echo getCompanyAddress(); ?></p>
+                        </li>
+                        <li>
+                            <i class="flaticon-email-1"></i>
+                            <h6>Email</h6>
+                            <a href="mailto:info@godswisdompharmacy.com">
+                                info@godswisdompharmacy.com
+                            </a>
+                        </li>
+                        <li>
+                            <i class="flaticon-phone-call-1"></i>
+                            <h6>Phone</h6>
+                            <a href="tel:<?php echo getCompanyTelephone(); ?>"><?php echo getCompanyTelephone(); ?></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="copyright-text"><i class="ri-copyright-line"></i>
+        <span><?php echo date('Y'); ?></span>. All Rights Reserved
+</footer>
+<!-- Footer Section End -->
+
+
+<?php include('./includes/footer.php'); ?>
