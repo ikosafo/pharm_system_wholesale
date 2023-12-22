@@ -105,7 +105,6 @@ function time_elapsed_string($datetime, $full = false)
 
 function getExpiryDate($expirydate)
 {
-
     $today = date("Y-m-d");
     if ($expirydate == "0000-00-00") {
         return '';
@@ -145,7 +144,7 @@ function getExpiryDate($expirydate)
             }
 
             return '<div class="d-flex flex-column text-center">
-            <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $timdiff . ' days more' . '</span>
+            <span class="badge ' . $colorbadge . ' fw-bolder mb-25">In ' . $timdiff . ' days</span>
             <span class="font-small-2 text-muted">' . $expirydate . '</span>
         </div>';
         }
@@ -539,10 +538,21 @@ function getProdName($id)
     $getname = $mysqli->query("select * from products where prodid = '$id'");
     $resname = $getname->fetch_assoc();
     $productname = $resname['productname'];
+    $salestatus = $resname['salestatus'];
+    $category = getcategoryname($resname['category']);
+    $subcategory = subcategoryName($resname['subcategory']);
 
     return '<div>
+        <div class="fw-bolder">' . $productname . '</div>
+        <div class="font-small-2 text-muted">' . $salestatus . '</div>
+    </div>';
+
+    /* return '<div>
                 <div class="fw-bolder">' . $productname . '</div>
-            </div>';
+                <div class="font-small-2 text-muted">' . $category . ' - ' . $subcategory . '</div>
+            </div>'; */
+
+    //return $productname.'<br/> <small>'.$category.' -  '.$subcategory.'</small>';
 }
 
 
@@ -553,20 +563,24 @@ function getQuantity($id)
 
     $getname = $mysqli->query("select * from products where prodid = '$id'");
     $resname = $getname->fetch_assoc();
-    $quantity = $resname['quantity'];
+    $quantitysale = $resname['quantity'];
+    $quantitystock = $resname['quantitystock'];
     $stockthreshold = $resname['stockthreshold'];
 
-    if ($stockthreshold == $quantity) {
+    if ($stockthreshold == $quantitysale) {
         $colorbadge = "badge-light-warning";
-    } else if ($stockthreshold > $quantity) {
+    } else if ($stockthreshold > $quantitysale) {
         $colorbadge = "badge-light-danger";
     } else {
         $colorbadge = "badge-light-success";
     }
 
     return '<div class="d-flex flex-column text-center">
-                <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $quantity . ' in stock</span>
+                <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $quantitysale . ' in stock</span>
+                <span class="font-small-2 text-muted">' . $quantitystock . ' in warehouse</span>
              </div>';
+    /* return 'For sale: <span class="badge ' . $colorbadge . ' me-1">' . $quantitysale . '</span> <br/>
+     <small>In Stock:  <span class="badge badge-light-secondary me-1">' . $quantitystock . '</span></small>'; */
 }
 
 
@@ -577,10 +591,12 @@ function getQuantityNewArrival($id)
 
     $getname = $mysqli->query("select * from newarrivals where newarrid = '$id'");
     $resname = $getname->fetch_assoc();
-    $quantity = $resname['quantity'];
+    $quantitysale = $resname['quantitysale'];
+    $quantitystock = $resname['quantitystock'];
 
     return '<div class="d-flex flex-column text-center">
-                <span class="badge badge-light-primary fw-bolder mb-25">' . $quantity . ' added</span>
+                <span class="badge badge-light-primary fw-bolder mb-25">' . $quantitysale . ' in stock</span>
+                <span class="font-small-2 text-muted">' . $quantitystock . ' in warehouse</span>
              </div>';
 }
 
@@ -621,7 +637,7 @@ function getCurrentQuantity($id)
 
     $getname = $mysqli->query("select * from products where prodid = '$id'");
     $resname = $getname->fetch_assoc();
-    echo $quantity = $resname['quantity'];
+    echo $quantitysale = $resname['quantitysale'];
 }
 
 

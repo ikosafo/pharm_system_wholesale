@@ -48,7 +48,7 @@ $product_search = $_POST['product_search'];
                             <th width="15%">Expiry Date</th>
                             <th width="15%">Selling Price</th>
                             <th width="10%">Var.</th>
-                            <th width="20%">Action</th>
+                            <th width="10%">Action</th>
                         </tr>
                     </thead>
                 </table>
