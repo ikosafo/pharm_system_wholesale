@@ -67,7 +67,13 @@
                                     </li>
                                     <li>
                                         <span><i class="ri-map-pin-fill"></i></span>
-                                        <p><?php echo getCompanyAddress(); ?></p>
+                                        <p><?php $companyaddress = getCompanyAddress();;
+                                            // Word to be removed
+                                            $wordToRemove = " - Accra";
+                                            // Removing the specified word from the string
+                                            $result = str_replace($wordToRemove, "", $companyaddress);
+                                            echo $result;
+                                            ?></p>
                                     </li>
                                 </ul>
                             </div>
