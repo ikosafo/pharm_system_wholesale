@@ -132,8 +132,8 @@
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
                         <a class="navbar-brand" href="/">
-                            <img class="logo-light" src="./assets/img/custom/logo.png" alt="logo">
-                            <img class="logo-dark" src="./assets/img/custom/logo.png" alt="logo">
+                            <img class="logo-light" src="assets/img/custom/logo.png" alt="logo">
+                            <img class="logo-dark" src="assets/img/custom/logo.png" alt="logo">
                         </a>
                         <div class="collapse navbar-collapse main-menu-wrap" id="navbarSupportedContent">
                             <div class="menu-close d-lg-none">
