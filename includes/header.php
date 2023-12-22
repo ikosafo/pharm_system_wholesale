@@ -102,7 +102,7 @@
                                 </div>
                                 <ul class="social-profile list-style style1">
                                     <li>
-                                        <a href="https://pinterest.com/">
+                                        <a href="https://whatsapp.com/">
                                             <i class="ri-whatsapp-line"></i>
                                         </a>
                                     </li>
