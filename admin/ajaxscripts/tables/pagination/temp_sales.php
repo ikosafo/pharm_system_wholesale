@@ -27,25 +27,28 @@ if ($searchValue != '') {
 
 ## Total number of records without filtering
 $sel = mysqli_query($mysqli, "select count(*) as allcount from 
-products where status IS NULL AND productname LIKE '%$prodsearch%' LIMIT 20");
+products where status IS NULL AND productname LIKE '%$prodsearch%' LIMIT 10");
 $records = mysqli_fetch_assoc($sel);
 $totalRecords = $records['allcount'];
 
 ## Total number of record with filtering
-$sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE status IS NULL 
-                    AND productname LIKE '%$prodsearch%' 
-                    AND 1 " . $searchQuery);
+$sel = mysqli_query($mysqli, "SELECT COUNT(*) AS allcount FROM products 
+                              WHERE status IS NULL 
+                              AND productname LIKE '%$prodsearch%' 
+                              AND 1 " . $searchQuery . " 
+                              LIMIT 10");
+
 $records = mysqli_fetch_assoc($sel);
 $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-$empQuery = "select * from products WHERE status IS NULL AND productname LIKE '%$prodsearch%' LIMIT 20";
+$empQuery = "select * from products WHERE status IS NULL AND productname LIKE '%$prodsearch%' LIMIT 10";
 $empRecords = mysqli_query($mysqli, $empQuery);
 $data = array();
 
 while ($row = mysqli_fetch_assoc($empRecords)) {
     $data[] = array(
-        "product" => getProdName($row['prodid']) . '<small>(' . $row['salestatus'] . ')</small>',
+        /* "product" => getProdName($row['prodid']) . '<small>(' . $row['salestatus'] . ')</small>', */
         "quantity" => getQuantity($row['prodid']),
         "expirydate" => getExpiryDate($row['expirydate']),
         "sellingprice" => $row['sellingprice'],
