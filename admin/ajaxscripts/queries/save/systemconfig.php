@@ -5,6 +5,7 @@ include("../../../functions.php");
 $companyname = mysqli_real_escape_string($mysqli, $_POST['companyname']);
 $tagline = mysqli_real_escape_string($mysqli, $_POST['tagline']);
 $telephone = mysqli_real_escape_string($mysqli, $_POST['telephone']);
+$whatsapp = mysqli_real_escape_string($mysqli, $_POST['whatsapp']);
 $emailaddress = mysqli_real_escape_string($mysqli, $_POST['emailaddress']);
 $currency = mysqli_real_escape_string($mysqli, $_POST['currency']);
 $address = mysqli_real_escape_string($mysqli, $_POST['address']);
@@ -20,6 +21,7 @@ $saveconfig = $mysqli->query("INSERT INTO `system_config`
                             `tagline`,
                             `address`,
                             `telephone`,
+                            `whatsapp`,
                             `emailaddress`,
                             `currency`,
                             `username`,
@@ -31,6 +33,7 @@ $saveconfig = $mysqli->query("INSERT INTO `system_config`
                             '$tagline',
                             '$address',
                             '$telephone',
+                            '$whatsapp',
                             '$emailaddress',
                             '$currency',
                             '$username',

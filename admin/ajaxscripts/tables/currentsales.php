@@ -2,7 +2,6 @@
 include('../../config.php');
 include('../../functions.php');
 
-
 $getdate = $mysqli->query("SELECT DISTINCT(SUBSTR(`datetime`,1,10)) as date FROM `sales` ORDER BY `datetime` DESC");
 
 ?>
@@ -38,13 +37,14 @@ $getdate = $mysqli->query("SELECT DISTINCT(SUBSTR(`datetime`,1,10)) as date FROM
                       <thead>
                         <tr>
                           <th width="5%">No.</th>
-                          <th width="35%">Details</th>
+                          <th width="30%">Details</th>
                           <th width="10%">Total<br /> Price</th>
                           <th width="10%">Amount<br /> Paid</th>
                           <th width="10%">Change<br /> Given</th>
                           <th width="10%">Payment<br /> Method</th>
                           <th width="10%">Transaction <br /> Period</th>
                           <th width="10%">Transaction <br /> User</th>
+                          <th width="5%">Print Receipt</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -89,6 +89,7 @@ $getdate = $mysqli->query("SELECT DISTINCT(SUBSTR(`datetime`,1,10)) as date FROM
                             <td><?php echo $ressales['paymentmethod']; ?></td>
                             <td><?php echo $ressales['datetime']; ?></td>
                             <td><?php echo getLogname($ressales['username']); ?></td>
+                            <td><a href="#" class="printreceipt" i_index=<?php echo $ressales['newsaleid'] ?>>Print</td>
 
                           </tr>
                         <?php

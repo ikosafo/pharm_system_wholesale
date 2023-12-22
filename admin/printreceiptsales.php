@@ -1,18 +1,15 @@
 <?php
 
-include('../../../config.php');
-include("../../../functions.php");
+include('config.php');
+include("functions.php");
 
 //$newsaleid = $_POST['newsaleid'];
 
+$username = $_SESSION['username'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $amountpaid = $_POST['amountpaid'];
-    $totalprice = $_POST['totalprice'];
-    $username = $_SESSION['username'];
-    $change = $_POST['change'];
+
     $newsaleid = $_POST['newsaleid'];
-    $customer = $_POST['customer'];
-    $paymentmethod = $_POST['paymentmethod'];
 
     //Get invoice ID
     $getsale = $mysqli->query("select * from sales where newsaleid = '$newsaleid'");
@@ -20,6 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $salesid = $ressale['salesid'];
     $customer = $ressale['customer'];
     $telephone = $ressale['telephone'];
+    $amountpaid = $ressale['amountpaid'];
+    $totalprice = $ressale['totalprice'];
+    $change = $ressale['change'];
+    $paymentmethod = $ressale['paymentmethod'];
     $date = substr($ressale['datetime'], 0, 10);
     $length = 5;
     $string = substr(str_repeat(0, $length) . $salesid, -$length);
@@ -46,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Add event listener for after printing
     window.onafterprint = function() {
         // Redirect to a different page after printing
-        window.location.href = "/addsale";
+        window.location.href = "/viewsales";
     };
 
     // Handle the case where the user cancels the print dialog
@@ -55,9 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     var timeout = setTimeout(function() {
         if (window.location.href === originalUrl) {
             // Redirect if the URL is still the same (print dialog was cancelled)
-            window.location.href = "/addsale";
+            window.location.href = "/viewsales";
         }
-    }, 1500); // Adjust the timeout duration as needed
+    }, 30500); // Adjust the timeout duration as needed
 </script>
 
 
@@ -218,12 +219,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </td>
                                         <td class="py-1 ps-4">
                                             <p class="fw-semibold" style="margin-bottom: 0rem;">
-                                                <?php echo $productname = getProductName($resitems['prodid']); ?>
+                                                <?php echo $productname = getProductName($resitems['prodid']);
+                                                $cleaned_product = str_replace("'", "", $productname);
+                                                ?>
                                             </p>
                                         </td>
                                         <td>
                                             <?php
-                                            $getvariation = $mysqli->query("select * from products where productname = '$productname'");
+                                            $getvariation = $mysqli->query("select * from products where productname = '$cleaned_product'");
                                             $resvariation = $getvariation->fetch_assoc();
                                             echo $resvariation['variations'];
                                             ?>

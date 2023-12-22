@@ -3,84 +3,48 @@ include('../../../config.php');
 include("../../../functions.php");
 
 $username = $_SESSION['username'];
-$barcode = mysqli_real_escape_string($mysqli, $_POST['barcode']);
 $productname = mysqli_real_escape_string($mysqli, $_POST['productname']);
-$quantitysale = mysqli_real_escape_string($mysqli, $_POST['quantitysale']);
-$quantitystock = mysqli_real_escape_string($mysqli, $_POST['quantitystock']);
+$quantity = mysqli_real_escape_string($mysqli, $_POST['quantity']);
 $stockthreshold = mysqli_real_escape_string($mysqli, $_POST['stockthreshold']);
-$sku = mysqli_real_escape_string($mysqli, $_POST['sku']);
 $supplier = mysqli_real_escape_string($mysqli, $_POST['supplier']);
 $expirydate = mysqli_real_escape_string($mysqli, $_POST['expirydate']);
-$isbn = mysqli_real_escape_string($mysqli, $_POST['isbn']);
-$category = mysqli_real_escape_string($mysqli, $_POST['category']);
-$subcategory = mysqli_real_escape_string($mysqli, $_POST['subcategory']);
-$variation1 = mysqli_real_escape_string($mysqli, $_POST['variation1']);
-$variation1spec = mysqli_real_escape_string($mysqli, $_POST['variation1spec']);
-$variation2 = mysqli_real_escape_string($mysqli, $_POST['variation2']);
-$variation2spec = mysqli_real_escape_string($mysqli, $_POST['variation2spec']);
-$variation3 = mysqli_real_escape_string($mysqli, $_POST['variation3']);
-$variation3spec = mysqli_real_escape_string($mysqli, $_POST['variation3spec']);
+$variations = mysqli_real_escape_string($mysqli, $_POST['variations']);
 $costprice = mysqli_real_escape_string($mysqli, $_POST['costprice']);
-$sellingpricewhole = mysqli_real_escape_string($mysqli, $_POST['sellingpricewhole']);
+$sellingprice = mysqli_real_escape_string($mysqli, $_POST['sellingprice']);
 $saletype = mysqli_real_escape_string($mysqli, $_POST['saletype']);
+$datetime = date('Y-m-d H:i:s');
 
 
 //Check whether a product already exists
-if ($barcode != "" || $productname != "") {
-    $check = $mysqli->query("select * from products where (barcode = '$barcode' OR productname = '$productname') AND salestatus = '$saletype'");
+if ($productname != "") {
+    $check = $mysqli->query("select * from products where productname = '$productname' AND salestatus = '$saletype'");
     $getexist = mysqli_num_rows($check);
 
     if ($getexist == "0") {
         $saveconfig = $mysqli->query("INSERT INTO `products`
-        (
-        `barcode`,
-        `productname`,
-        `quantitysale`,
-        `quantitystock`,
-        `stockthreshold`,
-        `sku`,
-        `supplier`,
-        `expirydate`,
-        `isbn`,
-        `category`,
-        `subcategory`,
-        `variation1`,
-        `variation1spec`,
-        `variation2`,
-        `variation2spec`,
-        `variation3`,
-        `variation3spec`,
-        `costprice`,
-        `sellingpricewhole`,
-        `username`,
-        `datetime`,
-        `salestatus`
-        )
-        VALUES 
-            (
-            '$barcode',
-            '$productname',
-            '$quantitysale',
-            '$quantitystock',
-            '$stockthreshold',
-            '$sku',
-            '$supplier',
-            '$expirydate',
-            '$isbn',
-            '$category',
-            '$subcategory',
-            '$variation1',
-            '$variation1spec',
-            '$variation2',
-            '$variation2spec',
-            '$variation3',
-            '$variation3spec',
-            '$costprice',
-            '$sellingpricewhole',
-            '$username',
-            '$datetime',
-            '$saletype'
-            )");
+        (`productname`,
+         `quantity`,
+         `stockthreshold`,
+         `supplier`,
+         `expirydate`,
+         `variations`,
+         `costprice`,
+         `sellingprice`,
+         `username`,
+         `datetime`,
+         `salestatus`)
+VALUES (
+    '$productname',
+    '$quantity',
+    '$stockthreshold',
+    '$supplier',
+    '$expirydate',
+    '$variations',
+    '$costprice',
+    '$sellingprice',
+    '$username',
+    '$datetime',
+    '$saletype')");
 
         $mysqli->query("INSERT INTO `logs`
         (
@@ -114,7 +78,7 @@ if ($barcode != "" || $productname != "") {
                             VALUES (
                             '$datetime',
                             'Product',
-                            'Add Product error (Barcode or product already exists)',
+                            'Add Product error (Product already exists)',
                             '$username',
                             '$mac_address',
                             '$ip_add',
@@ -124,55 +88,29 @@ if ($barcode != "" || $productname != "") {
     }
 } else {
     $saveconfig = $mysqli->query("INSERT INTO `products`
-    (
-    `barcode`,
-    `productname`,
-    `quantitysale`,
-    `quantitystock`,
-    `stockthreshold`,
-    `sku`,
-    `supplier`,
-    `expirydate`,
-    `isbn`,
-    `category`,
-    `subcategory`,
-    `variation1`,
-    `variation1spec`,
-    `variation2`,
-    `variation2spec`,
-    `variation3`,
-    `variation3spec`,
-    `costprice`,
-    `sellingpricewhole`,
-    `username`,
-    `datetime`,
-    `salestatus`
-    )
-    VALUES 
-        (
-        '$barcode',
-        '$productname',
-        '$quantitysale',
-        '$quantitystock',
-        '$stockthreshold',
-        '$sku',
-        '$supplier',
-        '$expirydate',
-        '$isbn',
-        '$category',
-        '$subcategory',
-        '$variation1',
-        '$variation1spec',
-        '$variation2',
-        '$variation2spec',
-        '$variation3',
-        '$variation3spec',
-        '$costprice',
-        '$sellingpricewhole',
-        '$username',
-        '$datetime',
-        '$saletype'
-        )");
+    (`productname`,
+     `quantity`,
+     `stockthreshold`,
+     `supplier`,
+     `expirydate`,
+     `variations`,
+     `costprice`,
+     `sellingprice`,
+     `username`,
+     `datetime`,
+     `salestatus`)
+VALUES (
+'$productname',
+'$quantity',
+'$stockthreshold',
+'$supplier',
+'$expirydate',
+'$variations',
+'$costprice',
+'$sellingprice',
+'$username',
+'$datetime',
+'$saletype')");
 
     $mysqli->query("INSERT INTO `logs`
     (

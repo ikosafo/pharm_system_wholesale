@@ -3,80 +3,65 @@ include('../../../config.php');
 include("../../../functions.php");
 
 $username = $_SESSION['username'];
-
 $productid = mysqli_real_escape_string($mysqli, $_POST['product']);
-$quantitysale = mysqli_real_escape_string($mysqli, $_POST['quantitysale']);
-$quantitystock = mysqli_real_escape_string($mysqli, $_POST['quantitystock']);
-$suppliername = mysqli_real_escape_string($mysqli, $_POST['supplier']);
+$quantity = mysqli_real_escape_string($mysqli, $_POST['quantity']);
+$supplier = mysqli_real_escape_string($mysqli, $_POST['supplier']);
 $expirydate = mysqli_real_escape_string($mysqli, $_POST['expirydate']);
 $costprice = mysqli_real_escape_string($mysqli, $_POST['costprice']);
-$sellingpricewhole = mysqli_real_escape_string($mysqli, $_POST['sellingpricewhole']);
+$sellingprice = mysqli_real_escape_string($mysqli, $_POST['sellingprice']);
 $productname = getProductName($productid);
-//$suppliername = supplierName($supplierid);
-
+$datetime = date('Y-m-d H:i:s');
 
 $saveconfig = $mysqli->query("INSERT INTO `newarrivals`
-                        (`prodid`,
-                         `productname`,
-                         `quantitysale`,
-                         `quantitystock`,
-                         `supplier`,
-                         `expirydate`,
-                         `costprice`,
-                         `sellingpricewhole`,
-                         `username`,
-                         `datetime`)
-                    VALUES ('$productid',
-                            '$productname',
-                            '$quantitysale',
-                            '$quantitystock',
-                            '$suppliername',
-                            '$expirydate',
-                            '$costprice',
-                            '$sellingpricewhole',
-                            '$username',
-                            '$datetime')");
+                                (
+                                `prodid`,
+                                `productname`,
+                                `quantity`,
+                                `supplier`,
+                                `expirydate`,
+                                `costprice`,
+                                `sellingprice`,
+                                `datetime`,
+                                `username`)
+                                VALUES (
+                                '$productid',
+                                '$productname',
+                                '$quantity',
+                                '$supplier',
+                                '$expirydate',
+                                '$costprice',
+                                '$sellingprice',
+                                '$datetime',
+                                '$username')");
 
 //update products
 
 $getdetails = $mysqli->query("select * from `products` where prodid = '$productid'");
 $resdetails = $getdetails->fetch_assoc();
-$quantitysaleold = $resdetails['quantitysale'];
-$quantitystockold = $resdetails['quantitystock'];
-$updatequantitysale = $quantitysaleold + $quantitysale;
-$updatequantitystock = $quantitystockold + $quantitystock;
+$quantityold = $resdetails['quantity'];
+$updatequantity = $quantityold + $quantity;
 
-if ($quantitysaleold == "0") {
+if ($quantityold == "0") {
     $saveconfig = $mysqli->query("UPDATE `products`
                             SET 
-                            `quantitysale` = '$updatequantitysale',
-                            `quantitystock` = '$updatequantitystock',
+                            `quantity` = '$updatequantity',
                             `costprice` = '$costprice',
                             `expirydate` = '$expirydate',
                             `supplier` = '$supplierid',
-                            `sellingpricewhole` = '$sellingpricewhole'
+                            `sellingprice` = '$sellingprice'
                             
                             WHERE `prodid` = '$productid'");
 } else {
     $saveconfig = $mysqli->query("UPDATE `products`
                             SET 
-                            `quantitysale` = '$updatequantitysale',
-                            `quantitystock` = '$updatequantitystock',
+                            `quantity` = '$updatequantity',
                             `costprice` = '$costprice',
-                            `sellingpricewhole` = '$sellingpricewhole'
+                            `sellingprice` = '$sellingprice',
+                            `newarrivalexpiry` = '$expirydate'
                             
                             WHERE `prodid` = '$productid'");
 }
 
-/*   $saveconfig = $mysqli->query("UPDATE `products`
-                        SET 
-                        `quantitysale` = '$updatequantitysale',
-                        `quantitystock` = '$updatequantitystock',
-                        `costprice` = '$costprice',
-                        `sellingprice` = '$sellingprice',
-                        `sellingpricewhole` = '$sellingpricewhole'
-                        
-                        WHERE `prodid` = '$productid'"); */
 
 $mysqli->query("INSERT INTO `logs`
                         (

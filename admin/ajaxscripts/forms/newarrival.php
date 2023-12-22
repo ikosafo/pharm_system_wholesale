@@ -14,49 +14,68 @@
                 $getproduct = $mysqli->query("select * from products where status IS NULL");
                 while ($resproduct = $getproduct->fetch_assoc()) { ?>
                     <option value="<?php echo $resproduct['prodid'] ?>">
-                        <?php echo $resproduct['productname'] . ' - ' . $resproduct['salestatus']; ?></option>
+                        <?php echo $resproduct['productname'] . " - " . strtoupper($resproduct['salestatus']); ?></option>
                 <?php } ?>
             </select>
         </div>
         <div class="mb-1 col-md-4">
-            <label class="form-label" for="quantitysale">Quantity (In Stock) <span style="color:red">*</span></label>
-            <input type="text" id="quantitysale" class="form-control" onkeypress="return isNumber(event)" placeholder="Quantity (For Sale)" />
+            <label class="form-label" for="quantity">Quantity <span style="color:red">*</span></label>
+            <input type="text" id="quantity" class="form-control" onkeypress="return isNumber(event)" placeholder="Quantity (For Sale)" />
         </div>
-        <div class="mb-1 col-md-4">
-            <label class="form-label" for="quantitystock">Quantity (In warehouse) <span style="color:red">*</span></label>
-            <input type="text" id="quantitystock" class="form-control" onkeypress="return isNumber(event)" placeholder="Quantity (In Stock)" />
-        </div>
-    </div>
-    <div class="row">
         <div class="mb-1 col-md-4">
             <label class="form-label" for="supplier">Supplier <span style="color:red">*</span></label>
 
-            <input list="suppliers" id="supplier" name="supplier" class="form-control" placeholder="Enter or select a supplier" />
+            <input list="suppliers" id="supplier" class="form-control" placeholder="Enter or select a supplier" />
             <datalist id="suppliers">
                 <?php
-                $getsupplier = $mysqli->query("select * from supplier where status IS NULL");
-                while ($ressupplier = $getsupplier->fetch_assoc()) { ?>
-                    <option>
-                        <?php echo $ressupplier['fullname'] . ' - ' . $ressupplier['companyname']; ?>
-                    </option>
-                <?php } ?>
+                $suppliers = array();
+
+                $getsupplier = $mysqli->query("SELECT * FROM supplier WHERE status IS NULL");
+                while ($ressupplier = $getsupplier->fetch_assoc()) {
+                    $suppliers[] = $ressupplier['fullname'] . ' - ' . $ressupplier['companyname'];
+                }
+
+                $getsupplierdb = $mysqli->query("SELECT DISTINCT supplier FROM products");
+                while ($ressupplierdb = $getsupplierdb->fetch_assoc()) {
+                    $suppliers[] = $ressupplierdb['supplier'];
+                }
+
+                // Custom sorting function to sort in a case-insensitive manner
+                function caseInsensitiveSort($a, $b)
+                {
+                    return strcasecmp($a, $b);
+                }
+
+                // Sort the array using the custom sorting function
+                usort($suppliers, 'caseInsensitiveSort');
+
+                // Print the sorted options
+                foreach ($suppliers as $supplier) {
+                    echo '<option>' . htmlspecialchars($supplier) . '</option>';
+                }
+                ?>
             </datalist>
+
+
         </div>
+
+
+    </div>
+    <div class="row">
+
         <div class="mb-1 col-md-4">
             <label class="form-label" for="expirydate">Expiry Date</label>
             <input type="text" id="expirydate" class="form-control" placeholder="Expiry Date" />
         </div>
         <div class="mb-1 col-md-4">
-            <label class="form-label" for="costprice">Cost Price <span style="color:red">*</span></label>
-            <input type="text" id="costprice" onkeypress="return isNumberKey(event)" name="costprice" class="form-control" placeholder="Cost Price" />
+            <label class="form-label" for="sellingprice">Selling Price</label>
+            <input type="text" id="sellingprice" oninput="updateReadOnlyBox()" onkeypress="return isNumberKey(event)" class="form-control" placeholder="Selling Price" />
+        </div>
+        <div class="mb-1 col-md-4">
+            <label class="form-label" for="costprice">Cost Price</label>
+            <input type="text" readonly id="costprice" onkeypress="return isNumberKey(event)" class="form-control" placeholder="Cost Price" />
         </div>
 
-    </div>
-    <div class="row">
-        <div class="mb-1 col-md-4">
-            <label class="form-label" for="sellingpricewhole">Selling Price (Wholesale)</label>
-            <input type="text" id="sellingpricewhole" onkeypress="return isNumberKey(event)" name="sellingpricewhole" class="form-control" placeholder="Selling Price (Wholesale)" />
-        </div>
     </div>
 
     <div class="row">
@@ -70,49 +89,47 @@
 <script>
     // Page jquery scripts
     $("#expirydate").flatpickr();
-    /* $("#supplier").select2({
-        placeholder: "Select supplier",
-        allowClear: true
-    }); */
+
     $("#product").select2({
         placeholder: "Select product",
         allowClear: true
     });
+
+    function updateReadOnlyBox() {
+        // Get the value from the inputBox
+        var inputBoxValue = document.getElementById("sellingprice").value;
+
+        // Parse the value as a number
+        var numberValue = parseFloat(inputBoxValue);
+        var costPrice = numberValue * 0.9;
+        document.getElementById("costprice").value = isNaN(costPrice) ? "" : costPrice.toFixed(2);;
+    }
 
 
     // Add action on form submit
     $("#arrivalbtn").click(function() {
 
         var product = $("#product").val();
-        var quantitysale = $("#quantitysale").val();
-        var quantitystock = $("#quantitystock").val();
+        var quantity = $("#quantity").val();
         var supplier = $('#supplier').val();
         var expirydate = $("#expirydate").val();
         var costprice = $("#costprice").val();
-        var sellingpricewhole = $("#sellingpricewhole").val();
+        var sellingprice = $("#sellingprice").val();
 
         var error = '';
         if (product == "") {
             error += 'Please select product \n';
         }
-        if (quantitysale == "") {
+        if (quantity == "") {
             error += 'Please enter quantity for sale \n';
-            $("#quantitysale").focus();
-        }
-        if (quantitystock == "") {
-            error += 'Please enter quantity in stock \n';
-            $("#quantitystock").focus();
+            $("#quantity").focus();
         }
         if (supplier == "") {
-            error += 'Please select supplier \n';
+            error += 'Please enter or select supplier \n';
         }
-        if (costprice == "") {
-            error += 'Please enter cost price \n';
-            $("#costprice").focus();
-        }
-        if (sellingpricewhole == "") {
+        if (sellingprice == "") {
             error += 'Please enter selling price \n';
-            $("#sellingpricewhole").focus();
+            $("#sellingprice").focus();
         }
 
         if (error == "") {
@@ -142,17 +159,15 @@
                                     });
                                 },
                                 data: {
-                                    product: product,
-                                    quantitysale: quantitysale,
-                                    quantitystock: quantitystock,
-                                    supplier: supplier,
-                                    expirydate: expirydate,
-                                    costprice: costprice,
-                                    sellingpricewhole: sellingpricewhole
+                                    product,
+                                    quantity,
+                                    supplier,
+                                    expirydate,
+                                    costprice,
+                                    sellingprice
                                 },
                                 success: function(text) {
                                     //alert(text);
-
                                     $.ajax({
                                         url: "ajaxscripts/forms/newarrival.php",
                                         beforeSend: function() {
@@ -186,7 +201,9 @@
             });
 
         } else {
-            $("#error_loc").notify(error);
+            $.notify(error, "error", {
+                position: "top-center"
+            });
         }
         return false;
     });

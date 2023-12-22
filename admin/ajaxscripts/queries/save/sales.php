@@ -9,6 +9,8 @@ $change = mysqli_real_escape_string($mysqli, $_POST['change']);
 $newsaleid = mysqli_real_escape_string($mysqli, $_POST['newsaleid']);
 $customer = mysqli_real_escape_string($mysqli, $_POST['customer']);
 $paymentmethod = mysqli_real_escape_string($mysqli, $_POST['paymentmethod']);
+$customertel = mysqli_real_escape_string($mysqli, $_POST['customertel']);
+
 
 $getquantity = $mysqli->query("select * from tempsales where genid = '$newsaleid'");
 while ($resquantity = $getquantity->fetch_assoc()) {
@@ -17,13 +19,13 @@ while ($resquantity = $getquantity->fetch_assoc()) {
 
     $getproduct = $mysqli->query("select * from products where prodid = '$prodid'");
     $resproduct = $getproduct->fetch_assoc();
-    $prodquantity = $resproduct['quantitysale'];
+    $prodquantity = $resproduct['quantity'];
     $newquantity = $prodquantity - $quantity;
 
     if ($newquantity < 0) {
         echo 2;
     } else {
-        $updatequantity = $mysqli->query("update products set quantitysale = '$newquantity' 
+        $updatequantity = $mysqli->query("update products set quantity = '$newquantity' 
         where prodid = '$prodid'");
         echo 1;
     }
@@ -41,6 +43,7 @@ if (mysqli_num_rows($checkforsaleid) == "1") {
     `newsaleid`,
     `customer`,
     `paymentmethod`,
+    `telephone`,
     `username`,
     `datetime`)
         VALUES (
@@ -50,6 +53,7 @@ if (mysqli_num_rows($checkforsaleid) == "1") {
     '$newsaleid',
     '$customer',
     '$paymentmethod',
+    '$customertel',
     '$username',
     '$datetime')");
 

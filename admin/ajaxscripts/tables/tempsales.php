@@ -81,7 +81,7 @@ if (mysqli_num_rows($gettemp) == "0") {
     <div class="col-md-12">
       <div class="mb-1 mt-5 row">
         <div class="col-sm-3">
-          <label class="col-form-label" for="barcode">Amount Paid</label>
+          <label class="col-form-label" for="amountpaid">Amount Paid</label>
         </div>
         <div class="col-sm-9">
           <input type="text" onkeypress="return isNumberKey(event)" id="amountpaid" class="form-control" autocomplete="off" placeholder="Enter amount paid" />
@@ -99,18 +99,49 @@ if (mysqli_num_rows($gettemp) == "0") {
         <div class="col-sm-3">
           <label class="col-form-label" for="customer">Customer</label>
         </div>
+
         <div class="col-sm-9">
-          <input list="customershop" id="customer" name="customer" class="form-control" placeholder="Enter name of shop" />
-          <datalist id="customershop">
+          <input list="customers" id="customer" class="form-control" placeholder="Enter or select a customer" />
+          <datalist id="customers">
             <?php
-            $getcustomer = $mysqli->query("select * from customer where status IS NULL");
-            while ($rescustomer = $getcustomer->fetch_assoc()) { ?>
-              <option><?php echo $rescustomer['companyname'] ?></option>
-            <?php }
+            $customers = array();
+
+            $getcustomer = $mysqli->query("SELECT * FROM customer WHERE status IS NULL");
+            while ($rescustomer = $getcustomer->fetch_assoc()) {
+              $customers[] = $rescustomer['fullname'];
+            }
+
+            $getcustomerdb = $mysqli->query("SELECT DISTINCT customer FROM sales");
+            while ($rescustomerdb = $getcustomerdb->fetch_assoc()) {
+              $customers[] = $rescustomerdb['customer'];
+            }
+
+            // Custom sorting function to sort in a case-insensitive manner
+            function caseInsensitiveSort($a, $b)
+            {
+              return strcasecmp($a, $b);
+            }
+
+            // Sort the array using the custom sorting function
+            usort($customers, 'caseInsensitiveSort');
+
+            // Print the sorted options
+            foreach ($customers as $customer) {
+              echo '<option>' . htmlspecialchars($customer) . '</option>';
+            }
             ?>
           </datalist>
         </div>
       </div>
+      <div class="mb-1 row">
+        <div class="col-sm-3">
+          <label class="col-form-label" for="customertel">Telephone</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="customertel" class="form-control" autocomplete="off" placeholder="Enter telephone" />
+        </div>
+      </div>
+
       <div class="mb-1 row">
         <div class="col-sm-3">
           <label class="col-form-label" for="paymentmethod">Payment Method</label>
@@ -148,7 +179,7 @@ if (mysqli_num_rows($gettemp) == "0") {
     var amountpaid = $('#amountpaid').val();
     var totalprice = '<?php echo $totalprice; ?>';
     var change = amountpaid - totalprice;
-    $('#change').val(change);
+    $('#change').val(change.toFixed(2));
   });
 
   $("input[name='quantity']").TouchSpin({
@@ -163,6 +194,7 @@ if (mysqli_num_rows($gettemp) == "0") {
     var change = $('#change').val();
     var customer = $('#customer').val();
     var paymentmethod = $('#paymentmethod').val();
+    var customertel = $('#customertel').val();
 
     var error = '';
 
@@ -194,7 +226,8 @@ if (mysqli_num_rows($gettemp) == "0") {
           change: change,
           newsaleid: '<?php echo $newsaleid; ?>',
           customer: customer,
-          paymentmethod: paymentmethod
+          paymentmethod: paymentmethod,
+          customertel: customertel
         },
         success: function(text) {
           // Reload the current page

@@ -6,9 +6,8 @@ $newsaleid = $_POST['newsaleid'];
 
 $getdetails = $mysqli->query("select * from products where prodid = '$productid'");
 $resdetails = $getdetails->fetch_assoc();
-$sellingprice = $resdetails['sellingpricewhole'];
-$barcode = $resdetails['barcode'];
-$quantitydb = $resdetails['quantitysale'];
+$sellingprice = $resdetails['sellingprice'];
+$quantitydb = $resdetails['quantity'];
 
 
 //Check whether item is there
@@ -17,15 +16,13 @@ if (mysqli_num_rows($chktemp) == '0') {
 
   //Insert into temp sales
   $insertsale = $mysqli->query("INSERT INTO `tempsales`
-          ( `barcode`,
-            `quantity`,
+          ( `quantity`,
             `quantitydb`,
             `price`,
             `genid`,
             `datetime`,
             `prodid`)
           VALUES (
-            '$barcode',
             '1',
           '$quantitydb',
           '$sellingprice',

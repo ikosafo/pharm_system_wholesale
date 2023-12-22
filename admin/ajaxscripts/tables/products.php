@@ -71,7 +71,7 @@
                 data: 'sellingprice'
             },
             {
-                data: 'variation'
+                data: 'variations'
             },
             {
                 data: 'action'

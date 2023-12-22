@@ -30,7 +30,7 @@ include('functions.php');
                 </div>
                 <div class="avatar bg-light-primary p-50 m-0">
                   <div class="avatar-content">
-                    <i data-feather="shopping-bag" style="width: 22px;height:22px"></i>
+                    <i data-feather="shopping-cart" style="width: 22px;height:22px"></i>
                   </div>
                 </div>
               </div>
@@ -43,7 +43,7 @@ include('functions.php');
                   <h2 class="fw-bolder mb-0">
                     <?php
                     // Get total sales in a day
-                    $getthreshold = $mysqli->query("select * from products where  stockthreshold > quantitysale");
+                    $getthreshold = $mysqli->query("select * from products where  stockthreshold > quantity");
                     echo mysqli_num_rows($getthreshold);
                     ?>
                   </h2>
@@ -110,7 +110,7 @@ include('functions.php');
                         <?php
 
                         if ($perm == '1') {
-                          echo $fullname =  "Admin";
+                          echo $username;
                         } else {
                           //get full name
                           $getfullname = $mysqli->query("select * from staff where username = '$username'");

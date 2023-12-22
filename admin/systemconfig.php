@@ -42,6 +42,14 @@ $random = rand(1, 10) . date("Y-m-d");
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="mb-1">
+                            <label class="form-label" for="whatsapp">Whatsapp Number</label>
+                            <input type="text" id="whatsapp" class="form-control" placeholder="Whatsapp" aria-label="whatsapp" required />
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please enter whatsapp number</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-1">
                             <label class="form-label" for="emailaddress">Email Address</label>
                             <input type="email" id="emailaddress" class="form-control" placeholder="Email Address" aria-label="telephone" />
                             <div class="valid-feedback">Looks good!</div>
@@ -332,6 +340,7 @@ $random = rand(1, 10) . date("Y-m-d");
         var tagline = $("#tagline").val();
         var telephone = $("#telephone").val();
         var emailaddress = $("#emailaddress").val();
+        var whatsapp = $("#whatsapp").val();
         var currency = $("#currency").val();
         var address = $("#address").val();
         var address = $("#address").val();
@@ -347,10 +356,10 @@ $random = rand(1, 10) . date("Y-m-d");
             error += "Please enter company's name \n";
             $("#companyname").focus();
         }
-        if (tagline == "") {
+        /* if (tagline == "") {
             error += 'Please enter company tagline \n';
             $("#tagline").focus();
-        }
+        } */
         if (telephone == "") {
             error += 'Please enter telephone \n';
             $("#telephone").focus();
@@ -395,6 +404,7 @@ $random = rand(1, 10) . date("Y-m-d");
                     companyname: companyname,
                     tagline: tagline,
                     telephone: telephone,
+                    whatsapp: whatsapp,
                     emailaddress: emailaddress,
                     currency: currency,
                     address: address,

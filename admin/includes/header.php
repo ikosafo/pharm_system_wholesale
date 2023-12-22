@@ -1,7 +1,4 @@
 <?php
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 /* db connection */
 include('config.php');
 
@@ -9,14 +6,15 @@ $username = $_SESSION['username'];
 
 $getmainuser = $mysqli->query("select * from system_config where username = '$username'");
 if (mysqli_num_rows($getmainuser) == '1') {
-  $perm = '1';
   $user_id = '';
+  $perm = '1';
 } else {
   $getuserid = $mysqli->query("select * from staff where username = '$username'");
   $resuserid = $getuserid->fetch_assoc();
   $user_id = $resuserid['stid'];
   $perm = '2';
 }
+
 
 
 if (!isset($_SESSION['username'])) {
@@ -86,7 +84,7 @@ function getCompNameHeader($text)
   <meta name="author" content="">
   <title>Point of Sale System</title>
   <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.html">
-  <link rel="shortcut icon" type="image/x-icon" href="./admin/<?php echo getLogo(); ?>">
+  <link rel="shortcut icon" type="image/x-icon" href="<?php echo getLogo(); ?>">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
   <!-- BEGIN: Vendor CSS-->
@@ -213,7 +211,7 @@ function getCompNameHeader($text)
           </div>
         </li>
 
-        <li class="nav-item dropdown dropdown-notification me-25">
+        <!--   <li class="nav-item dropdown dropdown-notification me-25">
           <a class="nav-link" href="#" data-bs-toggle="dropdown">
             <i class="ficon" data-feather="bell"></i>
             <span class="badge rounded-pill bg-danger badge-up">0</span></a>
@@ -235,11 +233,23 @@ function getCompNameHeader($text)
             </li>
             <li class="dropdown-menu-footer"><a class="btn btn-primary w-100" href="#">Read all notifications</a></li>
           </ul>
-        </li>
+        </li> -->
         <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">
-                🎉 Welcome <?php echo $username; ?>
-              </span><span class="user-status">Admin</span></div><span class="avatar"></span>
+                🎉 Welcome <span style="text-transform: uppercase;"><?php echo $username; ?></span>
+              </span><span class="user-status">
+                <?php
+                if ($perm == '1') {
+                  echo $fullname = "Admin";
+                } else {
+                  $getfullname = $mysqli->query("select * from staff where username = '$username'");
+                  $resfullname = $getfullname->fetch_assoc();
+                  $fullname = $resfullname['fullname'];
+                  echo "Staff";
+                }
+
+                ?>
+              </span></div><span class="avatar"></span>
           </a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
             <a class="dropdown-item" href="profile"><i class="me-50" data-feather="user"></i> Profile</a>
@@ -306,10 +316,6 @@ function getCompNameHeader($text)
                   <a class="d-flex align-items-center" href="viewproducts"><i data-feather="circle"></i>
                     <span class="menu-item text-truncate">View Products</span></a>
                 </li>
-                <li class="<?php echo ($_SERVER['PHP_SELF'] == "/pricelists.php" ? "active" : ""); ?>">
-                  <a class="d-flex align-items-center" href="pricelists"><i data-feather="circle"></i>
-                    <span class="menu-item text-truncate">Price Lists</span></a>
-                </li>
                 <li class="<?php echo ($_SERVER['PHP_SELF'] == "/searchproducts.php" ? "active" : ""); ?>">
                   <a class="d-flex align-items-center" href="searchproducts"><i data-feather="circle"></i>
                     <span class="menu-item text-truncate">Search Products</span></a>
@@ -328,25 +334,6 @@ function getCompNameHeader($text)
                 <li class="<?php echo ($_SERVER['PHP_SELF'] == "/viewnewarrivals.php" ? "active" : ""); ?>">
                   <a class="d-flex align-items-center" href="viewnewarrivals"><i data-feather="circle"></i>
                     <span class="menu-item text-truncate">View New Arrivals</span></a>
-                </li>
-
-              <?php }
-
-              $getpermission = $mysqli->query("select * from userpermission where userid = '$user_id' 
-                and permission = 'Categories, Subcategories and Variations'");
-              if (mysqli_num_rows($getpermission) == '1' || $perm == '1') { ?>
-
-                <li class="<?php echo ($_SERVER['PHP_SELF'] == "/addprodcategory.php" ? "active" : ""); ?>">
-                  <a class="d-flex align-items-center" href="addprodcategory"><i data-feather="circle"></i>
-                    <span class="menu-item text-truncate">Categories</span></a>
-                </li>
-                <li class="<?php echo ($_SERVER['PHP_SELF'] == "/addsubprodcategory.php" ? "active" : ""); ?>">
-                  <a class="d-flex align-items-center" href="addsubprodcategory"><i data-feather="circle"></i>
-                    <span class="menu-item text-truncate">Subcategories</span></a>
-                </li>
-                <li class="<?php echo ($_SERVER['PHP_SELF'] == "/variations.php" ? "active" : ""); ?>">
-                  <a class="d-flex align-items-center" href="variations"><i data-feather="circle"></i>
-                    <span class="menu-item text-truncate">Variations</span></a>
                 </li>
 
               <?php } ?>
@@ -510,7 +497,7 @@ function getCompNameHeader($text)
         // Get Permissions
 
         $getpermission = $mysqli->query("select * from userpermission where userid = '$user_id' 
-            and (permission = 'Categories, Add and View Expenses'
+            and (permission = 'Add and View Expenses'
             OR permission = 'Expenses Statistics'
             )");
         if (mysqli_num_rows($getpermission) > 0 || $perm == '1') { ?>
@@ -522,14 +509,9 @@ function getCompNameHeader($text)
               // Get Permissions
 
               $getpermission = $mysqli->query("select * from userpermission where userid = '$user_id' 
-            and permission = 'Categories, Add and View Expenses'");
+            and permission = 'Add and View Expenses'");
               if (mysqli_num_rows($getpermission) == '1' || $perm == '1') { ?>
 
-
-                <li class="<?php echo ($_SERVER['PHP_SELF'] == "/addexpcategory.php" ? "active" : ""); ?>">
-                  <a class="d-flex align-items-center" href="addexpcategory"><i data-feather="circle"></i>
-                    <span class="menu-item text-truncate" data-i18n="ExCat">Categories</span></a>
-                </li>
                 <li class="<?php echo ($_SERVER['PHP_SELF'] == "/addexpense.php" ? "active" : ""); ?>">
                   <a class="d-flex align-items-center" href="addexpense"><i data-feather="circle"></i>
                     <span class="menu-item text-truncate" data-i18n="AddE">Add Expense</span></a>

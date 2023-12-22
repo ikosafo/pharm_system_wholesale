@@ -71,7 +71,7 @@ $categoryid = $_POST['categoryid'];
                 data: 'sellingprice'
             },
             {
-                data: 'variation'
+                data: 'variations'
             }
         ]
     });

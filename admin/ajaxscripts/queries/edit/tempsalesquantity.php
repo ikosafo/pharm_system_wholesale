@@ -11,8 +11,8 @@ $prodid = $resproduct['prodid'];
 
 $getprice = $mysqli->query("select * from products where prodid = '$prodid'");
 $resprice = $getprice->fetch_assoc();
-$price = $resprice['sellingpricewhole'];
-$quantitydb = $resprice['quantitysale'];
+$price = $resprice['sellingprice'];
+$quantitydb = $resprice['quantity'];
 
 $newprice = $quantity * $price;
 

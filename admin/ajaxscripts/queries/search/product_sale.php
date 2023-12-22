@@ -86,7 +86,7 @@ $product_search = $_POST['product_search'];
                 data: 'sellingprice'
             },
             {
-                data: 'variation'
+                data: 'variations'
             },
             {
                 data: 'action'

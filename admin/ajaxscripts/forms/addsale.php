@@ -15,7 +15,7 @@ $newsaleid = $_POST['newsaleid'];
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                 </div>
-                <input type="text" id="product" class="form-control" autocomplete="off" placeholder="Search product name or barcode" />
+                <input type="text" id="product" class="form-control" autocomplete="off" placeholder="Search product name" />
             </div>
         </form>
 
@@ -142,81 +142,4 @@ $newsaleid = $_POST['newsaleid'];
             }
         });
     });
-
-
-
-
-
-
-
-
-    /*  $("#product").keyup(function() {
-        var product = $("#product").val();
-        alert(product);
-
-        $.ajax({
-            type: "POST",
-            url: "ajaxscripts/queries/search/productsale.php",
-            data: {
-                productid: productid,
-                newsaleid: '<?php echo $newsaleid; ?>'
-            },
-            dataType: "html",
-            success: function(text) {
-                if (text == 2) {
-                    $("#error_loc").notify("Item already exists", "error");
-                } else {
-                    $.ajax({
-                        type: "POST",
-                        url: "ajaxscripts/forms/addsale.php",
-                        data: {
-                            newsaleid: '<?php echo $newsaleid; ?>'
-                        },
-                        beforeSend: function() {
-                            $.blockUI({
-                                message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>'
-                            });
-                        },
-                        success: function(text) {
-                            $('#pageform_div').html(text);
-                        },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status + " " + thrownError);
-                        },
-                        complete: function() {
-                            $.unblockUI();
-                        },
-                    });
-
-                    $.ajax({
-                        type: "POST",
-                        url: "ajaxscripts/tables/tempsales.php",
-                        data: {
-                            newsaleid: '<?php echo $newsaleid; ?>'
-                        },
-                        beforeSend: function() {
-                            $.blockUI({
-                                message: '<h3 style="margin-top:6px"><img src="https://jquery.malsup.com/block/busy.gif" /> Just a moment...</h3>'
-                            });
-                        },
-                        success: function(text) {
-                            $('#pagetable_div').html(text);
-                        },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status + " " + thrownError);
-                        },
-                        complete: function() {
-                            $.unblockUI();
-                        },
-
-                    });
-                }
-            },
-            complete: function() {},
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + " " + thrownError);
-            }
-        });
-    })
- */
 </script>

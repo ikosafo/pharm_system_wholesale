@@ -4,8 +4,6 @@ include('../../../config.php');
 include('../../../functions.php');
 
 $datetime = date("Y-m-d");
-$categoryid = @$_GET['categoryid'];
-$subcategoryid = @$_GET['subcategoryid'];
 $expirydate = @$_GET['expirydate'];
 $quantity = @$_GET['quantity'];
 $supplier = @$_GET['supplier'];
@@ -24,64 +22,15 @@ $searchQuery = " ";
 if ($searchValue != '') {
     $searchQuery = " and (productname like '%" . $searchValue . "%' or 
    expirydate like '%" . $searchValue . "%' or
-   quantitysale like '%" . $searchValue . "%' or 
-   quantitystock like '%" . $searchValue . "%' or
-   variation1spec like '%" . $searchValue . "%' or
-   variation2spec like '%" . $searchValue . "%' or
-   variation3spec like '%" . $searchValue . "%' or
+   quantity like '%" . $searchValue . "%' or
+   variations like '%" . $searchValue . "%' or
    sellingprice like '%" . $searchValue . "%' or
    username like '%" . $searchValue . "%') ";
 }
 
 
-//Search for Category
-if ($categoryid != "") {
-
-    ## Total number of records without filtering
-    $sel = mysqli_query($mysqli, "select count(*) as allcount from products where category = '$categoryid' 
-                                            AND status IS NULL");
-    $records = mysqli_fetch_assoc($sel);
-    $totalRecords = $records['allcount'];
-
-    ## Total number of record with filtering
-    $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE category = '$categoryid' 
-                                                AND status IS NULL AND 1 " . $searchQuery);
-    $records = mysqli_fetch_assoc($sel);
-    $totalRecordwithFilter = $records['allcount'];
-
-    ## Fetch records
-    $empQuery = "select * from products WHERE category = '$categoryid' 
-                                                AND status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
-    $empRecords = mysqli_query($mysqli, $empQuery);
-    $data = array();
-}
-
-
-//Search for Subcategory
-else if ($subcategoryid != "") {
-
-    ## Total number of records without filtering
-    $sel = mysqli_query($mysqli, "select count(*) as allcount from products where subcategory = '$subcategoryid' 
-                                            AND status IS NULL");
-    $records = mysqli_fetch_assoc($sel);
-    $totalRecords = $records['allcount'];
-
-    ## Total number of record with filtering
-    $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE subcategory = '$subcategoryid' 
-                                                AND status IS NULL AND 1 " . $searchQuery);
-    $records = mysqli_fetch_assoc($sel);
-    $totalRecordwithFilter = $records['allcount'];
-
-    ## Fetch records
-    $empQuery = "select * from products WHERE subcategory = '$subcategoryid' 
-                                                AND status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
-    $empRecords = mysqli_query($mysqli, $empQuery);
-    $data = array();
-}
-
-
 // Search for Expiry date
-else if ($expirydate != "") {
+if ($expirydate != "") {
 
     if ($expirydate == "Expired") {
 
@@ -206,73 +155,73 @@ else if ($quantity != "") {
 
         ## Total number of records without filtering
         $sel = mysqli_query($mysqli, "select count(*) as allcount from products where 
-                                         `quantitysale` ='0' AND status IS NULL");
+                                         `quantity` ='0' AND status IS NULL");
         $records = mysqli_fetch_assoc($sel);
         $totalRecords = $records['allcount'];
 
         ## Total number of record with filtering
         $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE 
-                                        `quantitysale` ='0' AND status IS NULL AND 1 " . $searchQuery);
+                                        `quantity` ='0' AND status IS NULL AND 1 " . $searchQuery);
         $records = mysqli_fetch_assoc($sel);
         $totalRecordwithFilter = $records['allcount'];
 
         ## Fetch records
-        $empQuery = "select * from products WHERE `quantitysale` ='0' AND status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
+        $empQuery = "select * from products WHERE `quantity` ='0' AND status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
         $empRecords = mysqli_query($mysqli, $empQuery);
         $data = array();
     } else if ($quantity == "Less than threshold") {
 
         ## Total number of records without filtering
-        $sel = mysqli_query($mysqli, "select count(*) as allcount from products where `quantitysale` < `stockthreshold` 
+        $sel = mysqli_query($mysqli, "select count(*) as allcount from products where `quantity` < `stockthreshold` 
                                         AND status IS NULL");
         $records = mysqli_fetch_assoc($sel);
         $totalRecords = $records['allcount'];
 
         ## Total number of record with filtering
-        $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE `quantitysale` < `stockthreshold` 
+        $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE `quantity` < `stockthreshold` 
                                         AND status IS NULL AND 1 " . $searchQuery);
         $records = mysqli_fetch_assoc($sel);
         $totalRecordwithFilter = $records['allcount'];
 
         ## Fetch records
-        $empQuery = "select * from products WHERE `quantitysale` < `stockthreshold` AND 
+        $empQuery = "select * from products WHERE `quantity` < `stockthreshold` AND 
                         status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
         $empRecords = mysqli_query($mysqli, $empQuery);
         $data = array();
     } else if ($quantity == "More than threshold") {
 
         ## Total number of records without filtering
-        $sel = mysqli_query($mysqli, "select count(*) as allcount from products where `quantitysale` > `stockthreshold` 
+        $sel = mysqli_query($mysqli, "select count(*) as allcount from products where `quantity` > `stockthreshold` 
             AND status IS NULL");
         $records = mysqli_fetch_assoc($sel);
         $totalRecords = $records['allcount'];
 
         ## Total number of record with filtering
-        $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE `quantitysale` > `stockthreshold`
+        $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE `quantity` > `stockthreshold`
                     AND status IS NULL AND 1 " . $searchQuery);
         $records = mysqli_fetch_assoc($sel);
         $totalRecordwithFilter = $records['allcount'];
 
         ## Fetch records
-        $empQuery = "select * from products WHERE `quantitysale` > `stockthreshold` AND 
+        $empQuery = "select * from products WHERE `quantity` > `stockthreshold` AND 
             status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
         $empRecords = mysqli_query($mysqli, $empQuery);
         $data = array();
     } else {
         ## Total number of records without filtering
-        $sel = mysqli_query($mysqli, "select count(*) as allcount from products where `quantitystock` > 0
+        $sel = mysqli_query($mysqli, "select count(*) as allcount from products where `quantity` > 0
         AND status IS NULL");
         $records = mysqli_fetch_assoc($sel);
         $totalRecords = $records['allcount'];
 
         ## Total number of record with filtering
-        $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE `quantitystock` > 0 
+        $sel = mysqli_query($mysqli, "select count(*) as allcount from products WHERE `quantity` > 0 
                 AND status IS NULL AND 1 " . $searchQuery);
         $records = mysqli_fetch_assoc($sel);
         $totalRecordwithFilter = $records['allcount'];
 
         ## Fetch records
-        $empQuery = "select * from products WHERE `quantitystock` > 0 AND 
+        $empQuery = "select * from products WHERE `quantity` > 0 AND 
         status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
         $empRecords = mysqli_query($mysqli, $empQuery);
         $data = array();
@@ -295,8 +244,7 @@ if ($supplier != "") {
     $totalRecordwithFilter = $records['allcount'];
 
     ## Fetch records
-    $empQuery = "select * from products WHERE supplier = '$supplier' 
-                                                AND status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
+    $empQuery = "select * from products WHERE supplier = '$supplier' AND status IS NULL AND 1 " . $searchQuery . " order by productname limit " . $row . "," . $rowperpage;
     $empRecords = mysqli_query($mysqli, $empQuery);
     $data = array();
 }
@@ -308,8 +256,8 @@ while ($row = mysqli_fetch_assoc($empRecords)) {
         "product" => getProdName($row['prodid']),
         "quantity" => getQuantity($row['prodid']),
         "expirydate" => getExpiryDate($row['expirydate']),
-        "sellingprice" => $row['sellingpricewhole'],
-        "variation" => $row['variation1spec']
+        "sellingprice" => $row['sellingprice'],
+        "variations" => $row['variations']
     );
 }
 

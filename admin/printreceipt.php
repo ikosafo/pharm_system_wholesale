@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ressale = $getsale->fetch_assoc();
     $salesid = $ressale['salesid'];
     $customer = $ressale['customer'];
+    $telephone = $ressale['telephone'];
     $amountpaid = $ressale['amountpaid'];
     $totalprice = $ressale['totalprice'];
     $change = $ressale['change'];
@@ -57,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Redirect if the URL is still the same (print dialog was cancelled)
             window.location.href = "/todaysales";
         }
-    }, 500); // Adjust the timeout duration as needed
+    }, 10500); // Adjust the timeout duration as needed
 </script>
 
 
@@ -146,18 +147,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2">
                         <div>
-                            <div class="d-flex mb-1" style="display: flex;">
-                                <img src="../../../<?php echo getLogo(); ?>" style="width:10%;height:10%" />
+                            <div class="d-flex" style="display: flex; gap:10px">
+                                <div>
+                                    <img src="../../../<?php echo getLogo(); ?>" style="width:65px;height:65px">
+                                </div>
+
                                 <div class="mt-1">
-                                    <h4 class="text-primary fw-bold ms-1"><?php echo getCompanyName(); ?></h4>
+                                    <h4 class="text-primary fw-bold"><?php echo getCompanyName(); ?></h4>
+                                    <p class="mb-25" style="margin-top: -9px;"><?php echo getCompanyTagline(); ?></p>
                                 </div>
                             </div>
-                            <p class="mb-25"><?php echo getCompanyTagline(); ?></p>
-                            <p class="mb-25"><?php echo getCompanyAddress(); ?></p>
-                            <p class="mb-0">Tel: <?php echo getCompanyTelephone(); ?></p>
+
+                            <div class="mt-1">
+                                <p class="mb-0">Address: <?php echo getCompanyAddress(); ?></p>
+                                <p class="mb-0">Tel: <?php echo getCompanyTelephone(); ?></p>
+                                <p class="mb-0">Email: <?php echo getCompanyEmail(); ?></p>
+                                <p class="mb-0">Whatsapp: <?php echo getCompanyWhatsapp(); ?></p>
+                            </div>
+
                         </div>
-                        <div class="mt-md-0 mt-3">
-                            <h4 class="fw-bold mt-5">INVOICE <?php echo $invoiceid ?></h4>
+
+                        <div class="mt-md-0 mt-1">
+                            <h4 class="fw-bold mt-1">INVOICE <?php echo $invoiceid ?></h4>
                             <div class="invoice-date-wrapper mb-25">
                                 <span class="invoice-date-title">Date Issued:</span>
                                 <span class="fw-bold">
@@ -174,12 +185,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     ?>
                                 </span>
                             </div>
-                            <div class="invoice-date-wrapper mb-25">
-                                <span class="invoice-date-title">Customer:</span>
-                                <span class="fw-bold">
-                                    <?php echo $customer; ?>
-                                </span>
-                            </div>
+                            <hr>
+                            <p class="mb-25">Customer: <span class="fw-bold"><?php echo $customer; ?></span></p>
+                            <p class="mb-25">Telephone: <span class="fw-bold"><?php echo $telephone; ?></span></p>
                         </div>
                     </div>
 
@@ -218,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <?php
                                             $getvariation = $mysqli->query("select * from products where productname = '$productname'");
                                             $resvariation = $getvariation->fetch_assoc();
-                                            echo $resvariation['variation1spec'];
+                                            echo $resvariation['variations'];
                                             ?>
                                         </td>
                                         <td class="py-1">

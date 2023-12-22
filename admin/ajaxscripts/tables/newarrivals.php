@@ -67,7 +67,7 @@
                 data: 'costprice'
             },
             {
-                data: 'sellingpricewhole'
+                data: 'sellingprice'
             },
             {
                 data: 'supplier'

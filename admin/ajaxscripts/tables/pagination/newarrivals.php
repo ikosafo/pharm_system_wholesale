@@ -17,12 +17,10 @@ $searchQuery = " ";
 if ($searchValue != '') {
    $searchQuery = " and (productname like '%" . $searchValue . "%' or 
    expirydate like '%" . $searchValue . "%' or
-   quantitysale like '%" . $searchValue . "%' or 
-   quantitystock like '%" . $searchValue . "%' or
+   quantity like '%" . $searchValue . "%' or 
    supplier like '%" . $searchValue . "%' or
    costprice like '%" . $searchValue . "%' or
    sellingprice like '%" . $searchValue . "%' or
-   sellingpricewhole like '%" . $searchValue . "%' or
    username like '%" . $searchValue . "%') ";
 }
 
@@ -47,7 +45,7 @@ while ($row = mysqli_fetch_assoc($empRecords)) {
       "quantity" => getQuantityNewArrival($row['newarrid']),
       "expirydate" => getExpiryDate($row['expirydate']),
       "costprice" => $row['costprice'],
-      "sellingpricewhole" => $row['sellingpricewhole'],
+      "sellingprice" => $row['sellingprice'],
       "supplier" => $row['supplier'],
    );
 }
