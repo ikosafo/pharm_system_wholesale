@@ -539,8 +539,8 @@ function getProdName($id)
     $resname = $getname->fetch_assoc();
     $productname = $resname['productname'];
     $salestatus = $resname['salestatus'];
-    $category = getcategoryname($resname['category']);
-    $subcategory = subcategoryName($resname['subcategory']);
+    /* $category = getcategoryname($resname['category']);
+    $subcategory = subcategoryName($resname['subcategory']); */
 
     return '<div>
         <div class="fw-bolder">' . $productname . '</div>
@@ -564,7 +564,6 @@ function getQuantity($id)
     $getname = $mysqli->query("select * from products where prodid = '$id'");
     $resname = $getname->fetch_assoc();
     $quantitysale = $resname['quantity'];
-    $quantitystock = $resname['quantitystock'];
     $stockthreshold = $resname['stockthreshold'];
 
     if ($stockthreshold == $quantitysale) {
@@ -576,8 +575,7 @@ function getQuantity($id)
     }
 
     return '<div class="d-flex flex-column text-center">
-                <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $quantitysale . ' in stock</span>
-                <span class="font-small-2 text-muted">' . $quantitystock . ' in warehouse</span>
+                <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $quantitysale . '</span>
              </div>';
     /* return 'For sale: <span class="badge ' . $colorbadge . ' me-1">' . $quantitysale . '</span> <br/>
      <small>In Stock:  <span class="badge badge-light-secondary me-1">' . $quantitystock . '</span></small>'; */
@@ -591,12 +589,10 @@ function getQuantityNewArrival($id)
 
     $getname = $mysqli->query("select * from newarrivals where newarrid = '$id'");
     $resname = $getname->fetch_assoc();
-    $quantitysale = $resname['quantitysale'];
-    $quantitystock = $resname['quantitystock'];
+    $quantitysale = $resname['quantity'];
 
     return '<div class="d-flex flex-column text-center">
-                <span class="badge badge-light-primary fw-bolder mb-25">' . $quantitysale . ' in stock</span>
-                <span class="font-small-2 text-muted">' . $quantitystock . ' in warehouse</span>
+                <span class="badge badge-light-primary fw-bolder mb-25">' . $quantitysale . '</span>
              </div>';
 }
 
