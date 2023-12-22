@@ -466,7 +466,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="https://admin.godswisdompharmacy.com">
+                            <a href="https://admin.godswisdompharmacy.com" target="_blank">
                                 <i class="ri-arrow-right-s-line"></i>
                                 Admin
                             </a>
