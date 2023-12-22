@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-xl-7 col-lg-6">
                         <div class="hero-img-wrap">
-                            <img class="hero-img" src="assets/img/custom/ph3.jpg" alt="Image">
+                            <img class="hero-img" src="assets/img/custom/ph2.jpg" alt="Image">
                             <img src="assets/img/hero/hero-shape-1.png" alt="Image" class="hero-shape-one moveHorizontal">
                             <img src="assets/img/hero/hero-shape-2.png" alt="Image" class="hero-shape-two rotate">
                             <div class="row promo-box-wrap">
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-xl-7 col-lg-6">
                         <div class="hero-img-wrap">
-                            <img class="hero-img" src="assets/img/custom/ph2.jpg" alt="Image">
+                            <img class="hero-img" src="assets/img/custom/ph4.jpg" alt="Image">
                             <img src="assets/img/hero/hero-shape-1.png" alt="Image" class="hero-shape-one moveHorizontal">
                             <img src="assets/img/hero/hero-shape-2.png" alt="Image" class="hero-shape-two rotate">
                             <div class="row promo-box-wrap">
@@ -199,7 +199,7 @@
         <div class="row gx-5 align-items-center">
             <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1200" data-aos-delay="200">
                 <div class="about-img-wrap">
-                    <img src="assets/img/custom/ph1.jpg" alt="Image" class="about-img-one">
+                    <img src="assets/img/custom/ph4.jpg" alt="Image" class="about-img-one">
                     <img src="assets/img/custom/ph2.jpg" alt="Image" class="about-img-two">
                     <div class="about-doctor-box" style="z-index: 99999;">
                         <div class="doctor-info">
@@ -363,7 +363,7 @@
                 <div class="footer-widget">
                     <a href="/" class="footer-logo" style="width:80%; 
                     background-color:#fff;border-radius:5px">
-                        <img src="assets/img/custom/logo.png" alt="Image">
+                        <img src="assets/img/custom/godswisdomlogo.png" alt="Image">
                     </a>
                     <p class="comp-desc">
                         Your premier destination for top-quality pharmaceutical distribution.
@@ -466,7 +466,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="https://admin.godswisdompharmacy.com" target="_blank">
+                            <a target="_blank" href="https://admin.godswisdompharmacy.com">
                                 <i class="ri-arrow-right-s-line"></i>
                                 Admin
                             </a>

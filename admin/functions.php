@@ -577,8 +577,6 @@ function getQuantity($id)
     return '<div class="d-flex flex-column text-center">
                 <span class="badge ' . $colorbadge . ' fw-bolder mb-25">' . $quantitysale . '</span>
              </div>';
-    /* return 'For sale: <span class="badge ' . $colorbadge . ' me-1">' . $quantitysale . '</span> <br/>
-     <small>In Stock:  <span class="badge badge-light-secondary me-1">' . $quantitystock . '</span></small>'; */
 }
 
 
