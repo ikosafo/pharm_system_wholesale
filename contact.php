@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="number" name="phone" id="phone" required="" placeholder="Phone Number*" data-error="Please enter your email">
+                                        <input type="number" name="phone" id="phone" required="" placeholder="Phone Number*" data-error="Please enter your phone number">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn style1 disabled" style="pointer-events: all; cursor: pointer;">Send Message</button>
+                                    <button type="submit" class="btn style1 disabled" id="savecontactbtn" style="pointer-events: all; cursor: pointer;">Send Message</button>
                                     <div id="msgSubmit" class="h3 text-center hidden"></div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -133,3 +133,43 @@
 
 
 <?php include('./includes/footer.php'); ?>
+
+
+<script>
+    $("#savecontactbtn").click(function() {
+        // Get values from input fields
+        var fullname = $("#name").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+        var msg_subject = $("#msg_subject").val();
+        var message = $("#message").val();
+        var checkboxValue = $("input[name='gridCheck']:checked").val();
+
+        // Check if any of the fields are empty
+        if (!fullname || !email || !phone || !msg_subject || !message || !checkboxValue) {
+            alert('Please fill in all fields before submitting.');
+            return;
+        }
+
+        // If all fields are filled, proceed with AJAX call
+        $.ajax({
+            type: "POST",
+            url: "savemessage.php",
+            data: {
+                fullname,
+                email,
+                phone,
+                msg_subject,
+                message,
+                checkboxValue
+            },
+            success: function(text) {
+                alert('Thank you for your message. We appreciate your inquiry and will get back to you shortly.');
+                window.location.reload();
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + " " + thrownError);
+            },
+        });
+    });
+</script>
