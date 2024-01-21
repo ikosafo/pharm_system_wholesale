@@ -1,4 +1,5 @@
-<?php include('./includes/header.php'); ?>
+<?php include('./includes/header.php');
+?>
 
 
 <!-- Content Wrapper Start -->
@@ -29,9 +30,9 @@
                         </span>
                         <div class="contact-info">
                             <h3>Visit Us Anytime</h3>
-                            <!--  <p>
+                            <p>
                                 <?php echo $companyaddress = getCompanyAddress(); ?>
-                            </p> -->
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -53,6 +54,10 @@
                         </span>
                         <div class="contact-info">
                             <h3>Call Center</h3>
+                            <p>
+                                <?php echo getCompanyTelephone(); ?> <br />
+                                <?php echo getCompanyTelephone(); ?>
+                            </p>
 
                         </div>
                     </div>
