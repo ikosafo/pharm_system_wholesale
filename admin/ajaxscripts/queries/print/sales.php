@@ -15,15 +15,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $paymentmethod = $_POST['paymentmethod'];
 
     //Get invoice ID
-    $getsale = $mysqli->query("select * from sales where newsaleid = '$newsaleid'");
-    $ressale = $getsale->fetch_assoc();
-    $salesid = $ressale['salesid'];
-    $customer = $ressale['customer'];
-    $telephone = $ressale['telephone'];
-    $date = substr($ressale['datetime'], 0, 10);
-    $length = 5;
-    $string = substr(str_repeat(0, $length) . $salesid, -$length);
-    $invoiceid = $string . '' . date('y');
+    $getsale = $mysqli->query("SELECT * FROM sales WHERE newsaleid = '$newsaleid'");
+
+    // Check if the query was successful and if it returned any rows
+    if ($getsale && $getsale->num_rows > 0) {
+        $ressale = $getsale->fetch_assoc();
+
+        // Now, you can safely access the array offsets
+        $salesid = $ressale['salesid'];
+        $customer = $ressale['customer'];
+        $telephone = $ressale['telephone'];
+        $date = substr($ressale['datetime'], 0, 10);
+
+        $length = 5;
+        $string = substr(str_repeat(0, $length) . $salesid, -$length);
+        $invoiceid = $string . '' . date('y');
+    } else {
+        // Handle the case where no results were found
+        // You can set default values, log an error, or take appropriate action
+        $salesid = $customer = $telephone = $date = $invoiceid = "";
+    }
+
     $getitems = $mysqli->query("select * from tempsales where genid = '$newsaleid'");
 
     // Now you can use these values as needed on the new page

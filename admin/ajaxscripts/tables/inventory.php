@@ -40,7 +40,7 @@ $getproducts = $mysqli->query("select * from products where STATUS IS NULL ORDER
                                 </td>
                                 <td><?php echo $resproducts['expirydate'] ?></td>
                                 <td>
-                                    Supplier: <?php echo getSupplierName($resproducts['supplier']); ?> <br />
+                                    Supplier: <?php echo $resproducts['supplier']; ?> <br />
                                     Cost Price: <?php echo $resproducts['costprice']; ?> <br />
                                     Selling Price: <?php echo $resproducts['sellingprice']; ?>
                                 </td>

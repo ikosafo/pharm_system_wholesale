@@ -126,6 +126,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 10px;
             padding-bottom: 5px;
         }
+
+        .py-1 {
+            padding-top: 0.3rem !important;
+            padding-bottom: 0.3rem !important;
+        }
+
+        * {
+            font-size: 10px;
+        }
+
+        table {
+            padding: 8px;
+        }
+
+        table td,
+        table th {
+            padding: 8px;
+        }
     </style>
 
 
@@ -145,16 +163,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="header mb-3">
                         <h2>Sales Receipt</h2>
                     </div>
-                    <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2">
+                    <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2" style="margin-top: -33px;">
                         <div>
-                            <div class="d-flex" style="display: flex; gap:10px">
+                            <div class="d-flex align-items-center" style="display: flex; gap: 10px">
                                 <div>
-                                    <img src="../../../<?php echo getLogo(); ?>" style="width:65px;height:65px">
+                                    <img src="../../../<?php echo getLogo(); ?>" style="width: 30px; height: 30px">
                                 </div>
 
                                 <div class="mt-1">
-                                    <h4 class="text-primary fw-bold"><?php echo getCompanyName(); ?></h4>
-                                    <p class="mb-25" style="margin-top: -9px;"><?php echo getCompanyTagline(); ?></p>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4 class="text-primary fw-bold"><?php echo getCompanyName(); ?></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mb-25" style="margin-top: -9px;text-transform:capitalize"><?php echo getCompanyTagline(); ?></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -168,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="mt-md-0 mt-1">
-                            <h4 class="fw-bold mt-1">INVOICE <?php echo $invoiceid ?></h4>
+                            <h5 class="fw-bold mt-1">INVOICE <?php echo $invoiceid ?></h5>
                             <div class="invoice-date-wrapper mb-25">
                                 <span class="invoice-date-title">Date Issued:</span>
                                 <span class="fw-bold">
@@ -186,8 +212,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </span>
                             </div>
                             <hr>
-                            <p class="mb-25">Customer: <span class="fw-bold"><?php echo $customer; ?></span></p>
-                            <p class="mb-25">Telephone: <span class="fw-bold"><?php echo $telephone; ?></span></p>
+                            <div class="mt-1" style="margin-top:30px">
+                                <p class="mb-0">Customer: <span class="fw-bold"><?php echo $customer; ?></span></p>
+                                <p class="mb-0">Telephone: <span class="fw-bold"><?php echo $telephone; ?></span></p>
+                            </div>
+
                         </div>
                     </div>
 
@@ -226,10 +255,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </td>
                                         <td>
                                             <?php
-                                            $getvariation = $mysqli->query("select * from products where productname = '$cleaned_product'");
-                                            $resvariation = $getvariation->fetch_assoc();
-                                            echo $resvariation['variations'];
+                                            $getvariation = $mysqli->query("SELECT * FROM products WHERE productname = '$cleaned_product'");
+
+                                            // Check if the query was successful and if it returned any rows
+                                            if ($getvariation && $getvariation->num_rows > 0) {
+                                                $resvariation = $getvariation->fetch_assoc();
+
+                                                // Check if the key exists before accessing it
+                                                $variations = isset($resvariation['variations']) ? $resvariation['variations'] : '';
+
+                                                echo $variations;
+                                            } else {
+                                                // Handle the case where no results were found
+                                                // You can set a default value, log an error, or take appropriate action
+                                                echo "No variations found";
+                                            }
                                             ?>
+
                                         </td>
                                         <td class="py-1">
                                             <?php echo $resitems['quantity']; ?>

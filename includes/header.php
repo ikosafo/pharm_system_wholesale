@@ -141,13 +141,13 @@
                             </div>
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item">
-                                    <a href="/" class="nav-link active">
+                                    <a href="/" class="nav-link  <?php echo (strpos($_SERVER['PHP_SELF'], "index.php") !== false ? "active" : ""); ?>">
                                         Home
                                     </a>
 
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="#" class="nav-link <?php echo ($_SERVER['PHP_SELF'] == "/about_company.php" ? "active" : ""); ?>">
                                         About Us
                                         <i class="ri-arrow-down-s-line"></i>
                                     </a>
@@ -164,7 +164,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="#" class="nav-link <?php echo ($_SERVER['PHP_SELF'] == "/services.php" ? "active" : ""); ?>">
                                         Services
                                         <i class="ri-arrow-down-s-line"></i>
                                     </a>
@@ -181,7 +181,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="#" class="nav-link <?php echo ($_SERVER['PHP_SELF'] == "/products.php" ? "active" : ""); ?>">
                                         Products
                                         <i class="ri-arrow-down-s-line"></i>
                                     </a>
@@ -199,7 +199,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="contact" class="nav-link">Contact Us</a>
+                                    <a href="contact" class="nav-link <?php echo ($_SERVER['PHP_SELF'] == "/contact.php" ? "active" : ""); ?>">Contact Us</a>
                                 </li>
                                 <li class="nav-item d-lg-none">
                                     <a href="#" class="nav-link btn style1">Call Now</a>

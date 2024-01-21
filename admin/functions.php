@@ -684,10 +684,18 @@ function getCustomerName($id)
 function getSupplierName($id)
 {
     global $mysqli;
-    $getname = $mysqli->query("select * from supplier where supid = '$id'");
-    $resname = $getname->fetch_assoc();
-    return $resname["fullname"];
+    $getname = $mysqli->query("SELECT * FROM supplier WHERE supid = '$id'");
+
+    // Check if the query was successful and if it returned any rows
+    if ($getname && $getname->num_rows > 0) {
+        $resname = $getname->fetch_assoc();
+        return $resname["fullname"];
+    } else {
+        // Handle the case where no results were found
+        return "Supplier Not Found";
+    }
 }
+
 
 function getStaffName($id)
 {
@@ -700,10 +708,18 @@ function getStaffName($id)
 function getProductName($id)
 {
     global $mysqli;
-    $getname = $mysqli->query("select * from products where prodid = '$id'");
-    $resname = $getname->fetch_assoc();
-    return $resname["productname"];
+    $getname = $mysqli->query("SELECT * FROM products WHERE prodid = '$id'");
+
+    // Check if the query was successful and if it returned any rows
+    if ($getname && $getname->num_rows > 0) {
+        $resname = $getname->fetch_assoc();
+        return $resname["productname"];
+    } else {
+        // Handle the case where no results were found
+        return "Product Not Found";
+    }
 }
+
 
 //Get expense category name
 function getexpcategoryname($id)
@@ -719,7 +735,14 @@ function getLogname($user)
 {
     global $mysqli;
 
-    $getname = $mysqli->query("select * from staff where username = '$user'");
-    $resname = $getname->fetch_assoc();
-    return $resname['fullname'];
+    $getname = $mysqli->query("SELECT * FROM staff WHERE username = '$user'");
+
+    // Check if the query was successful and if it returned any rows
+    if ($getname && $getname->num_rows > 0) {
+        $resname = $getname->fetch_assoc();
+        return $resname['fullname'];
+    } else {
+        // Handle the case where no results were found
+        return "User Not Found";
+    }
 }
