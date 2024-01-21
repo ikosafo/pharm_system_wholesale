@@ -1,76 +1,14 @@
 <?php
 
-include('../../../config.php');
-include("../../../functions.php");
+include('../../config.php');
+include("../../functions.php");
 
 //$newsaleid = $_POST['newsaleid'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $amountpaid = $_POST['amountpaid'];
-    $totalprice = $_POST['totalprice'];
-    $username = $_SESSION['username'];
-    $change = $_POST['change'];
-    $newsaleid = $_POST['newsaleid'];
-    $customer = $_POST['customer'];
-    $paymentmethod = $_POST['paymentmethod'];
+$getproduct = $mysqli->query("SELECT * FROM products");
 
-    //Get invoice ID
-    $getsale = $mysqli->query("SELECT * FROM sales WHERE newsaleid = '$newsaleid'");
-
-    // Check if the query was successful and if it returned any rows
-    if ($getsale && $getsale->num_rows > 0) {
-        $ressale = $getsale->fetch_assoc();
-
-        // Now, you can safely access the array offsets
-        $salesid = $ressale['salesid'];
-        $customer = $ressale['customer'];
-        $telephone = $ressale['telephone'];
-        $date = substr($ressale['datetime'], 0, 10);
-
-        $length = 5;
-        $string = substr(str_repeat(0, $length) . $salesid, -$length);
-        $invoiceid = $string . '' . date('y');
-    } else {
-        // Handle the case where no results were found
-        // You can set default values, log an error, or take appropriate action
-        $salesid = $customer = $telephone = $date = $invoiceid = "";
-    }
-
-    $getitems = $mysqli->query("select * from tempsales where genid = '$newsaleid'");
-
-    // Now you can use these values as needed on the new page
-
-    //echo $totalprice;
-}
 ?>
 
-<script>
-    window.print();
-
-    // Store the current URL before printing
-    var originalUrl = window.location.href;
-
-    // Add event listener for before printing
-    window.onbeforeprint = function() {
-        // Your code before printing, if needed
-    };
-
-    // Add event listener for after printing
-    window.onafterprint = function() {
-        // Redirect to a different page after printing
-        window.location.href = "/addsale";
-    };
-
-    // Handle the case where the user cancels the print dialog
-    // You can't directly detect this action using JavaScript
-    // So, you can use a timeout to check if the URL is still the same
-    var timeout = setTimeout(function() {
-        if (window.location.href === originalUrl) {
-            // Redirect if the URL is still the same (print dialog was cancelled)
-            window.location.href = "/addsale";
-        }
-    }, 1500); // Adjust the timeout duration as needed
-</script>
 
 
 
@@ -138,21 +76,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding-bottom: 5px;
         }
 
-        .py-1 {
+        h2 {
+            font-size: 18px !important;
+        }
+
+        .content-body .py-1 {
             padding-top: 0.3rem !important;
             padding-bottom: 0.3rem !important;
         }
 
-        * {
+        .content-body * {
             font-size: 10px;
         }
 
-        table {
+        .content-body table {
             padding: 8px;
         }
 
-        table td,
-        table th {
+        .content-body table td,
+        .content-body table th {
             padding: 8px;
         }
     </style>
@@ -172,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="invoice-print p-3">
 
                     <div class="header mb-3">
-                        <h2>Sales Receipt</h2>
+                        <h2>Price List</h2>
                     </div>
                     <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2" style="margin-top: -33px;">
                         <div>
@@ -205,32 +147,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="mt-md-0 mt-1">
-                            <h4 class="fw-bold mt-1">INVOICE <?php echo $invoiceid ?></h4>
+
                             <div class="invoice-date-wrapper mb-25">
-                                <span class="invoice-date-title">Date Issued:</span>
+                                <span class="invoice-date-title">Date:</span>
                                 <span class="fw-bold">
-                                    <?php echo $convertedDate = date("d-M-Y", strtotime($date)); ?>
+                                    <?php echo $convertedDate = date("d-M-Y"); ?>
                                 </span>
                             </div>
-                            <div class="invoice-date-wrapper mb-25">
-                                <span class="invoice-date-title">Attendant:</span>
-                                <span class="fw-bold" style="text-transform: uppercase;">
-                                    <?php echo $attendantname = getLogname($username);
-                                    if ($attendantname == "") {
-                                        echo $username;
-                                    }
-                                    ?>
-                                </span>
-                            </div>
-                            <hr>
-                            <p class="mb-25">Customer: <span class="fw-bold"><?php echo $customer; ?></span></p>
-                            <p class="mb-25">Telephone: <span class="fw-bold"><?php echo $telephone; ?></span></p>
                         </div>
                     </div>
 
                     <hr class="my-2">
 
-                    <div class="table-responsive mt-2">
+                    <!--  <div class="table-responsive mt-2">
                         <table class="table m-0 table-sm">
                             <thead>
                                 <tr>
@@ -248,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <?php
                                 $count = 1;
-                                while ($resitems = $getitems->fetch_assoc()) { ?>
+                                while ($resproduct = $getproduct->fetch_assoc()) { ?>
 
                                     <tr>
                                         <td style="text-align: center;">
@@ -302,7 +231,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     </div>
 
-
                     <div class="row invoice-sales-total-wrapper mt-3">
                         <div class="col-md-4 order-md-1 order-2 mt-md-0 mt-3">
                             <p class="card-text mb-50">
@@ -338,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="mt-2">We appreciate your patronage at <?php echo getCompanyName(); ?>.
                                 Your support means a lot to us. Thank you for choosing our products.</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>

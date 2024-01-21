@@ -743,6 +743,6 @@ function getLogname($user)
         return $resname['fullname'];
     } else {
         // Handle the case where no results were found
-        return "User Not Found";
+        return "";
     }
 }

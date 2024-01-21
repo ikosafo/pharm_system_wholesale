@@ -212,7 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </span>
                             </div>
                             <hr>
-                            <div class="mt-1" style="margin-top:30px">
+                            <div class="mt-1">
                                 <p class="mb-0">Customer: <span class="fw-bold"><?php echo $customer; ?></span></p>
                                 <p class="mb-0">Telephone: <span class="fw-bold"><?php echo $telephone; ?></span></p>
                             </div>
