@@ -153,16 +153,13 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Company Overview</a>
+                                            <a href="about_company" class="nav-link">Company Overview</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Mission & Values</a>
+                                            <a href="about_company#mission" class="nav-link">Mission & Values</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Our Team</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">Testimonials</a>
+                                            <a href="about_company#testimonials" class="nav-link">Testimonials</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -173,13 +170,13 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Wholesale Services</a>
+                                            <a href="services#wholesale" class="nav-link">Wholesale Services</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Logistics & Operations</a>
+                                            <a href="services#logistics" class="nav-link">Logistics & Operations</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Medical Advisory Services</a>
+                                            <a href="services#medical" class="nav-link">Medical Advisory Services</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -190,19 +187,19 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Pharmaceuticals</a>
+                                            <a href="products#pharmaceuticals" class="nav-link">Pharmaceuticals</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Medical Supplies</a>
+                                            <a href="products#medical" class="nav-link">Medical Supplies</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Health & Wellness</a>
+                                            <a href="products#health" class="nav-link">Health & Wellness</a>
                                         </li>
                                     </ul>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Contact Us</a>
+                                    <a href="contact" class="nav-link">Contact Us</a>
                                 </li>
                                 <li class="nav-item d-lg-none">
                                     <a href="#" class="nav-link btn style1">Call Now</a>
