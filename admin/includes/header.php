@@ -617,6 +617,10 @@ function getCompNameHeader($text)
           </li>
           -->
 
+        <li class="<?php echo ($_SERVER['PHP_SELF'] == "/client_messages.php" ? "active" : ""); ?> nav-item"><a class="d-flex align-items-center" href="client_messages">
+            <i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Price Rules">Client Messages</span></a>
+        </li>
+
         <?php
         $getpermission = $mysqli->query("select * from userpermission where userid = '$user_id' 
           and permission = 'Gift Cards'");

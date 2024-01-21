@@ -21,10 +21,15 @@ include('functions.php');
                   <h2 class="fw-bolder mb-0">
                     <?php
                     // Get total sales in a day
-                    $gettodaysale = $mysqli->query("select sum(totalprice) as tot from sales where SUBSTRING(datetime,1,10) = CURDATE()");
+                    $gettodaysale = $mysqli->query("SELECT SUM(totalprice) AS tot FROM sales WHERE SUBSTRING(datetime, 1, 10) = CURDATE()");
                     $ressale = $gettodaysale->fetch_assoc();
-                    echo number_format($ressale['tot'], 2);
+
+                    // Check if $ressale['tot'] is not null before using number_format
+                    $totalSales = isset($ressale['tot']) ? number_format($ressale['tot'], 2) : '0.00';
+
+                    echo $totalSales;
                     ?>
+
                   </h2>
                   <p class="card-text">Sales for Today</p>
                 </div>
