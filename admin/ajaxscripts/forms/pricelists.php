@@ -126,7 +126,7 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                 <div class="mt-1">
                                     <div class="row">
                                         <div class="col-12">
-                                            <h4 class="text-primary fw-bold"><?php echo getCompanyName(); ?></h4>
+                                            <h4 class="text-primary fw-bold" style="font-size: 13px;"><?php echo getCompanyName(); ?></h4>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -159,16 +159,17 @@ $getproduct = $mysqli->query("SELECT * FROM products");
 
                     <hr class="my-2">
 
-                    <!--  <div class="table-responsive mt-2">
+                    <div class="table-responsive mt-2">
                         <table class="table m-0 table-sm">
                             <thead>
                                 <tr>
-                                    <th class="py-1 ps-4" width="5%">No.</th>
-                                    <th class="py-1 ps-4">Item</th>
-                                    <th class="py-1">Type</th>
-                                    <th class="py-1">Qty</th>
-                                    <th class="py-1">Unit Price</th>
-                                    <th class="py-1">Total</th>
+                                    <th class="py-1" width="5%">No.</th>
+                                    <th class="py-1">Product</th>
+                                    <th class="py-1">Quantity</th>
+                                    <th class="py-1">Unit Price (GHC)</th>
+                                    <th class="py-1">Expiry Date</th>
+                                    <th class="py-1">Discount</th>
+                                    <th class="py-1">Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -184,25 +185,89 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                             <?php echo $count; ?>
                                         </td>
                                         <td class="py-1 ps-4">
-                                            <p class="fw-semibold" style="margin-bottom: 0rem;">
-                                                <?php echo $productname = getProductName($resitems['prodid']); ?>
-                                            </p>
+                                            <div>
+                                                <div class="fw-bolder">
+                                                    <?php
+                                                    $charactersToRemove = ['"', "'", ','];
+                                                    echo $productname = getProductName($resproduct['prodid']);
+                                                    $modifiedString = str_replace($charactersToRemove, '', $productname);
+
+                                                    // Output the modified string
+                                                    //echo $modifiedString;
+                                                    ?>
+
+                                                </div>
+                                                <div class="font-small-2 text-muted" style="font-size: 9px !important;">
+                                                    <?php
+
+                                                    // Create a prepared statement
+                                                    $stmt = $mysqli->prepare("SELECT * FROM products WHERE productname = ?");
+
+                                                    // Bind the parameter to the prepared statement
+                                                    $stmt->bind_param("s", $productname);
+
+                                                    // Execute the query
+                                                    $stmt->execute();
+
+                                                    // Get the result
+                                                    $result = $stmt->get_result();
+
+                                                    // Fetch the row
+                                                    $resvariation = $result->fetch_assoc();
+
+                                                    // Output the variations
+                                                    if ($resvariation) {
+                                                        echo $resvariation['variations'];
+                                                    } else {
+                                                        echo "";
+                                                    }
+
+                                                    // Close the statement
+                                                    $stmt->close();
+
+
+                                                    /* $getvariation = $mysqli->query("SELECT * FROM products WHERE productname = '$productname'");
+                                                    $resvariation = $getvariation->fetch_assoc();
+
+                                                    if ($resvariation) {
+                                                        $variation = $resvariation['variations'];
+                                                        echo str_replace($charactersToRemove, '', $variation);
+                                                    } else {
+                                                        // Handle the case where no variation is found
+                                                        echo '';
+                                                    } */
+                                                    ?>
+                                                </div>
+                                            </div>
+
                                         </td>
                                         <td>
+                                            <?php echo $resproduct['quantity']; ?>
+                                        </td>
+                                        <td class="py-1">
+                                            <?php echo number_format($resproduct['sellingprice'] + (0.1 * $resproduct['sellingprice']), 2); ?>
+                                        </td>
+                                        <td class="py-1">
                                             <?php
-                                            $getvariation = $mysqli->query("select * from products where productname = '$productname'");
-                                            $resvariation = $getvariation->fetch_assoc();
-                                            echo $resvariation['variations'];
+                                            $expiryDate = $resproduct['expirydate'];
+
+                                            // Check if $expiryDate is a valid date
+                                            if (strtotime($expiryDate) !== false) {
+                                                // Convert and echo the formatted date
+                                                echo date('d-M-y', strtotime($expiryDate));
+                                            } else {
+                                                // $expiryDate is not a valid date, echo an empty string
+                                                echo "";
+                                            }
                                             ?>
+
+                                        </td>
+
+                                        <td class="py-1">
+                                            <?php echo number_format(0.1 * $resproduct['sellingprice'], 2); ?>
                                         </td>
                                         <td class="py-1">
-                                            <?php echo $resitems['quantity']; ?>
-                                        </td>
-                                        <td class="py-1">
-                                            <?php echo $resitems['price'] / $resitems['quantity']; ?>
-                                        </td>
-                                        <td class="py-1">
-                                            <?php echo $resitems['price']; ?>
+                                            <?php echo $resproduct['sellingprice']; ?>
                                         </td>
                                     </tr>
 
@@ -210,63 +275,27 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                 }
 
                                 ?>
-                                <tr>
+                                <!--  <tr>
                                     <td colspan="5"></td>
                                     <td class="py-1">
                                         <strong><?php echo $totalprice; ?></strong>
                                     </td>
-                                </tr>
+                                </tr> -->
 
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-3"></div>
-                        <div class="col-md-3"></div>
-                        <div class="col-md-3">
-                            Payment Method: <?php echo $paymentmethod ?>
-                        </div>
 
-                    </div>
-
-                    <div class="row invoice-sales-total-wrapper mt-3">
-                        <div class="col-md-4 order-md-1 order-2 mt-md-0 mt-3">
-                            <p class="card-text mb-50">
-                                <span class="fw-bold">CUSTOMER:</span> <br />
-                            </p>
-                            <p class="mb-25">Name: <?php echo $customer ?></p>
-                            <p class="mb-25">Sign:</p>
-                            <p class="mb-0">Tel: </p>
-                        </div>
-                        <div class="col-md-4 order-md-1 order-2 mt-md-0 mt-3">
-                            <p class="card-text mb-50">
-                                <span class="fw-bold">DISPATCHED BY:</span> <br />
-                            </p>
-                            <p class="mb-25">Name:</p>
-                            <p class="mb-25">Sign:</p>
-                            <p class="mb-0">Tel: </p>
-                        </div>
-                        <div class="col-md-4 order-md-1 order-2 mt-md-0 mt-3">
-                            <p class="card-text mb-50">
-                                <span class="fw-bold">MANAGER:</span> <br />
-                            </p>
-                            <p class="mb-25">Name:</p>
-                            <p class="mb-25">Sign:</p>
-                            <p class="mb-0">Tel: </p>
-                        </div>
-                    </div>
 
                     <hr class="my-2">
 
                     <div class="row">
                         <div class="col-12">
-                            <span class="fw-bold">Note: Goods sold are not refundable</span> <br />
                             <p class="mt-2">We appreciate your patronage at <?php echo getCompanyName(); ?>.
                                 Your support means a lot to us. Thank you for choosing our products.</p>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
 
             </div>
