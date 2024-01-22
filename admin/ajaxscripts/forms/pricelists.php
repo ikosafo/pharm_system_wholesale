@@ -111,7 +111,7 @@ $getproduct = $mysqli->query("SELECT * FROM products");
         <div class="content-wrapper container-xxl p-0">
 
             <div class="content-body">
-                <div class="invoice-print p-3">
+                <div class="invoice-print p-3" id="print_this">
 
                     <div class="header mb-3">
                         <h2>Price List</h2>
@@ -296,6 +296,8 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                 Your support means a lot to us. Thank you for choosing our products.</p>
                         </div>
                     </div>
+
+                    <a href="#" id="printbutton" class="btn btn-primary me-1 waves-effect waves-float waves-light">Print Price Lists</a>
                 </div>
 
             </div>
@@ -352,7 +354,7 @@ $getproduct = $mysqli->query("SELECT * FROM products");
 <script src="../../../app-assets/js/scripts/forms/form-number-input.min.js"></script>
 
 <!-- <script src="../../../app-assets/js/scripts/forms/form-wizard.min.js"></script> -->
-
+<script src="../../../app-assets/js/scripts/print.js"></script>
 
 <script>
     $(window).on('load', function() {
@@ -363,6 +365,16 @@ $getproduct = $mysqli->query("SELECT * FROM products");
             });
         }
     })
+
+    function print() {
+        printJS({
+            printable: 'print_this',
+            type: 'html',
+            targetStyles: ['*']
+        })
+    }
+
+    document.getElementById('printbutton').addEventListener("click", print)
 </script>
 </body>
 <!-- END: Body-->
