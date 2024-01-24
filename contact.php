@@ -56,7 +56,7 @@
                             <h3>Call Center</h3>
                             <p>
                                 <?php echo getCompanyTelephone(); ?> <br />
-                                <?php echo getCompanyTelephone(); ?>
+                                0533997216
                             </p>
 
                         </div>
