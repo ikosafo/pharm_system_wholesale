@@ -97,6 +97,10 @@ $getproduct = $mysqli->query("SELECT * FROM products");
         .content-body table th {
             padding: 8px;
         }
+
+        tr td {
+            text-align: left;
+        }
     </style>
 
 
@@ -163,11 +167,11 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                         <table class="table m-0 table-sm">
                             <thead>
                                 <tr>
-                                    <th class="py-1" width="5%">No.</th>
-                                    <th class="py-1">Product</th>
+                                    <th class="py-1" width="10%">No.</th>
+                                    <th class="py-1" width="30%">Product</th>
                                     <!--   <th class="py-1">Quantity</th> -->
-                                    <th class="py-1">Unit Price (GHC)</th>
-                                    <th class="py-1">Expiry Date</th>
+                                    <th class="py-1" width="30%">Unit Price (GHC)</th>
+                                    <th class="py-1" width="30%">Expiry Date</th>
                                     <!--  <th class="py-1">Discount</th>
                                     <th class="py-1">Amount</th> -->
                                 </tr>
@@ -181,10 +185,10 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                 while ($resproduct = $getproduct->fetch_assoc()) { ?>
 
                                     <tr>
-                                        <td style="text-align: center;">
+                                        <td>
                                             <?php echo $count; ?>
                                         </td>
-                                        <td class="py-1 ps-4">
+                                        <td>
                                             <div>
                                                 <div class="fw-bolder">
                                                     <?php
@@ -244,10 +248,10 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                         <!--  <td>
                                             <?php echo $resproduct['quantity']; ?>
                                         </td> -->
-                                        <td class="py-1">
+                                        <td>
                                             <?php echo number_format($resproduct['sellingprice'] + (0.1 * $resproduct['sellingprice']), 2); ?>
                                         </td>
-                                        <td class="py-1">
+                                        <td>
                                             <?php
                                             $expiryDate = $resproduct['expirydate'];
 
