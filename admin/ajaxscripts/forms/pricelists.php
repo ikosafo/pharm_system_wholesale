@@ -165,11 +165,11 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                 <tr>
                                     <th class="py-1" width="5%">No.</th>
                                     <th class="py-1">Product</th>
-                                    <th class="py-1">Quantity</th>
+                                    <!--   <th class="py-1">Quantity</th> -->
                                     <th class="py-1">Unit Price (GHC)</th>
-                                    <th class="py-1">Expiry Date</th>
+                                    <!--  <th class="py-1">Expiry Date</th>
                                     <th class="py-1">Discount</th>
-                                    <th class="py-1">Amount</th>
+                                    <th class="py-1">Amount</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -241,13 +241,13 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                             </div>
 
                                         </td>
-                                        <td>
+                                        <!--  <td>
                                             <?php echo $resproduct['quantity']; ?>
-                                        </td>
+                                        </td> -->
                                         <td class="py-1">
                                             <?php echo number_format($resproduct['sellingprice'] + (0.1 * $resproduct['sellingprice']), 2); ?>
                                         </td>
-                                        <td class="py-1">
+                                        <!--  <td class="py-1">
                                             <?php
                                             $expiryDate = $resproduct['expirydate'];
 
@@ -268,7 +268,7 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                         </td>
                                         <td class="py-1">
                                             <?php echo $resproduct['sellingprice']; ?>
-                                        </td>
+                                        </td> -->
                                     </tr>
 
                                 <?php $count++;
