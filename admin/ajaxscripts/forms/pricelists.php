@@ -5,7 +5,7 @@ include("../../functions.php");
 
 //$newsaleid = $_POST['newsaleid'];
 
-$getproduct = $mysqli->query("SELECT * FROM products");
+$getproduct = $mysqli->query("SELECT * FROM products where salestatus = 'Wholesale'");
 
 ?>
 

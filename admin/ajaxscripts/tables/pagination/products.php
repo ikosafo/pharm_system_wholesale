@@ -19,6 +19,7 @@ if ($searchValue != '') {
    expirydate like '%" . $searchValue . "%' or
    quantity like '%" . $searchValue . "%' or 
    variations like '%" . $searchValue . "%' or
+   salestatus like '%" . $searchValue . "%' or
    sellingprice like '%" . $searchValue . "%' or
    username like '%" . $searchValue . "%') ";
 }
