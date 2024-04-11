@@ -167,8 +167,8 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                     <th class="py-1">Product</th>
                                     <!--   <th class="py-1">Quantity</th> -->
                                     <th class="py-1">Unit Price (GHC)</th>
-                                    <!--  <th class="py-1">Expiry Date</th>
-                                    <th class="py-1">Discount</th>
+                                    <th class="py-1">Expiry Date</th>
+                                    <!--  <th class="py-1">Discount</th>
                                     <th class="py-1">Amount</th> -->
                                 </tr>
                             </thead>
@@ -247,7 +247,7 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                         <td class="py-1">
                                             <?php echo number_format($resproduct['sellingprice'] + (0.1 * $resproduct['sellingprice']), 2); ?>
                                         </td>
-                                        <!--  <td class="py-1">
+                                        <td class="py-1">
                                             <?php
                                             $expiryDate = $resproduct['expirydate'];
 
@@ -262,7 +262,7 @@ $getproduct = $mysqli->query("SELECT * FROM products");
                                             ?>
 
                                         </td>
-
+                                        <!--  
                                         <td class="py-1">
                                             <?php echo number_format(0.1 * $resproduct['sellingprice'], 2); ?>
                                         </td>
@@ -357,6 +357,19 @@ $getproduct = $mysqli->query("SELECT * FROM products");
 <script src="../../../app-assets/js/scripts/print.js"></script>
 
 <script>
+    function printTable() {
+        var printContents = document.getElementById('print_this').innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+
+    document.getElementById('printbutton').addEventListener("click", printTable);
+</script>
+
+
+<!-- <script>
     $(window).on('load', function() {
         if (feather) {
             feather.replace({
@@ -375,7 +388,7 @@ $getproduct = $mysqli->query("SELECT * FROM products");
     }
 
     document.getElementById('printbutton').addEventListener("click", print)
-</script>
+</script> -->
 </body>
 <!-- END: Body-->
 
