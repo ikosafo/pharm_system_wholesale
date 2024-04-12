@@ -254,7 +254,7 @@ $getproduct = $mysqli->query("SELECT * FROM products where salestatus = 'Wholesa
                                         </td>
                                         <td>
                                             <?php
-                                            $expiryDate = $resproduct['expirydate'];
+                                            echo $expiryDate = $resproduct['expirydate'];
 
                                             // Check if $expiryDate is a valid date
                                             if (strtotime($expiryDate) !== false) {
