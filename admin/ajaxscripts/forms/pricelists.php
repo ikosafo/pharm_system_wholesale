@@ -249,7 +249,8 @@ $getproduct = $mysqli->query("SELECT * FROM products where salestatus = 'Wholesa
                                             <?php echo $resproduct['quantity']; ?>
                                         </td> -->
                                         <td>
-                                            <?php echo number_format($resproduct['sellingprice'] + (0.1 * $resproduct['sellingprice']), 2); ?>
+                                            <?php echo $resproduct['sellingprice']; ?>
+                                            <!--  <?php echo number_format($resproduct['sellingprice'] + (0.1 * $resproduct['sellingprice']), 2); ?> -->
                                         </td>
                                         <td>
                                             <?php
