@@ -44,7 +44,7 @@ $getdate = $mysqli->query("SELECT DISTINCT(SUBSTR(`datetime`,1,10)) as date FROM
                           <th width="10%">Payment<br /> Method</th>
                           <th width="10%">Transaction <br /> Period</th>
                           <th width="10%">Transaction <br /> User</th>
-                          <th width="5%">Print Receipt</th>
+                          <th width="5%">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -89,7 +89,15 @@ $getdate = $mysqli->query("SELECT DISTINCT(SUBSTR(`datetime`,1,10)) as date FROM
                             <td><?php echo $ressales['paymentmethod']; ?></td>
                             <td><?php echo $ressales['datetime']; ?></td>
                             <td><?php echo getLogname($ressales['username']); ?></td>
-                            <td><a href="#" class="printreceipt" i_index=<?php echo $ressales['newsaleid'] ?>>Print</td>
+                            <td>
+                              <a href="#" class="editsales" i_index=<?php echo $ressales['newsaleid'] ?>>
+                                Edit Sales
+                              </a>
+                              <hr>
+                              <a href="#" class="printreceipt" i_index=<?php echo $ressales['newsaleid'] ?>>
+                                Print Receipt
+                              </a>
+                            </td>
 
                           </tr>
                         <?php
