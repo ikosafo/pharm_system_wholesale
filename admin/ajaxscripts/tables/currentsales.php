@@ -90,10 +90,6 @@ $getdate = $mysqli->query("SELECT DISTINCT(SUBSTR(`datetime`,1,10)) as date FROM
                             <td><?php echo $ressales['datetime']; ?></td>
                             <td><?php echo getLogname($ressales['username']); ?></td>
                             <td>
-                              <a href="#" class="editsales" i_index=<?php echo $ressales['newsaleid'] ?>>
-                                Edit Sales
-                              </a>
-                              <hr>
                               <a href="#" class="printreceipt" i_index=<?php echo $ressales['newsaleid'] ?>>
                                 Print Receipt
                               </a>
