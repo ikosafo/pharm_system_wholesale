@@ -29,7 +29,7 @@
                                         <select id="saleTransaction" class="form-select form-control kt-select2" name="productCategory" required>
                                             <option value="">Select Transaction</option>
                                             <?php
-                                            $getCat = $mysqli->query("SELECT DISTINCT(s.`newsaleid`), s.`salesid`,s.`customer`,s.`datetime` FROM tempsales t JOIN sales s ON t.`genid` = s.`newsaleid`");
+                                            $getCat = $mysqli->query("SELECT DISTINCT(s.`newsaleid`), s.`salesid`,s.`customer`,s.`datetime` FROM tempsales t JOIN sales s ON t.`genid` = s.`newsaleid` ORDER BY s.`datetime` DESC");
                                             while ($resCat = $getCat->fetch_assoc()) {
                                                 // Convert datetime to day, date, month, year, and time
                                                 $dateTime = new DateTime($resCat['datetime']);
