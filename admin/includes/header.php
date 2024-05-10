@@ -358,6 +358,10 @@ function getCompNameHeader($text)
                     <span class="menu-item text-truncate" data-i18n="Preview">View Sales</span></a>
                 </li>
 
+              <?php }
+
+              if ($perm == '1') { ?>
+
                 <li class="<?php echo ($_SERVER['PHP_SELF'] == "/editsales.php" ? "active" : ""); ?>">
                   <a class="d-flex align-items-center" href="editsales"><i data-feather="circle"></i>
                     <span class="menu-item text-truncate" data-i18n="Preview">Edit Sales</span></a>
