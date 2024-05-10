@@ -11,40 +11,6 @@ function unlock($item)
 }
 
 
-// call this fucntion to generate the bill for renewal applicants
-
-function renewalBill($applicantid)
-{
-    global $mysqli;
-
-    // get pin
-    $getpin = "SELECT provisional_pin from provisional where applicant_id ='$applicantid'";
-    $p = $mysqli->query($getpin)->fetch_assoc();
-    $pin =  $p['provisional_pin'];
-
-    $getamt = "SELECT sum(amount) as amt from owing where pin ='$pin' and payment=0 ";
-    $a = $mysqli->query($getamt)->fetch_assoc();
-    $amt =  $a['amt'];
-
-    // get renewal data
-    $getuser = "SELECT * from renewal where applicant_id ='$applicantid'";
-    $data = $mysqli->query($getuser);
-
-    //get academic level
-    $getuser = "SELECT acad_level from provisional where applicant_id = '$applicantid'";
-    $l = $mysqli->query($getuser)->fetch_assoc();
-    $level =  $l['acad_level'];
-    $bills = [];
-    while ($d = $data->fetch_assoc()) :
-        if ($d['payment'] == 0) {
-            $bill = renewalamount($level, 'Permanent Renewal', $d['cpdyear']);
-            array_push($bills, $bill);
-        }
-    endwhile;
-    $billz = array_sum($bills);
-    return $billz + $amt;
-}
-
 
 ob_start();
 system('ipconfig /all');
@@ -532,27 +498,49 @@ function getGiftcard($id)
 }
 
 
+function getEditSales($tsid)
+{
+    return '
+    <div class="text-center">
+        <a class="editSalesbtn" title="Edit Sales" i_index=' . $tsid . '>
+            <span class="icon-wrapper cursor-pointer"> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                stroke-linejoin="round" class="feather feather-edit">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            </span>
+        </a>
+        <a class="deleteSalesbtn" title="Delete Sales" i_index=' . $tsid . '>
+            <span class="icon-wrapper cursor-pointer"> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+            </span>
+        </a>
+ 
+    </div>';
+}
+
+
 function getProdName($id)
 {
     global $mysqli;
     $getname = $mysqli->query("select * from products where prodid = '$id'");
-    $resname = $getname->fetch_assoc();
-    $productname = $resname['productname'];
-    $salestatus = $resname['salestatus'];
-    /* $category = getcategoryname($resname['category']);
-    $subcategory = subcategoryName($resname['subcategory']); */
+    if (mysqli_num_rows($getname) == 0) {
+        echo "";
+    } else {
+        $resname = $getname->fetch_assoc();
+        $productname = $resname['productname'];
+        $salestatus = $resname['salestatus'];
 
-    return '<div>
-        <div class="fw-bolder">' . $productname . '</div>
-        <div class="font-small-2 text-muted">' . $salestatus . '</div>
-    </div>';
-
-    /* return '<div>
-                <div class="fw-bolder">' . $productname . '</div>
-                <div class="font-small-2 text-muted">' . $category . ' - ' . $subcategory . '</div>
-            </div>'; */
-
-    //return $productname.'<br/> <small>'.$category.' -  '.$subcategory.'</small>';
+        return '<div>
+                    <div class="fw-bolder">' . $productname . '</div>
+                    <div class="font-small-2 text-muted">' . $salestatus . '</div>
+                </div>';
+    }
 }
 
 
@@ -593,6 +581,16 @@ function getQuantityNewArrival($id)
                 <span class="badge badge-light-primary fw-bolder mb-25">' . $quantitysale . '</span>
              </div>';
 }
+
+
+function getProductPrice($prodid)
+{
+    global $mysqli;
+    $getprice = $mysqli->query("select sellingprice from products where prodid = '$prodid'");
+    $resprice = $getprice->fetch_assoc();
+    return $resprice['sellingprice'];
+}
+
 
 
 
