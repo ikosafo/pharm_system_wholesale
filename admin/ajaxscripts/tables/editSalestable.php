@@ -175,7 +175,6 @@ while ($resDetail = $getDetails->fetch_assoc()) {
         });
 
 
-
         // Event handler for clicking the "customerSalesbtn" button
         $('#customerSalesbtn').click(function() {
             var errorOccurred = false; // Flag to track if any error occurred
@@ -228,8 +227,11 @@ while ($resDetail = $getDetails->fetch_assoc()) {
                             successCounter++;
 
                             // Handle success response
-                            alert('Updated successfully');
-                            location.reload();
+                            if (successCounter === $('.quantity-input').length) {
+                                // Display success message only once
+                                $.notify("Updated successfully", "success");
+                                location.reload();
+                            }
                         },
                         error: function(xhr, ajaxOptions, thrownError) {
                             // Handle error
@@ -238,12 +240,6 @@ while ($resDetail = $getDetails->fetch_assoc()) {
                         complete: function() {
                             // Recalculate the total price for all products
                             updateTotalPrice();
-
-                            // Check if all requests have been completed successfully
-                            if (successCounter === $('.quantity-input').length) {
-                                // Display success message only once
-                                $.notify("Updated successfully", "success");
-                            }
                         }
                     });
                 }
