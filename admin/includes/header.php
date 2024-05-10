@@ -357,10 +357,15 @@ function getCompNameHeader($text)
                   <a class="d-flex align-items-center" href="viewsales"><i data-feather="circle"></i>
                     <span class="menu-item text-truncate" data-i18n="Preview">View Sales</span></a>
                 </li>
-                <li class="<?php echo ($_SERVER['PHP_SELF'] == "/editsales.php" ? "active" : ""); ?>">
-                  <a class="d-flex align-items-center" href="editsales"><i data-feather="circle"></i>
-                    <span class="menu-item text-truncate" data-i18n="Preview">Edit Sales</span></a>
-                </li>
+                <?php
+                if (strtolower($_SESSION['username']) == 'priscilla' || strtolower($_SESSION['username']) == 'ikosafo') { ?>
+                  <li class="<?php echo ($_SERVER['PHP_SELF'] == "/editsales.php" ? "active" : ""); ?>">
+                    <a class="d-flex align-items-center" href="editsales"><i data-feather="circle"></i>
+                      <span class="menu-item text-truncate" data-i18n="Preview">Edit Sales</span></a>
+                  </li>
+                <?php }
+                ?>
+
 
               <?php }
 
