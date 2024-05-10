@@ -22,36 +22,41 @@
                             <div class="card-header">
                                 <h4 class="card-title">Edit Sales</h4>
                             </div>
-                            <div class="card-body">
-                                <div class="form-group row">
-                                    <label class="col-form-label col-lg-3 col-sm-12">Select Transaction to edit</label>
-                                    <div class=" col-lg-6 col-md-9 col-sm-12">
-                                        <select id="saleTransaction" class="form-select form-control kt-select2" name="productCategory" required>
-                                            <option value="">Select Transaction</option>
-                                            <?php
-                                            $getCat = $mysqli->query("SELECT DISTINCT(s.`newsaleid`), s.`salesid`,s.`customer`,s.`datetime` FROM tempsales t JOIN sales s ON t.`genid` = s.`newsaleid`");
-                                            while ($resCat = $getCat->fetch_assoc()) {
-                                                // Convert datetime to day, date, month, year, and time
-                                                $dateTime = new DateTime($resCat['datetime']);
-                                                $day = $dateTime->format('l'); // Day of the week (e.g., Monday)
-                                                $date = $dateTime->format('jS F Y'); // Date (e.g., 9th May 2024)
-                                                $time = $dateTime->format('h:i A'); // Time (e.g., 03:45 PM)
-                                            ?>
-                                                <option value="<?php echo $resCat['newsaleid'] ?>"><?php echo $resCat['customer'] . ' - ' . $day . ', ' . $date . ' at ' . $time ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <div id="sales_table_div"></div>
+                            <?php
+                            if (strtolower($_SESSION['username']) === 'priscilla' || strtolower($_SESSION['username']) === 'ikosafo') { ?>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-3 col-sm-12">Select Transaction to edit</label>
+                                        <div class=" col-lg-6 col-md-9 col-sm-12">
+                                            <select id="saleTransaction" class="form-select form-control kt-select2" name="productCategory" required>
+                                                <option value="">Select Transaction</option>
+                                                <?php
+                                                $getCat = $mysqli->query("SELECT DISTINCT(s.`newsaleid`), s.`salesid`,s.`customer`,s.`datetime` FROM tempsales t JOIN sales s ON t.`genid` = s.`newsaleid`");
+                                                while ($resCat = $getCat->fetch_assoc()) {
+                                                    // Convert datetime to day, date, month, year, and time
+                                                    $dateTime = new DateTime($resCat['datetime']);
+                                                    $day = $dateTime->format('l'); // Day of the week (e.g., Monday)
+                                                    $date = $dateTime->format('jS F Y'); // Date (e.g., 9th May 2024)
+                                                    $time = $dateTime->format('h:i A'); // Time (e.g., 03:45 PM)
+                                                ?>
+                                                    <option value="<?php echo $resCat['newsaleid'] ?>"><?php echo $resCat['customer'] . ' - ' . $day . ', ' . $date . ' at ' . $time ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
                                     </div>
 
+
+
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <div id="sales_table_div"></div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } else {
+                                echo "You are not eligible to view this page";
+                            } ?>
                         </div>
                     </div>
 
