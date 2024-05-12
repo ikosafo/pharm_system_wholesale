@@ -19,8 +19,14 @@ $getGenid = $mysqli->query("SELECT * FROM `tempsales` WHERE tsid = '$tsid'");
 $resGenid = $getGenid->fetch_assoc();
 $genid = $resGenid['genid'];
 $prodid = $resGenid['prodid'];
-$quantitydb = $resGenid['quantitydb'];
-$quantityLeft = $quantitydb - $quantity;
+$purQty = $resGenid['quantity'];
+/* $quantitydb = $resGenid['quantitydb'];
+$quantityLeft = $quantitydb - $quantity; */
+$getProd = $mysqli->query("select * from products where prodid = '$prodid'");
+$resProd = $getProd->fetch_assoc();
+$curQty = $resProd['quantity'];
+
+$quantityLeft = ($purQty + $curQty) - $quantity;
 
 // Update quantity in products table
 $mysqli->query("UPDATE `products` SET `quantity` = '$quantityLeft' WHERE `prodid` = '$prodid'");

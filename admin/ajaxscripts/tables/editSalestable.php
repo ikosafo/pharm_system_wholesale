@@ -206,6 +206,13 @@ while ($resDetail = $getDetails->fetch_assoc()) {
                     $("#amtPaid").focus();
                 }
 
+                if (amtPaid - changeGiven != totalPrice) {
+                    errorOccurred = true; // Set the error flag
+                    error += 'Change given is incorrect \n';
+                    $("#amtPaid").focus();
+                }
+
+
                 // Proceed with AJAX request only if there are no errors
                 if (!errorOccurred) {
                     // Perform AJAX request to update quantity
