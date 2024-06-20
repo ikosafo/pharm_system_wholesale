@@ -62,38 +62,42 @@ $product_search = $_POST['product_search'];
 
 
 <script>
-    oTable = $('#table-data').DataTable({
-        stateSave: true,
-        "bLengthChange": false,
-        dom: "Bfrtip",
-        "sDom": '<"top"ip>rt<"bottom"fl><"clear">',
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        'ajax': {
-            url: "ajaxscripts/tables/pagination/temp_sales.php?prodsearch=<?php echo $product_search; ?>", // json datasource
-        },
-        'columns': [{
-                data: 'product'
+    if (!$.fn.DataTable.isDataTable('#table-data')) {
+        // Initialize DataTables here
+        $('#table-data').DataTable({
+            stateSave: true,
+            "bLengthChange": false,
+            dom: "Bfrtip",
+            "sDom": '<"top"ip>rt<"bottom"fl><"clear">',
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            'ajax': {
+                url: "ajaxscripts/tables/pagination/temp_sales.php?prodsearch=<?php echo $product_search; ?>", // json datasource
             },
-            {
-                data: 'quantity'
-            },
-            {
-                data: 'expirydate'
-            },
-            {
-                data: 'sellingprice'
-            },
-            {
-                data: 'variations'
-            },
-            {
-                data: 'action'
-            }
-        ]
-    });
-    $('#searchtxt').keyup(function() {
-        oTable.search($(this).val()).draw();
-    });
+            'columns': [{
+                    data: 'product'
+                },
+                {
+                    data: 'quantity'
+                },
+                {
+                    data: 'expirydate'
+                },
+                {
+                    data: 'sellingprice'
+                },
+                {
+                    data: 'variations'
+                },
+                {
+                    data: 'action'
+                }
+            ]
+        });
+        $('#searchtxt').keyup(function() {
+            oTable.search($(this).val()).draw();
+        });
+
+    }
 </script>

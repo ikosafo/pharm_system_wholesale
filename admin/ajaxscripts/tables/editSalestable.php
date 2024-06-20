@@ -56,6 +56,25 @@ while ($resDetail = $getDetails->fetch_assoc()) {
     </div>
 
 
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <select id="selectProd">
+                <option></option>
+                <?php $getprod = $mysqli->query("select * from products");
+                while ($resprod = $getprod->fetch_assoc()) { ?>
+                    <option value="<?php echo $resprod['prodid'] ?>"><?php echo $resprod['productname'] . ' - ' . $resprod['salestatus']; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input type="number" class="form-control quantity-input" value="1" data-tsid="<?php echo $resDetails['tsid']; ?>" data-price="<?php echo getProductPrice($resDetails['prodid']); ?>" data-original-quantity="1">
+        </div>
+    </div>
+
+
+
 </section>
 <!--/ Basic table -->
 
@@ -91,6 +110,11 @@ while ($resDetail = $getDetails->fetch_assoc()) {
 
 <script>
     $(document).ready(function() {
+
+        $("#selectProd").select2({
+            placeholder: "Select Product"
+        })
+
         // Function to update the total price for all products
         function updateTotalPrice() {
             var total = 0;
@@ -208,7 +232,7 @@ while ($resDetail = $getDetails->fetch_assoc()) {
 
                 if (amtPaid - changeGiven != totalPrice) {
                     errorOccurred = true; // Set the error flag
-                    error += 'Change given is incorrect \n';
+                    error += 'Change given is incorrect. Re-enter amount paid \n';
                     $("#amtPaid").focus();
                 }
 
