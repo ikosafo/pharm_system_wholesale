@@ -367,6 +367,11 @@ function getCompNameHeader($text)
                     <span class="menu-item text-truncate" data-i18n="Preview">Edit Sales</span></a>
                 </li>
 
+                <li class="<?php echo ($_SERVER['PHP_SELF'] == "/deletesales.php" ? "active" : ""); ?>">
+                  <a class="d-flex align-items-center" href="deletesales"><i data-feather="circle"></i>
+                    <span class="menu-item text-truncate" data-i18n="Preview">Delete Sales</span></a>
+                </li>
+
               <?php }
 
               $getpermission = $mysqli->query("select * from userpermission where userid = '$user_id' 
