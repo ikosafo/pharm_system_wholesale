@@ -128,7 +128,16 @@ while ($resDetail = $getDetails->fetch_assoc()) {
                                 },
                                 dataType: "html",
                                 success: function(text) {
-                                    alert(text);
+                                    //alert(text);
+
+                                    if (text == 2) {
+                                        alert("Amount paid is not sufficient");
+                                            $("#amtPaid").focus();
+                                    }
+                                    else {
+                                        alert("The new change given is " + text);
+                                        location.reload();
+                                    }
                                 },
 
                                 complete: function() {},
