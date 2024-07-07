@@ -11,6 +11,8 @@ $getGenid = $mysqli->query("select * from tempsales where tsid = '$theid'");
 $resGenid = $getGenid->fetch_assoc();
 $genid = $resGenid["genid"];
 $delPrice = $resGenid["price"];
+$quantity = $resGenid["quantity"];
+$prodid =  $resGenid["prodid"];
 
 $getAmt = $mysqli->query("select * from sales where newsaleid = '$genid'");
 $resAmt = $getAmt->fetch_assoc();
@@ -42,6 +44,7 @@ if ($updatedAmt > $amtPaid) {
 else {
     // Calculate for change given
     $changeGiven = $amtPaid - $updatedAmt;
+
     $updateSales = $mysqli->query("UPDATE `sales`
                                 SET 
                                 `amountpaid` = '$amtPaid',
@@ -49,29 +52,34 @@ else {
                                 `change` = '$changeGiven'
                                 WHERE `newsaleid` = '$genid'");
 
+                            $updateQty = $mysqli->query("
+                            UPDATE `products`
+                            SET `quantity` = `quantity` + $quantity
+                            WHERE `prodid` = '$prodid'");
+
  
                         $delTempSales = $mysqli->query("DELETE
                         FROM `tempsales`
                         WHERE `tsid` = '$theid'");
 
 
-$mysqli->query("INSERT INTO `logs`
-(
-`logdate`,
-`section`,
-`message`,
-`user`,
-`macaddress`,
-`ipaddress`,
-`action`)
-VALUES (
-'$datetime',
-'Deleting Sales',
-'Deleted sales on $genid',
-'$username',
-'$mac_address',
-'$ip_add',
-'Successful')") or die(mysqli_error($mysqli)); 
-                            echo $changeGiven;
+                            $mysqli->query("INSERT INTO `logs`
+                            (
+                            `logdate`,
+                            `section`,
+                            `message`,
+                            `user`,
+                            `macaddress`,
+                            `ipaddress`,
+                            `action`)
+                            VALUES (
+                            '$datetime',
+                            'Deleting Sales',
+                            'Deleted sales on $genid',
+                            '$username',
+                            '$mac_address',
+                            '$ip_add',
+                            'Successful')") or die(mysqli_error($mysqli)); 
+                                                        echo $changeGiven;
 
- }
+                    }

@@ -38,7 +38,7 @@ while ($resDetail = $getDetails->fetch_assoc()) {
                                     <?php echo $resDetails['quantity']; ?>
                                 </td>
                                 <td class="total-price">
-                                    <?php echo getProductPrice($resDetails['prodid']) * $resDetails['quantity']; ?>
+                                    <?php echo number_format(getProductPrice($resDetails['prodid']) * $resDetails['quantity'],2); ?>
                                 </td>
                                 <td>
                                     <a class="deletesalesbtn" title="Delete Sale" i_index=<?php echo $resDetails['tsid'] ?>>
@@ -59,7 +59,7 @@ while ($resDetail = $getDetails->fetch_assoc()) {
                         <!-- Add a row for the total sum -->
                         <tr>
                             <td colspan="2" style="text-align: right;"><strong>Total Price of all products:</strong></td>
-                            <td id="totalSumCell"><?php echo $totalPrice; ?></td>
+                            <td id="totalSumCell"><?php echo number_format($totalPrice,2); ?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -80,10 +80,6 @@ while ($resDetail = $getDetails->fetch_assoc()) {
                 <label class="form-label" for="amtPaid">Amount Paid</label>
                 <input type="number" id="amtPaid" step="0.01" class="form-control" placeholder="Amount Paid" value="<?php echo $detailsArray[0]['amountpaid']; ?>" />
             </div>
-           <!--  <div class="mb-1 col-md-4">
-                <label class="form-label" for="changeGiven">Change Given</label>
-                <input type="number" id="changeGiven" readonly step="0.01" class="form-control" placeholder="Change Given" value="<?php echo $detailsArray[0]['change']; ?>" />
-            </div> -->
         </div>
 
     </form>
